@@ -48,5 +48,14 @@ class IndexModel extends GenericModel
     return $result;
   }
 
+  //GET BOOKING LIST
+  public function getBookinglist()
+    {
+      $query = $this->connection->prepare("SELECT transaction_no,book_date FROM gpx_booking");
+      $query->execute();
+      $result = $query->fetchAll();
+      return $result;        
+    }
+
 }
 ?>

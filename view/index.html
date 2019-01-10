@@ -59,12 +59,12 @@
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{ customer }}</h3>
-            <p>Customer</p>
+            <p>Customer accounts</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
           </div>
-          <a href="#" class="small-box-footer">More info
+          <a href="index.php?controller=customer&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -74,13 +74,13 @@
         <!-- small box -->
         <div class="small-box bg-red">
           <div class="inner">
-            <h3>{{ visitors }}</h3>
-            <p>Website Visitors</p>
+            <h3>{{ receivers }}</h3>
+            <p>Receiver accounts</p>
           </div>
           <div class="icon">
             <i class="fa fa-globe"></i>
           </div>
-          <a href="#" class="small-box-footer">More info
+          <a href="index.php?controller=receiver&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -126,16 +126,16 @@
           <div class="box-footer no-padding">
             <ul class="nav nav-pills nav-stacked">
               <li>
-                <a href="#">Pending<span class="pull-right text-yellow"> 23</span></a>
+                <a href="#">Pending<span class="pull-right text-yellow"> {{pendingreservation}}</span></a>
               </li>
               <li>
-                <a href="#">Paid<span class="pull-right text-green"> 12</span></a>
+                <a href="#">Paid<span class="pull-right text-green"> {{paid}}</span></a>
               </li>
               <li>
-                <a href="#">Booked<span class="pull-right text-aqua"> 16</span></a>
+                <a href="#">Booked<span class="pull-right text-aqua"> {{booked}}</span></a>
               </li>
               <li>
-                <a href="#">Cancelled<span class="pull-right text-red"> 2</span></a>
+                <a href="#">Cancelled<span class="pull-right text-red"> {{cancelled}}</span></a>
               </li>
             </ul>
           </div>
@@ -156,20 +156,20 @@
           <!-- /.box-header -->
           <div class="box-body">
             <ul class="products-list product-list-in-box">
-              {% for x in 1..4 %}
+              <!-- {% for x in bookingData %} -->
               <li class="item">
                 <div class="product-img">
                   <img src="./libraries/admin-lte/dist/img/default-50x50.gif" alt="Product Image">
                 </div>
                 <div class="product-info">
-                  <a href="javascript:void(0)" class="product-title">GP23472983479823
+                  <a href="javascript:void(0)" class="product-title">{{bookingData[0].transaction_no}}
                     <span class="label label-warning pull-right">PHP 100</span></a>
                   <span class="product-description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    {{bookingData[0].book_date}}
                   </span>
                 </div>
               </li>
-              {% endfor %}
+              <!-- {% endfor %} -->
             </ul>
           </div>
           <!-- /.box-body -->
