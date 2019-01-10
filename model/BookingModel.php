@@ -187,7 +187,7 @@ class BookingModel extends GenericModel
 
                     if (count($gpx_payment) != 0) {
                         //////UPDATE PAYMENT////
-                        $query = $this->connection->prepare("UDPATE gpx_payment SET paymentterm = :paymentterm,
+                        $query = $this->connection->prepare("UPDATE gpx_payment SET paymentterm = :paymentterm,
                         deposit = :deposit , total_amount = :total_amount
                         WHERE transaction_no = :transaction_no OR reservation_no = :reservation_no");
                         $query->execute(array(

@@ -215,7 +215,7 @@ class GenericController{
             case 'delivery':
                 $model = new DeliveryModel($this->connection);
                 $list = $model->getlist();         
-                $columns = array("customer","receiver","box_number","origin","destination","delivered_date","status");
+                $columns = array("customer","receiver","box_number","delivered_date","status");
                 $moduledescription = "List of all delivered box numbers";
 				break;
             case 'warehouse_inventory':
@@ -225,7 +225,6 @@ class GenericController{
                 $moduledescription = "List of quantity per box type";             
 				break;
         }
-
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,

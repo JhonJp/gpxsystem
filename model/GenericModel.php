@@ -277,6 +277,15 @@ class GenericModel{
 
     }
 
+    public function deleteSalaryCompensate($id, $table)
+  {
+    $query = $this->connection->prepare("DELETE FROM ".$table." WHERE id = :id");
+    $result = $query->execute(array(
+      "id" => $id
+    ));    
+    return $result;
+  }
+
     ///
     public function maintenanceUpdate($data,$table,$id){
 

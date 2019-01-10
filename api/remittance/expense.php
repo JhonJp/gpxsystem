@@ -20,7 +20,7 @@ $api = new ApiModel($connection);
 $result = $api->testsave($data2);
 
 $model = new RemittanceModel($connection);
-$result = $model->apisave($data);
+$result = $model->saveExpense($data);
 
 echo json_encode($result);
 

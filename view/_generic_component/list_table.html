@@ -104,6 +104,10 @@
                     <span class="fa fa-history"></span></a>
                 {% endif %}
 
+                {% if breadcrumb.controller == 'delivery' %}
+                    <span class="label label-success">Successful</span>
+                {% endif %}
+
                 {% if breadcrumb.controller == 'booking' %}
                 <a href="index.php?controller=booking&action=view&transaction_no={{ value['transaction_no'] }}" 
                 title="View" class="btn btn-xs bg-green">

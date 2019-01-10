@@ -56,6 +56,6 @@ class IndexModel extends GenericModel
       $result = $query->fetchAll();
       return $result;        
     }
-
+    
 }
 ?>

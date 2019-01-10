@@ -67,7 +67,64 @@ class RemittanceModel extends GenericModel
 
     public function apisave($data)
     {
+        try {
+            $countdata = count($data['data']);
 
+            for ($x = 0; $x < $countdata; $x++) {
+                    $sql = "INSERT INTO gpx_remittance(id,branch_source,chart_accounts,bank,remitted_by,remitted_amount_sales_driver,remitted_amount_oic,verified_by,description,documents,status,createddate,createdby,recordstatus)
+                     VALUES (:id,:branch_source,:chart_accounts,:bank,:remitted_by,:remitted_amount_sales_driver,:remitted_amount_oic,:verified_by,:description,:documents,:status,:createddate,:createdby,:recordstatus)";
+                    $query = $this->connection->prepare($sql);
+                    $result = $query->execute(array(
+                        "id" => $data['data'][$x]['id'],
+                        "branch_source" => $data['data'][$x]['branch_source'],
+                        "chart_accounts" => $data['data'][$x]['chart_accounts'],
+                        "bank" => $data['data'][$x]['bank'],
+                        "remitted_by" => $data['data'][$x]['remitted_by'],
+                        "remitted_amount_sales_driver" => $data['data'][$x]['remitted_amount_sales_driver'],
+                        "remitted_amount_oic" => $data['data'][$x]['remitted_amount_oic'],
+                        "verified_by" => $data['data'][$x]['verified_by'],
+                        "description" => $data['data'][$x]['description'],
+                        "documents" => $data['data'][$x]['documents'],
+                        "status" => $data['data'][$x]['status'],
+                        "createddate" => $data['data'][$x]['createddate'],
+                        "createdby" => $data['data'][$x]['createdby'],
+                        "recordstatus" => $data['data'][$x]['recordstat'],
+                    ));
+                    
+                //}
+            }
+
+        } catch (Exception $e) {
+            $this->error_logs("Remittance - apisave", $e->getMessage());
+        }
+    }
+
+    public function saveExpense($data)
+    {
+        try {
+            $countExp = count($data['data']);
+
+                for ($y = 0; $y < $countExp; $y++) {
+
+                    $query2 = $this->connection->prepare("INSERT INTO gpx_expense(id,employee_id,amount,chart_accounts,description,status,due_date,approved_by,approved_date,documents)
+                    VALUES(:id,:employee_id,:amount,:chart_accounts,:description,:status,:due_date,:approved_by,:approved_date,:documents)");
+                    $result = $query2->execute(array(
+                        "id" => $data['data'][$y]['id'],
+                        "employee_id" => $data['data'][$y]['employee_id'],                            
+                        "amount" => $data['data'][$y]['amount'],                            
+                        "chart_accounts" => $data['data'][$y]['chart_accounts'],                            
+                        "description" => $data['data'][$y]['description'],                            
+                        "status" => $data['data'][$y]['status'],                            
+                        "due_date" => $data['data'][$y]['due_date'],                            
+                        "approved_by" => $data['data'][$y]['approved_by'],                            
+                        "approved_date" => $data['data'][$y]['approved_date'],                            
+                        "documents" => $data['data'][$y]['documents'],                            
+                    ));
+                }
+
+        } catch (Exception $e) {
+            $this->error_logs("Remittance - apisave", $e->getMessage());
+        }
     }
 
     public function salesdriverremittance($data)
@@ -90,6 +147,7 @@ class RemittanceModel extends GenericModel
             $this->error_logs("Salesdriver Remittance - apisave", $e->getmessage());
         }
     }
+
 
     public function getRemittanceByOic($id)
     {

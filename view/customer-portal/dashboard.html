@@ -1,4 +1,4 @@
-{% extends "_layout.html" %}
+{% extends "../_layout.html" %}
 
 {% block content %}
 <div class="content-wrapper">
@@ -32,7 +32,7 @@
           <div class="icon">
             <i class="fa fa-folder"></i>
           </div>
-          <a href="index.php?controller=reservation&action=list" class="small-box-footer">More info
+          <a href="#" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -48,7 +48,7 @@
           <div class="icon">
             <i class="fa fa-book"></i>
           </div>
-          <a href="index.php?controller=booking&action=list" class="small-box-footer">More info
+          <a href="#" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -64,7 +64,7 @@
           <div class="icon">
             <i class="ion ion-person-add"></i>
           </div>
-          <a href="index.php?controller=customer&action=list" class="small-box-footer">More info
+          <a href="#" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -80,7 +80,7 @@
           <div class="icon">
             <i class="fa fa-globe"></i>
           </div>
-          <a href="index.php?controller=receiver&action=list" class="small-box-footer">More info
+          <a href="#" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
           </a>
         </div>
@@ -156,20 +156,20 @@
           <!-- /.box-header -->
           <div class="box-body">
             <ul class="products-list product-list-in-box">
-              {% for i in 0..booking-1 %}
+              <!-- {% for x in bookingData %} -->
               <li class="item">
                 <div class="product-img">
-                  <img src="./libraries/admin-lte/dist/img/default-50x50.gif" alt="Product Image">
+                  <img src=".././libraries/admin-lte/dist/img/default-50x50.gif" alt="Product Image">
                 </div>
                 <div class="product-info">
-                  <a href="index.php?controller=booking&action=view&transaction_no={{bookingData[i].transaction_no}}" class="product-title">{{bookingData[i].transaction_no}}
-                    <span class="label label-warning pull-right"></span></a>
+                  <a href="#" class="product-title">{{bookingData[0].transaction_no}}
+                    <span class="label label-warning pull-right">PHP 100</span></a>
                   <span class="product-description">
-                    {{bookingData[i].book_date}}
+                    {{bookingData[0].book_date}}
                   </span>
                 </div>
               </li>
-              {% endfor %}
+              <!-- {% endfor %} -->
             </ul>
           </div>
           <!-- /.box-body -->

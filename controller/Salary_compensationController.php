@@ -42,23 +42,55 @@ class Salary_compensationController extends GenericController
 
     public function save()
     {
-        $daterange = explode('-',$_POST['daterange']);
-        $data = array(
-            "employee_id" => (isset($_POST['employee_id']) ? $_POST['employee_id'] : ""),
-            "chart_accounts" => (isset($_POST['chart_accounts']) ? $_POST['chart_accounts'] : ""),
-            "date_from" => date('Y-m-d',strtotime($daterange[0])),
-            "date_to" => date('Y-m-d',strtotime($daterange[1])),
-            "amount" => (isset($_POST['amount']) ? $_POST['amount'] : ""),
-            "description" => (isset($_POST['description']) ? $_POST['description'] : ""),
-            "createdby" => $this->current_userid
-        );
-        
-        $model = new GenericModel($this->connection);
-        $result = $model->insert($data,SALARYCOMPENSATION);
-        if($result == 1)
-            header("Location: index.php?controller=salary_compensation&action=list");
-    
+        $getid = $_POST['id'];
+        if($this->checkID($getid) == 0){
+            $daterange = explode('-',$_POST['daterange']);
+            $data = array(
+                "employee_id" => (isset($_POST['employee_id']) ? $_POST['employee_id'] : ""),
+                "chart_accounts" => (isset($_POST['chart_accounts']) ? $_POST['chart_accounts'] : ""),
+                "date_from" => date('Y-m-d',strtotime($daterange[0])),
+                "date_to" => date('Y-m-d',strtotime($daterange[1])),
+                "amount" => (isset($_POST['amount']) ? $_POST['amount'] : ""),
+                "description" => (isset($_POST['description']) ? $_POST['description'] : ""),
+                "createdby" => $this->current_userid
+            );
+            
+            $model = new GenericModel($this->connection);
+            $result = $model->insert($data,SALARYCOMPENSATION);
+            if($result == 1)
+                header("Location: index.php?controller=salary_compensation&action=list");
+        }else{
+            $daterange = explode('-',$_POST['daterange']);
+            $data = array(
+                "employee_id" => (isset($_POST['employee_id']) ? $_POST['employee_id'] : ""),
+                "chart_accounts" => (isset($_POST['chart_accounts']) ? $_POST['chart_accounts'] : ""),
+                "date_from" => date('Y-m-d',strtotime($daterange[0])),
+                "date_to" => date('Y-m-d',strtotime($daterange[1])),
+                "amount" => (isset($_POST['amount']) ? $_POST['amount'] : ""),
+                "description" => (isset($_POST['description']) ? $_POST['description'] : ""),
+                "createdby" => $this->current_userid
+            );
+            
+            $model = new GenericModel($this->connection);
+            $result = $model->deleteSalaryCompensate($getid,"gpx_salary_compensation");
+            $result = $model->insert($data,"gpx_salary_compensation");
+            if($result == 1)
+                header("Location: index.php?controller=salary_compensation&action=list");
+        }    
        
+    }
+
+
+  public function checkID($id)
+    {
+        $result = 0;
+        $query = $this->connection->prepare("SELECT * FROM gpx_salary_compensation
+        WHERE id = :id");
+        $query->execute(array(
+            "id" => $id,
+        ));
+        $result = $query->fetchAll();
+        return count($result);
     }
 
 }
