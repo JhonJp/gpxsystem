@@ -19,5 +19,34 @@ class IndexModel extends GenericModel
     return $result;
   }
 
+  //COUNT PENDING RESERVATION
+  public function countPendingReservation($stat)
+  {
+    $query = $this->connection->prepare("SELECT COUNT(id) FROM gpx_reservation WHERE status = :stat");
+    $query->execute(array(
+      "stat" => $stat
+    ));
+    $result = $query->fetchColumn();
+    return $result;
+  }
+
+  //COUNT BOOKING
+  public function countBooking()
+  {
+    $query = $this->connection->prepare("SELECT COUNT(id) FROM gpx_booking");
+    $query->execute();
+    $result = $query->fetchColumn();
+    return $result;
+  }
+
+  //COUNT BOOKING
+  public function countCustomers($type)
+  {
+    $query = $this->connection->prepare("SELECT COUNT(id) FROM gpx_customer WHERE type = :ty");
+    $query->execute(array("ty"=>$type));
+    $result = $query->fetchColumn();
+    return $result;
+  }
+
 }
 ?>

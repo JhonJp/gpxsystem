@@ -9,10 +9,14 @@ class IndexController extends GenericController
     }
 
     public function dashboard()
-    {
+    {   $index = new IndexModel($this->connection);
+        $status = "1";
         echo $this->twig->render('index.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
-            "pendingreservation" =>  23,
+            "pendingreservation" => $index->countPendingReservation($status),
+            "booking" => $index->countBooking(),
+            "customer" => $index->countCustomers('customer'),
+            "visitors" => 100,
         ));
     }
 
