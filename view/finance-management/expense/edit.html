@@ -1,0 +1,130 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <form action="index.php?controller=expense&action=save" method="POST" class="row">
+            <input type="hidden" name="expenseid" id="expenseid" value="{{ result[0].id }}" />
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Employee' , 'data' : allemployee, 'id' : 'employee_id'}
+                                            %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_number.html'
+                                            with {'label': 'Amount' , 'id' : 'amount',
+                                            'value' : result[0].amount , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Chart Accounts' , 'data' : allchartaccounts, 'id' :
+                                            'chart_accounts'} %}
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Documents</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        {% if result[0].documents == null %}
+                                                        <input type="file" name="documents" id="documents" class="form-control">
+                                                        {% else %}
+                                                        <input type="text" name="documents" id="documents" class="form-control"
+                                                            value="{{result[0].documents}}" readonly>
+                                                        <span class="input-group-btn">
+                                                            <a href="{{result[0].documents}}" class="btn btn-default"
+                                                                target="_blank"><span class="fa fa-download"></span></a>
+                                                        </span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_textarea.html'
+                                            with {'label': 'Description' , 'id' : 'description',
+                                            'value' : result[0].description , 'required' : false} %}
+                                        </div>
+
+
+
+                                        <div class="col-md-12">
+                                            <hr class="cm-hr">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Status' , 'data' : allstatus, 'id' : 'status'}
+                                            %}
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Due Date</label>
+                                                <div class="col-md-9">
+                                                    <input type="date" value="{{result[0].due_date}}" class="form-control"
+                                                        name="due_date" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Approved By' , 'data' : allemployee, 'id' : 'approved_by'}
+                                            %}
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Approved Date</label>
+                                                <div class="col-md-9">
+                                                    <input type="date" value="{{result[0].approved_date }}" class="form-control"
+                                                        name="approved_date">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-block btn-primary">
+                                <span class="fa fa-fw fa-save"></span>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- /.row -->
+
+    </section>
+</div>
+{% endblock content %}

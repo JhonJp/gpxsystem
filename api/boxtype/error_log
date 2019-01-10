@@ -1,0 +1,12 @@
+[07-Dec-2018 09:22:03 UTC] PHP Warning:  include_once(../../model/BoxtypeModel.php): failed to open stream: No such file or directory in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 7
+[07-Dec-2018 09:22:03 UTC] PHP Warning:  include_once(): Failed opening '../../model/BoxtypeModel.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 7
+[07-Dec-2018 09:22:03 UTC] PHP Fatal error:  Uncaught Error: Class 'BoxTypeModel' not found in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 14
+[07-Dec-2018 09:23:09 UTC] PHP Warning:  include_once(../../model/BoxtypeModel.php): failed to open stream: No such file or directory in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 7
+[07-Dec-2018 09:23:09 UTC] PHP Warning:  include_once(): Failed opening '../../model/BoxtypeModel.php' for inclusion (include_path='.:/opt/alt/php72/usr/share/pear') in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 7
+[07-Dec-2018 09:23:09 UTC] PHP Fatal error:  Uncaught Error: Class 'BoxTypeModel' not found in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/m8h6b2z3c33c/public_html/beta/api/boxtype/get.php on line 14

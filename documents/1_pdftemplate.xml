@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pdf_template>
+  <fields>
+    <field>
+      <module_name>SCalculations</module_name>
+      <status>1</status>
+      <primary_name>Calculations</primary_name>
+      <secondary_name>*</secondary_name>
+      <meta_author/>
+      <meta_creator/>
+      <meta_keywords/>
+      <metatags_status>1</metatags_status>
+      <meta_subject/>
+      <meta_title/>
+      <page_format>A4</page_format>
+      <margin_chkbox>1</margin_chkbox>
+      <margin_top>0</margin_top>
+      <margin_bottom>0</margin_bottom>
+      <margin_left>0</margin_left>
+      <margin_right>0</margin_right>
+      <header_height>0</header_height>
+      <footer_height>0</footer_height>
+      <page_orientation>PLL_PORTRAIT</page_orientation>
+      <language>pl_pl</language>
+      <filename>calculations</filename>
+      <visibility>PLL_LISTVIEW,PLL_DETAILVIEW</visibility>
+      <header_content><![CDATA[]]></header_content>
+      <body_content><![CDATA[<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
+			<td height="25" width="65%"> </td>
+			<td height="25" width="25%"> </td>
+			<td height="25" width="5%"> </td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
+			<td height="150" width="15%"><img alt="$(translate : LBL_COMPANY_LOGO)$" src="$(organization%20%3A%20logo_login)$" style="height:80px;float:left;"></td>
+			<td>
+			<p style="text-transform:uppercase;color:#fff;float:left;">SPRZEDAWCA:<br /><br />
+			$(organization : name)$<br />
+			$(organization : street)$<br />
+			$(organization : code)$ $(organization : city)$</p>
+			</td>
+			<td height="150" width="45%">
+			<p style="color:#A42022;font-size:14px;">$(general : CurrentDate)$,$(organization : city)$</p>
+			 
+
+			<p style="color:#A42022;font-size:20px;">FAKTURA VAT NR<br />
+			$(record : subject)$</p>
+			</td>
+			<td height="150" width="5%"> </td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
+			<td height="150" width="60%">
+			<p style="text-transform:uppercase;">Termin płatności: 2015-02-12<br />
+			Data wykonania: $(general : CurrentDate)$<br />
+			Forma płatności: PRZELEW<br /><br />
+			Nr konta bankowego:<br />
+			BZWBK: 69 1090 1056 0000 0001 2602 4598</p>
+			</td>
+			<td height="150" width="30%">
+			<p style="text-transform:uppercase;color:#fff;">NABYWCA:<br /><br />
+			$(relatedRecord : parent_id|accountname|Accounts)$<br />
+			$(relatedRecord : parent_id|addresslevel8a|Accounts)$ $(relatedRecord : parent_id|buildingnumbera|Accounts)$<br />
+			$(relatedRecord : parent_id|addresslevel7a|Accounts)$ $(relatedRecord : parent_id|addresslevel5a|Accounts)$(relatedRecord : parent_id|addresslevel7b|Accounts)$ $(relatedRecord : parent_id|addresslevel5b|Accounts)$<br />
+			$(translate : Accounts|vat_id)$ $(relatedRecord : parent_id|vat_id|Accounts)$</p>
+			</td>
+			<td height="150" width="5%"> </td>
+		</tr></table>
+ 
+
+<table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
+			<td height="150" width="90%">$(custom : ProductsTableNew)$</td>
+			<td height="150" width="5%"> </td>
+		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
+			<td style="font-size:13px;height:100px;" width="45%">$(translate : SCalculations|Attention)$<br /><br />
+			$(record : attention)$</td>
+			<td width="45%">$(custom : TableTaxSummary)$</td>
+			<td height="150" width="5%"> </td>
+		</tr></table>
+ 
+
+<table border="0" style="margin:0 auto;" width="100%"><tr><td height="150" width="5%"> </td>
+			<td style="font-size:13px;border:1px solid #ddd;" width="45%">Wystawił:<br /><br />
+			$(relatedRecord : assigned_user_id|first_name|Users)$ $(relatedRecord : assigned_user_id|last_name|Users)$</td>
+			<td width="45%"> </td>
+			<td height="150" width="5%"> </td>
+		</tr></table>]]></body_content>
+      <footer_content><![CDATA[<div style="text-align:center;">{nb} z {PAGENO}</div>
+
+<table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center" bgcolor="#13181A">
+			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
+			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
+			</td>
+		</tr></tbody></table>]]></footer_content>
+      <conditions><![CDATA[[]]]></conditions>
+      <default>1</default>
+      <watermark_type>0</watermark_type>
+      <watermark_text/>
+      <watermark_size>0</watermark_size>
+      <watermark_angle>0</watermark_angle>
+      <template_members>Roles:H2,RoleAndSubordinates:H2</template_members>
+      <watermark_image/>
+      <one_pdf/>
+    </field>
+  </fields>
+</pdf_template>

@@ -1,0 +1,9 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">{% if required == true %}*{% endif %} {{ label }}</label>
+    <div class="col-md-9">
+        <input type="text" class="form-control" name="{{ id }}" id="{{ id }}" placeholder="{{ label }}" 
+            value="{{ value }}" {% if required == true %} required {% endif %}
+            {% if readonly == true %} readonly {% endif %}
+            >
+    </div>
+</div>

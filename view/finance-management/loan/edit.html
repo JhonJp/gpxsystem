@@ -1,0 +1,112 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <form action="index.php?controller=loan&action=save" method="POST" class="row">
+            {% set readonly = '' %}
+            {% set disabled = '' %}
+            {% if result is not null %}
+                {% set readonly = 'readonly' %} 
+                {% set disabled = "style=pointer-events:none;" %} 
+            {% endif %}
+            <input type="hidden" name="loanid" value="{{ result[0].id }}"/>
+            <input type="hidden" name="loanno" value="{{ result[0].loan_no }}"/>
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">                                            
+                                        <div class="col-md-6" {{disabled}}>
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Employee' , 'data' : allemployee, 'id' : 'employee_id' } %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_number.html'
+                                            with {'label': 'Amount' , 'id' : 'amount',
+                                            'value' : result[0].amount , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': "Term" , 'data' : allterm, 'id' : 'term' , disabled : false} %}
+                                        </div>
+                                        <div class="col-md-6" >
+                                            {% include '_generic_component/input_number.html'
+                                            with {'label': 'Interest' , 'id' : 'interest',
+                                            'value' : result[0].interest , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Loan Date</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group date">
+                                                        <input type="date" name="loan_date" class="form-control pull-right"
+                                                            id="datepicker" placeholder="Loan Date" value="{{ result[0].loan_date }}" {{readonly}}>
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Approved Date</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group date">
+                                                        <input type="date" name="approved_date" class="form-control pull-right"
+                                                            id="datepicker" placeholder="Approved Date" value="{{ result[0].approved_date }}">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': "Status" , 'data' : allstatus, 'id' : 'status' , disabled : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_textarea.html'
+                                            with {'label': 'Description' , 'id' : 'description',
+                                            'value' : result[0].description , 'required' : false} %}
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-block btn-primary">
+                                <span class="fa fa-fw fa-save"></span>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- /.row -->
+
+    </section>
+</div>
+{% endblock content %}

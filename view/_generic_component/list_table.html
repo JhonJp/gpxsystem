@@ -1,0 +1,173 @@
+<table id="list" class="table table-bordered table-responsive table-striped">
+    <thead>
+        <tr>
+            <th width="3px">#</th>
+            {% for name in columns %}
+            <th>{{ name|upper|replace({"_" : " "}) }}</th>
+            {% endfor %}
+            <th width="10px">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,value in list %}
+        <tr>
+            <td>{{ key + 1 }}</td>
+            {% for name in columns %}
+            {% if name == "box_number" or name == "box_type_and_quantity" %}
+            {% set boxnumbers = value[name]|split(',') %}
+            <td>
+                {% for box in boxnumbers %}
+                {% if name == 'box_number '%}
+                <span class="label label-success"><a href="index.php?controller=trackntrace&action=search&boxnumber={{ box }}" style="color:white;">{{ box }}</a></span>
+                {% else %}
+                <span class="label label-success">{{ box }}</span>
+                {% endif %}
+                
+                {% endfor %}
+            </td>
+            {% elseif name == "status" %}
+            {% set status = 'label-warning' %}
+            {% if
+            value[name] == "Paid"
+            or value[name] == "Approved"
+            or value[name] == "Accepted"
+            or value[name] == "Delivered"
+            or value[name] == "Completed"
+            or value[name] == "Booked" %}
+            {% set status = 'label-success' %}
+            {% elseif value[name] == "Cancelled" %}
+            {% set status = 'label-danger' %}
+            {% elseif value[name] == "In Progress" %}
+            {% set status = 'label-info' %}
+            {% endif %}
+            <td>
+                <span class="label {{ status }}">{{ value[name] }}</span>
+            </td>
+            {% elseif name == "reservation_no"
+            or name == "account_no"
+            or name == "id"
+            or name == "employee_name"
+            or name == "name" or name == "loan_no"
+            or name == "account_code" or name == "ticket_no"
+            %}
+            <td>
+                {% if breadcrumb.controller == "Account Type" %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}">{{
+                    value[name] }}</a>
+                {% else %}
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=edit&id={{ value['id'] }}">{{
+                    value[name] }}</a>
+                {% endif %}
+            </td>
+            {% elseif 'date' in name
+            or name == 'arrival_time'
+            or name == 'etd'
+            or name == 'eta' %}
+            <td>
+                <!-- {{ value[name]|date('M/d/Y h:m A') }} -->
+                {{ value[name]|date('M/d/Y') }}
+            </td>
+            {% else %}
+            <td>{{ value[name] }}</td>
+            {% endif %}
+            {% endfor %}
+            <td>
+                {% if
+                breadcrumb.controller != 'loading'
+                and value['status'] != "Booked"
+                and value['status'] != "Paid"
+                and breadcrumb.controller != 'unloading'
+                and breadcrumb.controller != 'warehouse_inventory'
+                and breadcrumb.controller != 'warehouse_acceptance'
+                and breadcrumb.controller != 'booking'
+                and breadcrumb.controller != 'distribution'
+                and breadcrumb.controller != 'delivery'
+                and breadcrumb.controller != 'incidentreport'
+                and breadcrumb.controller != 'report'
+                %}
+                {% if breadcrumb.controller == "Account Type" %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"
+                    title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+
+                {% elseif breadcrumb.controller == "intransit" %}
+                <a href="index.php?controller=intransit&action=edit&container_no={{ value['container_no'] }}"
+                    title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+
+                {% else %}
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=edit&id={{ value['id'] }}" title="Edit"
+                    class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+                {% endif %}
+                {% endif %}
+
+                {% if breadcrumb.controller == 'loan' %}
+                <a href="index.php?controller=loan&action=history&id={{ value['loan_no'] }}" title="History" class="btn btn-xs bg-maroon">
+                    <span class="fa fa-history"></span></a>
+                {% endif %}
+
+                {% if breadcrumb.controller == 'booking' %}
+                <a href="index.php?controller=booking&action=view&transaction_no={{ value['transaction_no'] }}" 
+                title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                <a href="index.php?controller=trackntrace&action=search&transaction_no={{ value['transaction_no'] }}"
+                title="Track" class="btn btn-xs bg-navy">
+                    <span class="fa fa-location-arrow"></span></a>
+                {% elseif breadcrumb.controller == 'reservation' %}
+                <a href="index.php?controller=reservation&action=view&reservation_no={{ value['reservation_no'] }}" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% endif %}
+
+                {% if breadcrumb.controller == 'distribution' %}
+                <a href="index.php?controller=distribution&action=view&id={{ value['id'] }}" title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% endif %}
+
+                {% if breadcrumb.controller == 'incidentreport' %}
+                <a href="index.php?controller=incidentreport&action=view&id={{ value['id'] }}" title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% endif %}
+
+                {% if breadcrumb.controller == 'customer'
+                or breadcrumb.controller == 'chartaccounts'
+                or breadcrumb.controller == 'ticket'
+                or breadcrumb.controller == 'receiver'
+                or breadcrumb.controller == 'employee'
+                or breadcrumb.controller == 'user'
+                or breadcrumb.controller == 'allowancedisbursement'
+                or breadcrumb.controller == 'financialliquidation'
+                or breadcrumb.controller == 'salarycompensation'
+                or breadcrumb.controller == 'remittance'
+                or breadcrumb.controller == 'expense'
+                or breadcrumb.controller == 'boxtype'
+                or breadcrumb.controller == 'boxrate'
+                or breadcrumb.controller == 'Account Type'
+                %}
+                {% if value['status'] == "Pending" %}
+                <button href="" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-delete" data-id="{{ value['id'] }}"
+                    data-table="{{ breadcrumb.controller }}" data-url="{{ url }}">
+                    <span class="fa fa-trash"></span></button>
+                {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {#
+    <tfoot>
+        <tr>
+            {% set total = 0 %}
+            {% for key,value in list %}
+            {% set total = total + value['quantity'] %}
+            {% endfor %}
+            <td width="3px"></td>
+            {% for name in columns %}
+            <td>
+                {% if name == "quantity" %}
+                TOTAL: {{ total }}
+                {% endif %}
+            </td>
+            {% endfor %}
+            <th width="10px"></th>
+        </tr>
+    </tfoot>
+    #}
+</table>

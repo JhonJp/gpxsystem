@@ -1,0 +1,7 @@
+<select class="form-control select2" name="{{id}}" id="{{id}}" style="width: 49%">
+    <option disabled value="0" selected>Select {{ label }}</option>
+    {% for row in data %}
+    {% set idname = '' ~ id ~ '' %}
+    <option value="{{row.id}}"  {% if row.id == result[0][idname] %} selected {% endif %}>{{ row.name }}</option>
+    {% endfor %}
+</select>

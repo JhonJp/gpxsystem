@@ -1,0 +1,62 @@
+{{ include("_header-script.html") }}
+
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>GP</b> EXPRESS
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>
+                    <i class="icon fa fa-warning"></i> Failed!</h4>
+                Username & Password not match. Please try again!
+            </div>
+            {% endif %}
+            <form action="index.php?controller=index&action=login" method="post">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" name="username" class="form-control" value="{{username}}" placeholder="Username" required>
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 5px;"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                            <span class="input-group-addon">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 10px;"></div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <input type="checkbox"> Remember me
+                    </div>
+                    <div class="col-md-5 pull-right">
+                        <a href=#>Forgot Password?</a>
+                    </div>
+                </div>
+                <div style="padding: 7px;"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-block btn-primary btn-flat">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+
+    {{ include("_footer-script.html") }}

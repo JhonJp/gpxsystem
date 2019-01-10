@@ -1,0 +1,149 @@
+{% extends "./_layout.html" %} {% block content %}
+
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <form action="index.php?controller=user&action=save" method="POST" class="row">
+            <input type="hidden" name="id" id="id" value="{{result[0].id}}">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                    <div class="row">
+                        {{ include("_generic_component/notification.html") }}
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Login Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">*Role</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" placeholder="Role">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Description</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        {#
+                                        <div class="col-md-12">
+                                            <h5>Edit privileges for this role</h5>
+                                            <hr class="cm-hr">
+                                            <div class="col-md-4">
+                                                <div class="box box-success">
+                                                    <div class="box-header with-border">
+                                                        <h5 class="box-title"><input type="checkbox" /> Cargo
+                                                            Management</h5>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <ul class="list-unstyled">
+                                                            <li><input type="checkbox" /> Reservation</li>
+                                                            <li><input type="checkbox" /> Booking</li>
+                                                            <li><input type="checkbox" /> Loading</li>
+                                                            <li><input type="checkbox" /> Unloading</li>
+                                                            <li><input type="checkbox" /> Warehouse Acceptance</li>
+                                                            <li><input type="checkbox" /> Distribution</li>
+                                                            <li><input type="checkbox" /> Delivery</li>
+                                                            <li><input type="checkbox" /> Warehouse Inventory</li>
+                                                            <li><input type="checkbox" /> Track N Trace</li>
+                                                            <li><input type="checkbox" /> Box Barcode</li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                    <div class="box box-success">
+                                                        <div class="box-header with-border">
+                                                            <h5 class="box-title"><input type="checkbox" /> Finance
+                                                                Management</h5>
+                                                        </div>
+                                                        <div class="box-body">
+                                                            <ul class="list-unstyled">
+                                                                <li><input type="checkbox" /> Chart Accounts</li>
+                                                                <li><input type="checkbox" /> Salary Compensation</li>
+                                                                <li><input type="checkbox" /> Allowance Disbursement</li>
+                                                                <li><input type="checkbox" /> Financial Liquidation</li>
+                                                                <li><input type="checkbox" /> Loan</li>
+                                                                <li><input type="checkbox" /> Remittance</li>
+                                                                <li><input type="checkbox" /> Expenses</li>
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /.box-body -->
+                                                    </div>
+                                                </div>
+                                            <div class="col-md-4">
+                                                <div class="box box-success">
+                                                    <div class="box-header with-border">
+                                                        <h5 class="box-title"><input type="checkbox" /> Customer
+                                                            Management</h5>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <ul class="list-unstyled">
+                                                            <li><input type="checkbox" /> Customer</li>
+                                                            <li><input type="checkbox" /> Receiver</li>
+                                                            <li><input type="checkbox" /> Ticket</li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="box box-success">
+                                                    <div class="box-header with-border">
+                                                        <h5 class="box-title"><input type="checkbox" /> User
+                                                            Management</h5>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <ul class="list-unstyled">
+                                                            <li><input type="checkbox" /> Employee</li>
+                                                            <li><input type="checkbox" /> User</li>
+                                                            <li><input type="checkbox" /> Roles</li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        #}
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-block btn-primary">
+                                <span class="fa fa-fw fa-save"></span>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- /.row -->
+
+    </section>
+</div>
+{% endblock content %}

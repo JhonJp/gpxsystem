@@ -1,0 +1,48 @@
+[07-Dec-2018 08:59:05 UTC] PHP Warning:  require_once(/home/m8h6b2z3c33c/public_html/beta/controller/../model/WarehouseacceptanceModel.php): failed to open stream: No such file or directory in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 9
+[07-Dec-2018 08:59:05 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/m8h6b2z3c33c/public_html/beta/controller/../model/WarehouseacceptanceModel.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 9
+[07-Dec-2018 08:59:06 UTC] PHP Warning:  require_once(/home/m8h6b2z3c33c/public_html/beta/controller/../model/WarehouseacceptanceModel.php): failed to open stream: No such file or directory in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 9
+[07-Dec-2018 08:59:06 UTC] PHP Fatal error:  require_once(): Failed opening required '/home/m8h6b2z3c33c/public_html/beta/controller/../model/WarehouseacceptanceModel.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 9
+[07-Dec-2018 08:59:37 UTC] PHP Fatal error:  Uncaught Exception: Exception: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO) in /home/m8h6b2z3c33c/public_html/beta/core/connector.php:27
+Stack trace:
+#0 /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php(67): Connector->connection()
+#1 /home/m8h6b2z3c33c/public_html/beta/controller/IndexController.php(7): GenericController->__construct()
+#2 /home/m8h6b2z3c33c/public_html/beta/index.php(54): IndexController->__construct()
+#3 /home/m8h6b2z3c33c/public_html/beta/index.php(35): loadController('index')
+#4 {main}
+  thrown in /home/m8h6b2z3c33c/public_html/beta/core/connector.php on line 27
+[07-Dec-2018 09:08:20 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:08:20 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:09:50 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:09:50 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:09:56 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:09:56 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:10:32 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:10:32 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:10:38 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:10:38 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:11:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined method GenericController::edit() in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php:82
+Stack trace:
+#0 /home/m8h6b2z3c33c/public_html/beta/index.php(64): GenericController->run('edit')
+#1 /home/m8h6b2z3c33c/public_html/beta/index.php(18): launchAction(Object(GenericController))
+#2 {main}
+  thrown in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 82
+[07-Dec-2018 09:11:24 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:11:24 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:13:02 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:13:02 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:13:05 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:13:05 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:13:13 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:13:13 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:13:17 UTC] PHP Notice:  Undefined variable: list in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 232
+[07-Dec-2018 09:13:17 UTC] PHP Notice:  Undefined variable: columns in /home/m8h6b2z3c33c/public_html/beta/controller/GenericController.php on line 233
+[07-Dec-2018 09:48:38 UTC] PHP Notice:  Undefined property: stdClass::$id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 142
+[07-Dec-2018 09:48:38 UTC] PHP Notice:  Undefined variable: id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 143
+[07-Dec-2018 09:48:38 UTC] PHP Notice:  Undefined property: stdClass::$id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 142
+[07-Dec-2018 09:48:38 UTC] PHP Notice:  Undefined variable: id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 143
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined property: stdClass::$id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 142
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined variable: id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 143
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined property: stdClass::$id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 142
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined variable: id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 143
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined property: stdClass::$id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 142
+[07-Dec-2018 09:49:11 UTC] PHP Notice:  Undefined variable: id in /home/m8h6b2z3c33c/public_html/beta/model/ReservationModel.php on line 143

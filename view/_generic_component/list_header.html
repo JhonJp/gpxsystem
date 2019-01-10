@@ -1,0 +1,37 @@
+<div class="box-header with-border">
+    <div class="box-title">
+        <h4><b>{{ breadcrumb.action|upper }}</b></h4>
+    </div>
+    {% if breadcrumb.action == "list"
+    and breadcrumb.controller != 'loading'
+    and breadcrumb.controller != 'unloading'
+    and breadcrumb.controller != 'warehouse_acceptance'
+    and breadcrumb.controller != 'distribution'
+    and breadcrumb.controller != 'delivery'
+    and breadcrumb.controller != 'warehouse_inventory'
+    and breadcrumb.controller != 'booking'
+    and breadcrumb.controller != 'intransit'
+        and breadcrumb.controller != 'incidentreport'
+        and breadcrumb.controller != 'report'
+    %}
+    <div class="box-tools pull-right">
+        <div class="btn-group">
+            {% if 
+            breadcrumb.controller == "Account Type" 
+            %}
+            <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
+                <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
+            {% else %}
+            <a href="index.php?controller={{ breadcrumb.controller }}&action=edit" class="btn btn-block btn-primary">
+                    <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
+            {% endif %}
+        </div>
+    </div>
+    {% elseif breadcrumb.action == 'edit' %}
+    <div class="box-tools pull-right">
+        {% if result is not null %}
+        <h4>{{breadcrumb.controller|upper}} ID: <b>{{ result[0].id }}</b></h4>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

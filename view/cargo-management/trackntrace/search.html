@@ -1,0 +1,73 @@
+{% extends "./_layout.html" %} {% block content %}
+
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <form method="POST" action="index.php?controller=trackntrace&action=search" class="input-group">
+                                    <input type="text" id="transaction_no" name="transaction_no" 
+                                    class="form-control" placeholder="Tracking #" value="{{transaction_no}}">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-danger btn-flat"><span
+                                                class="fa fa-fw fa-search"></span></button>
+                                    </span>
+                                </form>
+                            </div>
+                        </div>
+                        <br><br><br>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="box box-danger">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Details</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="col-md-6">
+                                            <h5>Transaction # : <b> {{transaction_no }}</b></h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Current Status : <span class="label label-success"><b>{{result[0].status}}</b></span></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Location</th>
+                                            <th>Qty</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key,row in result %}
+                                        <tr>
+                                            <td>{{ key+1 }}</td>
+                                            <td>{{ row.dateandtime|date("m/d/Y") }}</td>
+                                            <td>{{ row.activity }}</td>
+                                            <td>{{ row.location }}</td>
+                                            <td>{{ row.qty }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,7 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">{% if required == true %}*{% endif %} {{ label }}</label>
+    <div class="col-md-9">
+        <textarea rows="3" class="form-control" name="{{ id }}" id="{{ id }}" placeholder="{{ label }}" 
+         {% if required==true %} required {% endif %}>{{value }}</textarea>      
+    </div>
+</div>

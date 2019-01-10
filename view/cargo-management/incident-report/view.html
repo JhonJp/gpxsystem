@@ -1,0 +1,94 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Module</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" value="{{ result[0].module }}"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Incident Type</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" value="{{ result[0].incident_type }}"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Box Number</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" value="{{ result[0].box_number }}"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Reported By</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].module }}"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Reason</label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control" readonly>{{ result[0].reason }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Images</label>
+                                                <div class="col-md-9">
+                                                   {% for row in images %}
+                                                    <img src='data:image/jpeg;base64,{{ row['images'] }}' />
+                                                   {% endfor %}                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+</div>
+<!-- /.row -->
+
+</section>
+</div>
+{% endblock content %}

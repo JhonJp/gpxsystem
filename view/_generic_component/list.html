@@ -1,0 +1,15 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+  {{ include("_generic_component/list_breadcrumb.html") }}
+  <section class="content">
+    <div class="row">
+      <div class="box box-danger">
+        {{ include("_generic_component/list_header.html") }}        
+        <div class="box-body">
+            {{ include("_generic_component/list_table.html") }}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock content %}

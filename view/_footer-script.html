@@ -1,0 +1,120 @@
+<!-- jQuery 3 -->
+<script src="./libraries/admin-lte/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="./libraries/admin-lte/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="./libraries/admin-lte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Morris.js charts -->
+<script src="./libraries/admin-lte/bower_components/raphael/raphael.min.js"></script>
+<script src="./libraries/admin-lte/bower_components/morris.js/morris.min.js"></script>
+<!-- Sparkline -->
+<script src="./libraries/admin-lte/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+<!-- jvectormap -->
+<script src="./libraries/admin-lte/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="./libraries/admin-lte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="./libraries/admin-lte/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="./libraries/admin-lte/bower_components/moment/min/moment.min.js"></script>
+<script src="./libraries/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="./libraries/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="./libraries/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Slimscroll -->
+<script src="./libraries/admin-lte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- DataTables -->
+<script src="./libraries/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="./libraries/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+<!-- FastClick -->
+<script src="./libraries/admin-lte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- Select2 -->
+<script src="./libraries/admin-lte/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- AdminLTE App -->
+<script src="./libraries/admin-lte/dist/js/adminlte.min.js"></script>
+
+<script src="./libraries/jquery.toast/jquery.toast.min.js"></script>
+
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="./libraries/admin-lte/bower_components/chart.js/Chart.js"></script>
+
+
+{# <script src="./libraries/admin-lte/dist/js/pages/dashboard.js"></script> #}
+<script src="./libraries/admin-lte/dist/js/pages/dashboard2.js"></script>
+<script src="./libraries/admin-lte/dist/js/demo.js"></script>
+
+
+<!--Reservation-->
+<script type="text/javascript" src="./libraries/myscript/reservation.js"></script>
+<!--Booking-->
+<script type="text/javascript" src="./libraries/booking.js"></script>
+
+<!-- page script -->
+<script>
+    $(function () {
+        $('.select2').select2()
+        $('#daterange').daterangepicker()
+        $('#list').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excel', 'pdf', 'print'
+            ]
+        })      
+    })  
+</script>
+
+<script type="text/javascript" src="./libraries/customer.js"></script>
+<script type="text/javascript" src="./libraries/employee.js"></script>
+{# <script src="./libraries/demo.js"></script> #}
+
+<script type="text/javascript">
+    $('#showPassword').click(function(){
+        var x = document.getElementById("pass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    });
+
+    $('#modal-payment').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var loanno = button.data('loanno');
+        var duedate = button.data('duedate');
+        var amount = button.data('amount');
+        //var modal = $(this);
+        $('#id').val(id);
+        $('#loanno').val(loanno);
+        $('#duedate').val(duedate);
+        $('#amount').val(amount);        
+    });
+</script>
+<script type="text/javascript">
+    $('#modal-delete').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var table = button.data('table');        
+        var url = button.data('url');        
+        $('#modal_id').val(id);
+        $('#modal_table').val(table);       
+        $('#modal_url').val(url);       
+    });
+</script>
+
+</body>
+</html>

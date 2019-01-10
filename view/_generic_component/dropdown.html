@@ -1,0 +1,40 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">{{ label }}</label>
+    <div class="col-md-9"> 
+        <select class="form-control select2" id="{{ id }}" name="{{ id }}" style="width: 100%;" 
+            {% if disabled == true %} disabled {% endif %}
+        >
+            {% if label  != "Branch" %}
+            <option disabled value="0" selected>Select {{ label }}</option>
+            {% endif %}
+            {# 
+            {% if id == "boxtype" %}
+            {% for row in data %}                   
+            <option value="{{ row.depositprice }}">
+                {{ row.name|upper }}
+            </option>
+            {% endfor %}
+            #}
+
+            {# CUSTOMER #}
+            {% if id == "shipper" or id == "account_no" or id == "customer" %}
+            {% for row in data %}       
+            {% set idname = '' ~ id ~ '' %}          
+            <option value="{{ row.account_no }}" {% if row.account_no == result[0][idname] %} selected {% endif %}>
+                {{ row.name|capitalize }} 
+            </option>
+            {% endfor %}
+            {# CUSTOMER #}
+
+            {% else %}
+                {% for row in data %}  
+                {% set idname = '' ~ id ~ '' %}
+                <option value="{{ row.id }}"  {% if row.id == result[0][idname] %} selected {% endif %}>
+                    {{ row.name }}
+                </option>
+                {% endfor %}
+            {% endif %}
+        </select>
+
+    </div>
+</div>

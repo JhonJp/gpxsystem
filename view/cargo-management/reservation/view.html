@@ -1,0 +1,105 @@
+{% extends "./_layout.html" %} {% block content %}
+
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <div class="row">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                    <div class="row">
+                        {{ include("_generic_component/notification.html") }}
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Reservation Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {% if result is not null %}
+                                {% set disabled = true %}
+                                {% endif %}
+
+                                <div class="box-body form-horizontal">
+                                    <input type="hidden" name=" " id="reservationid" value="{{ result[0].id }}" />
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="col-md-12">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Reservation #' , 'id' : 'id',
+                                                'value' : result[0].reservation_no , 'required' : false , 'readonly' :
+                                                true} %}
+                                            </div>
+                                            <div class="col-md-12">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Customer' , 'id' : 'id',
+                                                'value' : result[0].customer , 'required' : false,'readonly' : true} %}
+                                            </div>
+                                            <div class="col-md-12">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Reservation Date' , 'id' : 'id',
+                                                'value' : result[0].createddate|date("M/d/Y") , 'required' :
+                                                false,'readonly' : true} %}
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Assigned to' , 'id' : 'id',
+                                                'value' : result[0].assigned_to , 'required' : false,'readonly' : true} %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-bordered table-striped" id="reservetable">
+                                                <tbody>
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="5px">ID</th>
+                                                            <th>Box Type</th>
+                                                            <th>Box Number</th>
+                                                            <th>Status</th>
+                                                            <th>Transaction #</th>
+                                                        </tr>
+                                                    </thead>
+                                                <tbody>
+                                                    {% for key,row in box_number %}
+                                                    <tr>
+                                                        <td>{{ key+1 }}</td>
+                                                        <td>{{ row.boxtype }}</td>
+                                                        <td>{{ row.box_number }}</td>
+                                                        <td>
+                                                            {% if 
+                                                                row.status == "Paid"
+                                                                or row.status == "Booked"
+                                                            %}
+                                                            {% set status = 'label-success' %}
+                                                            {% elseif row.status== "Pending" %}
+                                                            {% set status = 'label-warning' %}
+                                                            {% endif %}
+                                                            <span class="label {{ status }}">{{ row.status }}</span>
+                                                        </td>
+                                                        <td><a href="index.php?controller=booking&action=view&transaction_no={{ row.transaction_no }}">{{ row.transaction_no }}</a></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
