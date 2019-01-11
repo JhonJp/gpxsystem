@@ -56,7 +56,7 @@ class RemittanceModel extends GenericModel
             "chart_accounts" => $data['chart_accounts'],
             "bank" => $data['bank'],
             "remitted_by" => $data['remitted_by'],
-            "amount" => $data['remitted_amount_sales_driver'],
+            "remitted_amount_sales_driver" => $data['remitted_amount_sales_driver'],
             "remitted_amount_oic" => $data['remitted_amount_oic'],
             "verified_by" => $data['verified_by'],
             "description" => $data['description']
