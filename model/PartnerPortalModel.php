@@ -42,8 +42,10 @@ class PartnerPortalModel extends GenericModel
       $query = $this->connection->prepare("
       SELECT gpi.createddate as date,
       gpi.truck_no as truck_number,
+      GROUP_CONCAT(gpi.box_number,',') as box_number,
       gpi.destination_name as destination_name
-        FROM gpx_partnerportal_intransit gpi
+      FROM gpx_partnerportal_intransit gpi
+      GROUP BY gpi.truck_no
       ORDER BY gpi.id
       ");
       $query->execute();
