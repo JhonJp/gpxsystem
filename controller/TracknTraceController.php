@@ -63,7 +63,7 @@ class TracknTraceController extends GenericController
                 header("Location:index.php?controller=trackntrace&action=search");
             }
         }else{
-            header("Location:index.php?controller=trackntrace&action=search");
+            header("Location:index.php?controller=index&action=dashboard");
         }
     }
 
