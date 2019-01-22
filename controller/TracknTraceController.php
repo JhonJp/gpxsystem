@@ -50,17 +50,20 @@ class TracknTraceController extends GenericController
         $createddate = date('Y/m/d H:i:s');
 
         $index = new TrackNTraceModel($this->connection);
-
-        if (isset($msg)) {
-            $result = $index->insertMessage($trans,$msg,$by,$createddate);
-        }
         
-        if (isset($result)){ 
-            header("Location:index.php?controller=trackntrace&action=search&transaction_no=".$trans);               
-            //echo $branch;
-        }
-        else{                    
-            header("Location:index.php?controller=index&action=dashboard");
+        if($trans != ""){
+            if (isset($msg)) {
+                $result = $index->insertMessage($trans,$msg,$by,$createddate);
+            }
+            
+            if (isset($result)){ 
+                header("Location:index.php?controller=trackntrace&action=search&transaction_no=".$trans);               
+            }
+            else{                    
+                header("Location:index.php?controller=trackntrace&action=search");
+            }
+        }else{
+            header("Location:index.php?controller=trackntrace&action=search");
         }
     }
 
