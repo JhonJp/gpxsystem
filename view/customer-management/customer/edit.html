@@ -64,6 +64,16 @@
                                             'value' : result[0].mobile , 'required' : true} %}
                                         </div>
                                         <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Secondary number' , 'id' : 'mobile_two',
+                                            'value' : result[0].mobile , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Another number' , 'id' : 'mobile_three',
+                                            'value' : result[0].mobile , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Phone</label>
                                                 <div class="col-md-9">

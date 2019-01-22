@@ -68,8 +68,8 @@ class WarehouseInventoryModel extends GenericModel
                     ));
                 } else {
                     $query = $this->connection->prepare("INSERT INTO gpx_warehouse_inventory(
-                    id,warehouse_id,manufacturer_name,boxtype_id,quantity,createddate,createdby)
-                    VALUES (:id,:warehouse_id,:manufacturer_name,:boxtype_id,:quantity,:createddate,:createdby)");
+                    id,warehouse_id,manufacturer_name,boxtype_id,quantity,createddate,createdby,price)
+                    VALUES (:id,:warehouse_id,:manufacturer_name,:boxtype_id,:quantity,:createddate,:createdby,:price)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "warehouse_id" => $data['data'][$x]['warehouse_id'],
@@ -78,6 +78,7 @@ class WarehouseInventoryModel extends GenericModel
                         "quantity" => $data['data'][$x]['quantity'],
                         "createddate" => $data['data'][$x]['createddate'],
                         "createdby" => $data['data'][$x]['createdby'],
+                        "price" => $data['data'][$x]['price'],
                     ));
 
                     $query = $this->connection->prepare("INSERT INTO gpx_warehouse_inventory_report(

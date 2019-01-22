@@ -15,25 +15,25 @@ $(function () {
   var pieChart       = new Chart(pieChartCanvas);
   var PieData        = [
     {
-      value    : 2,
+      value    : document.getElementById('acc').innerHTML,
       color    : '#f56954',
       highlight: '#f56954',
-      label    : 'Cancelled'
+      label    : 'For Acceptance'
     },
     {
-      value    : 12,
+      value    : document.getElementById('paid').innerHTML,
       color    : '#00a65a',
       highlight: '#00a65a',
       label    : 'Paid'
     },
     {
-      value    : 23,
+      value    : document.getElementById('pending').innerHTML,
       color    : '#f39c12',
       highlight: '#f39c12',
       label    : 'Pending'
     },
     {
-      value    : 16,
+      value    : document.getElementById('booked').innerHTML,
       color    : '#00c0ef',
       highlight: '#00c0ef',
       label    : 'Booked'
@@ -63,7 +63,7 @@ $(function () {
     // String - A legend template
     legendTemplate       : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
     // String - A tooltip template
-    tooltipTemplate      : '<%=value %> <%=label%> Reservation'
+    tooltipTemplate      : '<%=value %> <%=label%>'
   };
   // Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.

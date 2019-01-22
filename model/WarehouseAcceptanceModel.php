@@ -72,18 +72,20 @@ class WarehouseAcceptanceModel extends GenericModel
                         //////////UPDATE BOOKING STATUS//////////
                         $this->updateBookingStatus($data['data'][$x]['acceptance_box'][$y]['boxnumber'],"2");
 
+                        ///////////TRACK N TRACE LOGS/////////
+                        $logs = array(
+                            "transaction_no" => $this->gettransactionno($data['data'][$x]['acceptance_box'][$y]['boxnumber']),
+                            "status" => "Accepted",
+                            "dateandtime" => $data['data'][$x]['createddate'],
+                            "activity" => "Warehouse Accepted",
+                            "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
+                            "qty" => $countboxnumber,
+                            "details" => "Accepted at ".$this->getlocationemployeebyid($data['data'][$x]['createdby'])
+                        );
+                        $this->savetrackntrace($logs);
+
                     }
                     
-                    ///////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['acceptance_box'][0]['boxnumber']),
-                        "status" => "Accepted",
-                        "dateandtime" => $data['data'][$x]['createddate'],
-                        "activity" => "Warehouse Accepted",
-                        "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                        "qty" => $countboxnumber
-                    );
-                    $this->savetrackntrace($logs);
                 }
 
             }

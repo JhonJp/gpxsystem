@@ -1,0 +1,33 @@
+<table id="list" class="table table-bordered table-responsive table-striped">
+    <thead>
+        <tr>
+            <th width="3px">#</th>
+            {% for name in columns %}
+            <th>{{ name|upper|replace({"_" : " "}) }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,value in list %}
+        <tr>
+            <td>{{ key + 1 }}</td>
+            {% for name in columns %}            
+            <td>
+                {% if name == "box_number" %}
+                {% set boxnum = value[name]|split(',') %}
+                    {% for box in boxnum %}
+                        <span class="label label-success">{{box}}</span>
+                    {% endfor %}
+                {% elseif name == "date" or name == "unload_date" %}
+                    {{value[name]|date("M/d/Y")}}
+                {% elseif name == "status" %}
+                    <span class="label label-success">{{ value[name] }}</span>
+                {% else %}
+                    {{value[name]}}
+                {% endif %}
+            </td>
+            {% endfor %}                
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

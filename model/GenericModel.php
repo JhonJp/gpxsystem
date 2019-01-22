@@ -253,8 +253,8 @@ class GenericModel{
     public function savetrackntrace($data)
     {
         $query = $this->connection->prepare("INSERT INTO gpx_trackntrace(transaction_no,status,dateandtime,
-        activity,location,qty)
-        VALUES(:transaction_no,:status,:dateandtime,:activity,:location,:qty)");
+        activity,location,qty,details)
+        VALUES(:transaction_no,:status,:dateandtime,:activity,:location,:qty,:details)");
         $result = $query->execute(
             array(
                 "transaction_no" => $data['transaction_no'],
@@ -263,6 +263,7 @@ class GenericModel{
                 "activity" => $data['activity'],
                 "location" => $data['location'],
                 "qty" => $data['qty'],
+                "details" => $data['details'],
             )
         );
     }

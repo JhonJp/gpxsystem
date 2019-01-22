@@ -188,7 +188,7 @@ class BookingModel extends GenericModel
                     if (count($gpx_payment) != 0) {
                         //////UPDATE PAYMENT////
                         $query = $this->connection->prepare("UPDATE gpx_payment SET paymentterm = :paymentterm,
-                        deposit = :deposit , total_amount = :total_amount
+                        transaction_no = :transaction_no, deposit = :deposit , total_amount = :total_amount
                         WHERE transaction_no = :transaction_no OR reservation_no = :reservation_no");
                         $query->execute(array(
                             "paymentterm" => $data['data'][$x]['payment'][0]['paymentterm'],
@@ -223,6 +223,7 @@ class BookingModel extends GenericModel
                         "activity" => "Picked-Up",
                         "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
                         "qty" => $countboxnumber,
+                        "details" => "Quantity of ".$countboxnumber." box(s)",
                     );
                     $this->savetrackntrace($logs);
                 }

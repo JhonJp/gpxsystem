@@ -1,0 +1,27 @@
+<table id="list" class="table table-bordered table-responsive table-striped">
+    <thead>
+        <tr>
+            <th width="3px">#</th>
+            {% for name in columns %}
+            <th>{{ name|upper|replace({"_" : " "}) }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,value in list %}
+        <tr>
+            <td>{{ key + 1 }}</td>
+            {% for name in columns %}            
+            <td>
+                {% if name == "date" %}
+                    {{value[name]|date("M/d/Y")}}
+                {% else %}
+                    {{value[name]}}
+                {% endif %}
+            </td>
+            {% endfor %}                
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>

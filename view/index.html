@@ -10,7 +10,7 @@
     </h1>
     <ol class="breadcrumb">
       <li>
-        <a href="#">
+        <a href="index.php?controller=index&action=dashboard">
           <i class="fa fa-dashboard"></i> Home</a>
       </li>
       <li class="active">Dashboard</li>
@@ -26,31 +26,31 @@
         <!-- small box -->
         <div class="small-box bg-yellow">
           <div class="inner">
-            <h3>{{ pendingreservation }}</h3>
-            <p>Reservation <i>(Pending)</i></p>
+            <h3 id="philtime"></h3>
+            <p>Philippine Time</p>
           </div>
           <div class="icon">
-            <i class="fa fa-folder"></i>
+            <i class="fa fa-clock-o"></i>
           </div>
-          <a href="index.php?controller=reservation&action=list" class="small-box-footer">More info
+          <!-- <a href="index.php?controller=reservation&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- ./col -->
       <div class="col-lg-3 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-green">
-          <div class="inner">
-            <h3>{{ booking }}</h3>
-            <p>Booking (Pick Up)</p>
+          <div class="inner" onload="">
+            <h3 id="philtime2"></h3>
+            <p>Dubai Time</p>
           </div>
           <div class="icon">
-            <i class="fa fa-book"></i>
+            <i class="fa fa-clock-o"></i>
           </div>
-          <a href="index.php?controller=booking&action=list" class="small-box-footer">More info
+          <!-- <a href="index.php?controller=booking&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- ./col -->
@@ -58,15 +58,16 @@
         <!-- small box -->
         <div class="small-box bg-aqua">
           <div class="inner">
-            <h3>{{ customer }}</h3>
-            <p>Customer accounts</p>
+            <h3 id="philtime3"></h3>
+            <!-- <h3>{{ customer }}</h3> -->
+            <p>Riyadh Time</p>
           </div>
           <div class="icon">
-            <i class="ion ion-person-add"></i>
+            <i class="fa fa-clock-o"></i>
           </div>
-          <a href="index.php?controller=customer&action=list" class="small-box-footer">More info
+          <!-- <a href="index.php?controller=customer&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- ./col -->
@@ -74,15 +75,15 @@
         <!-- small box -->
         <div class="small-box bg-red">
           <div class="inner">
-            <h3>{{ receivers }}</h3>
-            <p>Receiver accounts</p>
+            <h3 id="philtime4"></h3>
+            <p>Toronto Time</p>
           </div>
           <div class="icon">
-            <i class="fa fa-globe"></i>
+            <i class="fa fa-clock-o"></i>
           </div>
-          <a href="index.php?controller=receiver&action=list" class="small-box-footer">More info
+          <!-- <a href="index.php?controller=receiver&action=list" class="small-box-footer">More info
             <i class="fa fa-arrow-circle-right"></i>
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- ./col -->
@@ -105,7 +106,12 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="chart-responsive">
-                  <canvas id="pieChart" height="150"></canvas>
+                  <canvas id="pieChart" height="150">
+                    <p id="pending" style="visibility:hidden;">{{pendingreservation}}</p>
+                    <p id="paid" style="visibility:hidden;">{{paid}}</p>
+                    <p id="booked" style="visibility:hidden;">{{booked}}</p>
+                    <p id="acc" style="visibility:hidden;">{{acceptance}}</p>
+                  </canvas>
                 </div>
                 <!-- ./chart-responsive -->
               </div>
@@ -115,7 +121,7 @@
                   <li><i class="fa fa-circle-o text-yellow"></i> Pending</li>
                   <li><i class="fa fa-circle-o text-green"></i> Paid</li>
                   <li><i class="fa fa-circle-o text-aqua"></i> Booked</li>
-                  <li><i class="fa fa-circle-o text-red"></i> Cancelled</li>
+                  <li><i class="fa fa-circle-o text-red"></i> For Acceptance</li>
                 </ul>
               </div>
               <!-- /.col -->
@@ -135,7 +141,7 @@
                 <a href="#">Booked<span class="pull-right text-aqua"> {{booked}}</span></a>
               </li>
               <li>
-                <a href="#">Cancelled<span class="pull-right text-red"> {{cancelled}}</span></a>
+                <a href="#">For Acceptance<span class="pull-right text-red"> {{acceptance}}</span></a>
               </li>
             </ul>
           </div>
@@ -145,17 +151,16 @@
       <div class="col-md-6">
         <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Recently Booked</h3>
+            <h3 class="box-title">BOOKING LIST</h3>
 
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <ul class="products-list product-list-in-box">
+            <ul class="products-list product-list-in-box" style="height:280px;overflow-x:hidden;overflow-y:scroll;">
               {% for i in 0..booking-1 %}
               <li class="item">
                 <div class="product-img">
@@ -163,7 +168,7 @@
                 </div>
                 <div class="product-info">
                   <a href="index.php?controller=booking&action=view&transaction_no={{bookingData[i].transaction_no}}" class="product-title">{{bookingData[i].transaction_no}}
-                    <span class="label label-warning pull-right"></span></a>
+                    <span class="label label-warning pull-right">{{bookingData[i].total_amount}}</span></a>
                   <span class="product-description">
                     {{bookingData[i].book_date}}
                   </span>
@@ -174,140 +179,10 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer text-center">
-            <a href="javascript:void(0)" class="uppercase">View All</a>
+            <a href="index.php?controller=booking&action=list" class="uppercase">View All</a>
           </div>
           <!-- /.box-footer -->
         </div>
-      </div>
-
-
-      <div class="col-md-12">
-        <div class="box">
-          <div class="box-header with-border">
-            <h3 class="box-title">Monthly Recap Report</h3>
-
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-              <div class="btn-group">
-                <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-wrench"></i></button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </div>
-              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div class="row">
-              <div class="col-md-8">
-                <p class="text-center">
-                  <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                </p>
-
-                <div class="chart">
-                  <!-- Sales Chart Canvas -->
-                  <canvas id="salesChart" style="height: 180px;"></canvas>
-                </div>
-                <!-- /.chart-responsive -->
-              </div>
-              <!-- /.col -->
-              <div class="col-md-4">
-                <p class="text-center">
-                  <strong>Goal Completion</strong>
-                </p>
-
-                <div class="progress-group">
-                  <span class="progress-text">Add Products to Cart</span>
-                  <span class="progress-number"><b>160</b>/200</span>
-
-                  <div class="progress sm">
-                    <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
-                  </div>
-                </div>
-                <!-- /.progress-group -->
-                <div class="progress-group">
-                  <span class="progress-text">Complete Purchase</span>
-                  <span class="progress-number"><b>310</b>/400</span>
-
-                  <div class="progress sm">
-                    <div class="progress-bar progress-bar-red" style="width: 80%"></div>
-                  </div>
-                </div>
-                <!-- /.progress-group -->
-                <div class="progress-group">
-                  <span class="progress-text">Visit Premium Page</span>
-                  <span class="progress-number"><b>480</b>/800</span>
-
-                  <div class="progress sm">
-                    <div class="progress-bar progress-bar-green" style="width: 80%"></div>
-                  </div>
-                </div>
-                <!-- /.progress-group -->
-                <div class="progress-group">
-                  <span class="progress-text">Send Inquiries</span>
-                  <span class="progress-number"><b>250</b>/500</span>
-
-                  <div class="progress sm">
-                    <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
-                  </div>
-                </div>
-                <!-- /.progress-group -->
-              </div>
-              <!-- /.col -->
-            </div>
-            <!-- /.row -->
-          </div>
-          <!-- ./box-body -->
-          <div class="box-footer">
-            <div class="row">
-              <div class="col-sm-3 col-xs-6">
-                <div class="description-block border-right">
-                  <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
-                  <h5 class="description-header">PHP 35,210.43</h5>
-                  <span class="description-text">TOTAL REVENUE</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-              <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
-                <div class="description-block border-right">
-                  <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
-                  <h5 class="description-header">PHP 10,390.90</h5>
-                  <span class="description-text">TOTAL COST</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-              <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
-                <div class="description-block border-right">
-                  <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
-                  <h5 class="description-header">PHP 24,813.53</h5>
-                  <span class="description-text">TOTAL PROFIT</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-              <!-- /.col -->
-              <div class="col-sm-3 col-xs-6">
-                <div class="description-block">
-                  <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
-                  <h5 class="description-header">1200</h5>
-                  <span class="description-text">GOAL COMPLETIONS</span>
-                </div>
-                <!-- /.description-block -->
-              </div>
-            </div>
-            <!-- /.row -->
-          </div>
-          <!-- /.box-footer -->
-        </div>
-        <!-- /.box -->
       </div>
     </div>
     <!-- /.row (main row) -->

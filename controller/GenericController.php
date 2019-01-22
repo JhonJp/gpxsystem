@@ -78,6 +78,18 @@ class GenericController{
             case "list":
                 $this->list();
                 break;
+            case "filterbranch":
+                $this->filterbranch();
+                break;
+            case "filterdate":
+                $this->filterdate();
+                break;
+            case "filterdatesales":
+                $this->filterdatesales();
+                break;
+            case "filterbyemployee":
+                $this->filterbyemployee();
+                break;
             case "edit":
                 $this->edit();
                 break;
@@ -113,6 +125,13 @@ class GenericController{
                 break;  
             case "view":
                 $this->view();
+                break;
+            ///////////////PARTNER PORTAL /////////////
+            case "partnerdashboard":
+                $this->partnerdashboard();
+                break; 
+            case "isn":
+                $this->insertNotify();
                 break;                  
             default:
                 $this->list();

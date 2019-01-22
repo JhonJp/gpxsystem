@@ -69,7 +69,7 @@ class DistributionModel extends GenericModel
             for ($x = 0; $x < $countdata; $x++) {
                 $check = $this->checkdata($data['data'][$x]['id']);
                 if (count($check) == 0) {
-
+                    $dist_type = $data['data'][$x]['type'];
                     $query = $this->connection->prepare("INSERT INTO gpx_distribution(
                     id,distribution_type,destination_name,truck_number,driver_name,remarks,createddate,createdby)
                     VALUES (:id,:distribution_type,:destination_name,:truck_number,:driver_name,:remarks,:createddate,:createdby)");
@@ -97,7 +97,55 @@ class DistributionModel extends GenericModel
                             "warehouse_inventory_id" => $data['data'][$x]['distribution_box'][$y]['inventory_id'],
                             "boxtype_id" => $data['data'][$x]['distribution_box'][$y]['boxtype_id'],
                         ));
+
+                        if(($dist_type == "Partner - Hub") 
+                         || ($dist_type == "Partner - Area")){
+
+                            ///////////IN TRANSIT LOCAL/////////
+                            $this->save_instransit_local(
+                                $data['data'][$x]['truck_no'],
+                                $data['data'][$x]['name'],
+                                $data['data'][$x]['created_date'],
+                                $data['data'][$x]['distribution_box'][$y]['boxnumber']
+                            );
+                            
+                           //////////TRACK N TRACE LOGS/////////
+                            $logs = array(
+                                "transaction_no" => $this->gettransactionno($data['data'][$x]['distribution_box'][$y]['boxnumber']),
+                                "status" => "In Transit",
+                                "dateandtime" => $data['data'][$x]['created_date'],
+                                "activity" => "In Transit Local",
+                                "location" => $data['data'][$x]['name'],
+                                "qty" => $countboxnumber,
+                                "details" => "Truck number is ".$data['data'][$x]['truck_no']
+                            );
+                            $this->savetrackntrace($logs); 
+                        }else if($dist_type == "Direct") {
+
+                            ///////////IN TRANSIT LOCAL/////////
+                            $this->save_instransit_local(
+                                $data['data'][$x]['truck_no'],
+                                $data['data'][$x]['name'],
+                                $data['data'][$x]['created_date'],
+                                $data['data'][$x]['distribution_box'][$y]['boxnumber']
+                            );
+
+                            //////////TRACK N TRACE LOGS/////////
+                            $logs = array(
+                                "transaction_no" => $this->gettransactionno($data['data'][$x]['distribution_box'][$y]['boxnumber']),
+                                "status" => "For Delivery",
+                                "dateandtime" => $data['data'][$x]['created_date'],
+                                "activity" => "For Delivery",
+                                "location" => $data['data'][$x]['name'],
+                                "qty" => $countboxnumber,
+                                "details" => "Truck number is ".$data['data'][$x]['truck_no']
+                            );
+                            $this->savetrackntrace($logs); 
+                        }
+                        
                     }
+
+                    
                 }
             }
 
@@ -114,6 +162,20 @@ class DistributionModel extends GenericModel
         $query->execute(array("id" => $id));
         $result = $query->fetchAll();
         return $result;
+    }
+
+    public function save_instransit_local($trucknumber, $destination, $date, $box_number)
+    {
+        $query = $this->connection->prepare("
+        INSERT INTO gpx_partnerportal_intransit(truck_no,destination_name,createddate,box_number) 
+        VALUES (:truck,:destination,:createddate,:boxnumber)");
+        $result = $query->execute(array(
+            "truck" => $trucknumber,
+            "destination" => $destination,
+            "createddate" => $date,
+            "boxnumber" => $box_number,
+        ));
+
     }
 
 }

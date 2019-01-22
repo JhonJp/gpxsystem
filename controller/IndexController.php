@@ -19,8 +19,8 @@ class IndexController extends GenericController
             "customer" => $index->countCustomers('customer'),
             "receivers" => $index->countCustomers('receiver'),
             "paid" => $index->countPendingReservation('2'),
-            "booked" => 0,
-            "cancelled" => 0,
+            "booked" => $index->countBooking(),
+            "acceptance" => $index->countForAcceptance('1'),
             "bookingData" => $index->getBookinglist(),
         ));
     }
@@ -39,8 +39,14 @@ class IndexController extends GenericController
 
             if(isset($result[0]['id'])){                
                 $_SESSION['login'] = true;     
-                $_SESSION['logindetails'] = $result;     
-                header("Location:index.php?controller=index&action=dashboard");
+                $_SESSION['logindetails'] = $result;
+                if($result[0]['position'] == 'Partner'){
+                    header("Location:index.php?controller=partnerportal&action=partnerdashboard");
+                }else if($result[0]['position'] == 'Admin'){ 
+                    header("Location:index.php?controller=index&action=dashboard");
+                }else{
+                    header("Location:index.php?controller=index&action=dashboard");
+                }
             }
             else{
                 echo $this->twig->render('login.html', array(

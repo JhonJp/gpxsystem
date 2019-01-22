@@ -70,43 +70,40 @@ class LoadingModel extends GenericModel
                             $data['data'][$x]['load_etd'],
                             $data['data'][$x]['loading_boxes'][$y]['box_num']
                         );
-                    }
 
-                    ///////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][0]['box_num']),
-                        "status" => "Loaded",
-                        "dateandtime" => $data['data'][$x]['load_date'],
-                        "activity" => "Loaded",
-                        "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                        "qty" => $countboxnumber,
-                    );
-                    $this->savetrackntrace($logs);
+                        ///////////TRACK N TRACE LOGS/////////
+                        $logs = array(
+                            "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][$y]['box_num']),
+                            "status" => "Loaded",
+                            "dateandtime" => $data['data'][$x]['load_date'],
+                            "activity" => "Loaded In Container",
+                            "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
+                            "qty" => $countboxnumber,
+                            "details" => "Container number is ".$data['data'][$x]['load_container'].". Shipper name is ".$data['data'][$x]['load_shipper'],
+                        );
+                        $this->savetrackntrace($logs);
+
+                        ///////////TRACK N TRACE LOGS/////////
+                        $logss = array(
+                            "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][0]['box_num']),
+                            "status" => "In-Transit",
+                            "dateandtime" => $data['data'][0]['load_etd'],
+                            "activity" => "In-Transit International",
+                            "location" =>  $data['data'][$x]['load_shipper'],
+                            "qty" => $countboxnumber,
+                            "details" => "Estimated date of arrival ".$data['data'][$x]['load_eta'],
+                        );
+                        $this->savetrackntrace($logss);
+
+                        ///////////TRACK N TRACE LOGS/////////
+
+
+                    }
 
                     //////////UPDATE BOOKING STATUS//////////
                     $this->updateBookingStatus($data['data'][$x]['loading_boxes'][0]['box_num'], "7");
 
-                    ///////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][0]['box_num']),
-                        "status" => "In-Transit",
-                        "dateandtime" => $data['data'][0]['load_etd'],
-                        "activity" => "In-Transit",
-                        "location" =>  " ",
-                        "qty" => $countboxnumber,
-                    );
-                    $this->savetrackntrace($logs);
-
-                    ///////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][0]['box_num']),
-                        "status" => "Estimated Arrival",
-                        "dateandtime" => $data['data'][0]['load_eta'],
-                        "activity" => "Estimated Arrival",
-                        "location" =>  "Philippines",
-                        "qty" => $countboxnumber,
-                    );
-                    $this->savetrackntrace($logs);
+                    
                 }
             }
         } catch (Exception $e) {

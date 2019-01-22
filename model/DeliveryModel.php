@@ -83,6 +83,20 @@ class DeliveryModel extends GenericModel
                             "status" => $data['data'][$x]['delivery_box'][$y]['status'],                            
                             "remarks" => $data['data'][$x]['delivery_box'][$y]['remarks'],                            
                         ));
+
+                        ///////TRACK AND TRACE////////
+                        $logs = array(
+                            "transaction_no" => $this->gettransactionno($data['data'][$x]['delivery_box'][$y]['box_number']),
+                            "status" => "Delivered",
+                            "dateandtime" => $data['data'][$x]['createddate'],
+                            "activity" => "Delivered",
+                            "location" => $this->getcustomeraddresss($data['data'][$x]['delivery_box'][0]['receiver']),
+                            "qty" => $countboxnumber,
+                            "details" =>"Remarks: ".$data['data'][$x]['delivery_box'][0]['remarks']
+                            
+                        );
+                        $this->savetrackntrace($logs);
+
                     }
 
                     //delivery_image
@@ -102,15 +116,6 @@ class DeliveryModel extends GenericModel
                     //////////UPDATE BOOKING STATUS//////////
                     $this->updateBookingStatus( $data['data'][$x]['delivery_box'][0]['box_number'],"6");
 
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['delivery_box'][0]['box_number']),
-                        "status" => "Delivered",
-                        "dateandtime" => $data['data'][$x]['createddate'],
-                        "activity" => "Delivered",
-                        "location" => $this->getcustomeraddresss($data['data'][$x]['delivery_box'][0]['receiver']),
-                        "qty" => $countboxnumber
-                    );
-                    $this->savetrackntrace($logs);
                 }
             }
 

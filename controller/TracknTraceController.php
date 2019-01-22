@@ -13,6 +13,7 @@ class TracknTraceController extends GenericController
     public function search()
     {       
         $result = null;
+        $mess = null;
         $model = new TrackNTraceModel($this->connection);
         $genericmodel = new GenericModel($this->connection);
         
@@ -28,14 +29,39 @@ class TracknTraceController extends GenericController
         //SEARCH
         if($transaction_no != ""){
             $result = $model->getdatabytransactionid($transaction_no);
+            $mess = $model->getMessagesByTransaction($transaction_no);
         }
         echo $this->twig->render('cargo-management/trackntrace/search.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
             "url" => $_SERVER['REQUEST_URI'],                 
             "result" => $result,
+            "messages" => $mess,
             "transaction_no" => $transaction_no
         ));    
+    }
+
+    public function insertNotify(){
+        $genericmodel = new GenericModel($this->connection);
+        $msg = isset($_POST['message']) ? $_POST['message'] : "";
+        $trans = isset($_POST['trans']) ? $_POST['trans'] : "";
+       
+        $by = $genericmodel->getuserlogin();
+        $createddate = date('Y/m/d H:i:s');
+
+        $index = new TrackNTraceModel($this->connection);
+
+        if (isset($msg)) {
+            $result = $index->insertMessage($trans,$msg,$by,$createddate);
+        }
+        
+        if (isset($result)){ 
+            header("Location:index.php?controller=trackntrace&action=search&transaction_no=".$trans);               
+            //echo $branch;
+        }
+        else{                    
+            header("Location:index.php?controller=index&action=dashboard");
+        }
     }
 
 

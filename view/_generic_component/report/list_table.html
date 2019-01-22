@@ -13,7 +13,11 @@
             <td>{{ key + 1 }}</td>
             {% for name in columns %}            
             <td>
-                {{ value[name] }}
+                {% if name == "date" %}
+                    {{value[name]|date("M/d/Y")}}
+                {% else %}
+                    {{value[name]}}
+                {% endif %}
             </td>
             {% endfor %}                
         </tr>

@@ -59,21 +59,23 @@ class UnloadingModel extends GenericModel
                             "box_number" => $data['data'][$x]['unloading_boxes'][$y]['box_num'],
                             "unloading_id" => $data['data'][$x]['unloading_boxes'][$y]['transaction_no'],
                         ));
+
+                        //////////TRACK N TRACE LOGS/////////
+                        $logs = array(
+                            "transaction_no" => $this->gettransactionno($data['data'][$x]['unloading_boxes'][$y]['box_num']),
+                            "status" => "Unloaded",
+                            "dateandtime" => $data['data'][$x]['unload_date'],
+                            "activity" => "Unloaded in Container",
+                            "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
+                            "qty" => $countboxnumber,
+                            "details" => "Arrived at ".$data['data'][$x]['unload_eta'],
+                        );
+                        $this->savetrackntrace($logs);
                     }
 
                     //////////UPDATE BOOKING STATUS//////////
                     $this->updateBookingStatus($data['data'][$x]['unloading_boxes'][0]['box_num'],"4");
 
-                    //////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $this->gettransactionno($data['data'][$x]['unloading_boxes'][0]['box_num']),
-                        "status" => "Unloaded",
-                        "dateandtime" => $data['data'][$x]['unload_date'],
-                        "activity" => "Unloaded",
-                        "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                        "qty" => $countboxnumber
-                    );
-                    $this->savetrackntrace($logs);
                 }
             }
         } catch (Exception $e) {

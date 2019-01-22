@@ -1,0 +1,77 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      {{module}}
+    </h1>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <div class="box-title">
+            <h4><b>LIST</b></h4>
+          </div>
+          {% if ((module|lower|replace({" " : ""})) != "branchincentivesreport") %}
+          <div class="box-tools pull-right">
+            <!-- Date and time range -->
+              <div class="btn-group">
+                  <a href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#bydate">
+                    <span class="fa fa-angle-double-right"></span> FILTER BY DATE
+                  </a>
+              </div>
+            <!-- /.form group -->
+          </div>
+          {% endif %}
+        </div>
+        {# {{}} #}
+        <div class="box-body">
+          {{ include("_generic_component/report/list_gentable.html") }}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{# modal start #}
+<div class="modal fade" id="bydate">
+  <form class="row" action="index.php?controller=report&action=filterdate" method="post">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Filter By Date Range</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+          <div class="col-mdm-12">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Date Range</label>
+                    <div class="col-md-9">
+                        <input type="text" value="" id="daterange"
+                        name="daterange" class="form-control pull-right" id="daterange">
+                        <input type="hidden" value="{{module|lower|replace({" " : ""}) }}"
+                        name="datamode" class="form-control pull-right">
+                    </div>                    
+                </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="FILTER NOW">
+          </a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </form>
+  </div>
+  <!-- /.modal -->
+
+
+{% endblock content %}

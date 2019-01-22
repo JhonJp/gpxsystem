@@ -30,6 +30,17 @@ class IndexModel extends GenericModel
     return $result;
   }
 
+  //COUNT FOR ACCEPTANCE
+  public function countForAcceptance($stat)
+  {
+    $query = $this->connection->prepare("SELECT COUNT(id) FROM gpx_booking WHERE booking_status = :stat");
+    $query->execute(array(
+      "stat" => $stat
+    ));
+    $result = $query->fetchColumn();
+    return $result;
+  }
+
   //COUNT BOOKING
   public function countBooking()
   {
@@ -51,11 +62,23 @@ class IndexModel extends GenericModel
   //GET BOOKING LIST
   public function getBookinglist()
     {
-      $query = $this->connection->prepare("SELECT transaction_no,book_date FROM gpx_booking");
+      $query = $this->connection->prepare("SELECT 
+      gpbook.transaction_no as transaction_no,
+      gpbook.book_date as book_date,
+      gpay.transaction_no,
+      SUM(gpay.total_amount) as total_amount
+       FROM gpx_booking gpbook
+       JOIN gpx_payment gpay ON gpay.transaction_no = gpbook.transaction_no
+       GROUP BY 
+       gpbook.transaction_no
+       ");
       $query->execute();
       $result = $query->fetchAll();
       return $result;        
     }
+
     
 }
+
+
 ?>

@@ -68,13 +68,15 @@
     $(function () {
         $('.select2').select2()
         $('#daterange').daterangepicker()
+        // The Calender
+         $('#calendar').datepicker()
         $('#list').DataTable({
             dom: 'Bfrtip',
             buttons: [
                 'csv', 'excel', 'pdf', 'print'
             ]
-        })      
-    })  
+        })     
+    })
 </script>
 
 <script type="text/javascript" src="./libraries/customer.js"></script>
@@ -114,6 +116,21 @@
         $('#modal_table').val(table);       
         $('#modal_url').val(url);       
     });
+</script>
+
+<script type="text/javascript">
+    function startTime() {
+        var d = new Date();
+        document.getElementById('philtime').innerHTML = d.toLocaleTimeString('en-US', {timeZone: 'Asia/Manila'});
+        document.getElementById('philtime2').innerHTML = d.toLocaleTimeString('en-US', {timeZone: 'Asia/Dubai'});
+        document.getElementById('philtime3').innerHTML = d.toLocaleTimeString('en-US', {timeZone: 'Asia/Riyadh'});
+        document.getElementById('philtime4').innerHTML = d.toLocaleTimeString('en-US', {timeZone: 'America/Toronto'});
+        var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+      return i;
+    }
 </script>
 
 </body>
