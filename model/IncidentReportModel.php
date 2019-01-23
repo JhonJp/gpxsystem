@@ -45,7 +45,7 @@ class IncidentReportModel extends GenericModel
 
             for ($x = 0; $x < $countdata; $x++) {
                
-                //if (count($check) == 0) {
+                if (!($data['data'][$x]['incident_type'] == "") || ($data['data'][$x]['reason'] == "")) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_incident(
                    id, module,incident_type,box_number,reason,createddate,createdby)
@@ -72,7 +72,7 @@ class IncidentReportModel extends GenericModel
                         ));
                     }
                     
-                //}
+                }
             }
         } catch (Exception $e) {
             $this->error_logs("Incident Report - apisave", $e->getmessage());
