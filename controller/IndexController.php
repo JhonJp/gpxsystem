@@ -20,7 +20,7 @@ class IndexController extends GenericController
             "receivers" => $index->countCustomers('receiver'),
             "paid" => $index->countPendingReservation('2'),
             "booked" => $index->countBooking(),
-            "acceptance" => $index->countForAcceptance('1'),
+            "acceptance" => $index->countForAcceptance($status),
             "bookingData" => $index->getBookinglist(),
         ));
     }
