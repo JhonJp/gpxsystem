@@ -40,23 +40,43 @@ class PartnerPortalModel extends GenericModel
   public function getintransit()
   {        
       $query = $this->connection->prepare("
-      SELECT gpi.createddate as date,
-      gpi.truck_no as truck_number,
-      GROUP_CONCAT(gpi.box_number,',') as box_number,
-      gpi.destination_name as destination_name
-      FROM gpx_partnerportal_intransit gpi
-      GROUP BY gpi.truck_no
-      ORDER BY gpi.id
+      SELECT gl.loaded_date as loaded_date,
+      gl.container_no as container_no,
+      gl.eta as eta
+      FROM gpx_loading gl
+      ORDER BY gl.eta ASC
       ");
       $query->execute();
       $result = $query->fetchAll();
       return $result;
   }
 
+  public function getIntransitlist()
+    {
+        $query = $this->connection->prepare("SELECT gl.* ,
+        COUNT(glbn.box_number) as qty,
+        (SELECT GROUP_CONCAT(a.box_number) FROM gpx_loading_box_number a WHERE a.loading_id = gl.id) as box_number
+        FROM gpx_loading gl
+        LEFT JOIN gpx_loading_box_number glbn ON gl.id = glbn.loading_id
+        GROUP BY gl.id");
+        $query->execute();
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
+    public function getIntransitCount()
+    {
+        $query = $this->connection->prepare("SELECT COUNT(id) FROM gpx_loading");
+        $query->execute();
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
   //GET UNLOADING DATA
   public function getUnloads()
     {
-        $query = $this->connection->prepare("SELECT gu.* ,
+        $query = $this->connection->prepare("SELECT gu.*,gu.container_no as container_number ,
         COUNT(gubn.box_number) as qty,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
         FROM gpx_unloading gu 
@@ -72,22 +92,21 @@ class PartnerPortalModel extends GenericModel
     //GET DELIVERY DATA
     public function getDeliveries()
     {        
-        $query = $this->connection->prepare("SELECT         
-        
+        $query = $this->connection->prepare("SELECT 
         CONCAT(gc1.firstname, ' ',gc1.lastname) as customer,        
         GROUP_CONCAT(gdbn.box_number) as box_number,
         CONCAT(gc2.firstname, ' ',gc2.lastname)  as receiver,
-        gsd1.name as origin ,
         gsd2.name as destination,
+        CONCAT(gemp.firstname, ' ',gemp.lastname)  as driver_name,
         gds.name as status,
-
-        gdbn.createddate as delivered_date
+        gdbn.createddate as date
         FROM gpx_delivery_box_number gdbn
-        JOIN gpx_delivery  gd ON gdbn.delivery_id = gd.id  
+        JOIN gpx_delivery gd ON gdbn.delivery_id = gd.id  
         JOIN gpx_delivery_status gds ON gds.id = gdbn.status
         LEFT JOIN gpx_source_destination gsd1 ON gdbn.origin = gsd1.id
         LEFT JOIN gpx_source_destination gsd2 ON gdbn.destination = gsd2.id
         LEFT JOIN gpx_customer gc1 ON gc1.account_no = gd.customer
+        LEFT JOIN gpx_employee gemp ON gemp.id = gd.createdby
         LEFT JOIN gpx_customer gc2 ON gc2.account_no = gdbn.receiver
 
         GROUP BY
@@ -100,6 +119,24 @@ class PartnerPortalModel extends GenericModel
         $query->execute();    
         $result = $query->fetchAll();
         $this->connection = null; 
+        return $result;
+    }
+
+    //get distribution local
+    public function getdistlocal()
+    {
+        $query = $this->connection->prepare("SELECT gd.*, gd.createddate as date, gd.distribution_type as type,
+        gd.destination_name as destination
+        , COUNT(gdbn.box_number) as qty ,
+        GROUP_CONCAT(gdbn.box_number) as box_number
+        FROM gpx_distribution gd
+        LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
+        WHERE gd.id LIKE '%PARTD-%'
+        GROUP BY gd.id
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        $this->connection = null;
         return $result;
     }
 

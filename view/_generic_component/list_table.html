@@ -92,7 +92,10 @@
                 {% elseif breadcrumb.controller == "intransit" %}
                 <a href="index.php?controller=intransit&action=edit&container_no={{ value['container_no'] }}"
                     title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
-
+                
+                {% elseif breadcrumb.controller == 'barcodeseries' %}
+                <a href="#" title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
                 {% else %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=edit&id={{ value['id'] }}" title="Edit"
                     class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>

@@ -17,6 +17,8 @@ class PartnerPortalController extends GenericController
             "deliveries" => $index->countdeliveries(),
             "unloaded" => $index->countUnloaded(),
             "customer" => $index->countCustomers('customer'),
+            "count" => $index->getIntransitCount(),
+            "data" => $index->getIntransitlist()
         ));
     }
 
@@ -28,20 +30,19 @@ class PartnerPortalController extends GenericController
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getintransit();
 
-                $columns = array("date","truck_number","destination_name","box_number");
-
+                $columns = array("loaded_date","container_no","eta");
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
                     "breadcrumb" => $this->breadcrumb,
                     "list" => $list,        
                     "columns" => $columns,  
-                    "module" => "PORTAL INTRANSIT "              
+                    "module" => "PORTAL INTRANSIT INTERNATIONAL"              
                 ));
                 break;
             case "unloads":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getUnloads();       
-                $columns = array("unload_date","container_no","forwarder_name","arrival_time","qty","box_number");
+                $columns = array("unload_date","container_number","arrival_time","qty",);
                 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
@@ -54,7 +55,7 @@ class PartnerPortalController extends GenericController
             case "deliver":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getDeliveries();
-                $columns = array("customer","receiver","box_number","delivered_date","status");
+                $columns = array("date","destination","customer","receiver","box_number","driver_name","status");
 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
@@ -75,6 +76,20 @@ class PartnerPortalController extends GenericController
                     "columns" => $columns,  
                     "module" => "PORTAL TICKET"                 
                 ));
+                break;
+            case "dist":
+                $model = new PartnerPortalModel($this->connection);
+                $list = $model->getdistlocal();         
+                $columns = array("date","type","destination","truck_number","driver_name","remarks","qty");
+                $moduledescription = "PORTAL DISTRIBUTION";
+        
+                echo $this->twig->render('_generic_component/report/list_part.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,
+                    "list" => $list,            
+                    "columns" => $columns,  
+                    "module" => $moduledescription                                            
+                )); 
                 break;
             default:
                 break;

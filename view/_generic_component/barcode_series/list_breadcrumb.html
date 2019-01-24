@@ -1,0 +1,23 @@
+<section class="content-header">
+        <h1>
+            {% if breadcrumb.controller == "Account Type" %}
+            <a href="index.php?controller=maintenance&action=list&module={{breadcrumb.module}}" style="color:#000">
+                {{ breadcrumb.controller|upper|replace({"_" : " "}) }}
+            </a>
+            {% else %}
+            <a href="index.php?controller={{ breadcrumb.controller }}&action=list" style="color:#000">
+                {{ breadcrumb.controller|upper|replace({"_" : " "}) }}
+            </a>
+            {% endif %}
+        </h1>
+        <small><i>{{moduledescription}}</i></small>
+        <ol class="breadcrumb">
+            {% if breadcrumb.controller == "Account Type" %}
+            <li><b><a href="index.php?controller=maintenance&action=list&module={{breadcrumb.module}}">{{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a></b></li>
+            <li><b>{{ breadcrumb.action|upper }}</b></li>
+            {% else %}
+            <li><b><a href="index.php?controller={{ breadcrumb.controller }}&action=list">{{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a></b></li>
+            <li><b>{{ breadcrumb.action|upper }}</b></li>
+            {% endif %}
+        </ol>
+    </section>

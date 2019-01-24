@@ -74,97 +74,39 @@
     <!-- /.row -->
     <!-- Main row -->
     <div class="row"> 
-      <div class="col-md-6">
-        <!-- Calendar -->
+      <div class="col-md-12">
+        <!-- Box -->
         <div class="box box-primary">
             <div class="box-header">
-              <i class="fa fa-calendar"></i>
-              <h3 class="box-title">Calendar</h3>
-              <!-- tools box -->
+              <h3 class="box-title">In-Transit International</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Loaded Date</th>
+                  <th>Container</th>
+                  <th>ETA</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for i in 0..count-1 %}
+                    <tr>
+                      <td>{{ i+1 }}</td>
+                      <td>{{data[i].loaded_date|date("d/M/Y")}}</td>
+                      <td>{{data[i].container_no}}</td>
+                      <td>{{data[i].eta}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
             </div>
             <!-- /.box-body -->
-        </div>
+          </div>
         <!-- /.box -->
       </div>
-      <div class="col-md-6">
-          <div class="box box-primary">
-              <div class="box-header">
-                <i class="ion ion-clipboard"></i>
-  
-                <h3 class="box-title">To Do List</h3>
-                <div class="pull-right box-tools">
-                    <button type="button" class="btn btn-default pull-right">
-                      <i class="fa fa-plus"></i> Add item
-                    </button>
-                </div>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body">
-                <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-                <ul class="todo-list">
-                  <li>
-                        <span class="handle">
-                          <i class="fa fa-ellipsis-v"></i>
-                          <i class="fa fa-ellipsis-v"></i>
-                        </span>
-                    <input type="checkbox" value="">
-                    <span class="text">Make the theme responsive</span>
-                    <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                    <div class="tools">
-                      <i class="fa fa-edit"></i>
-                      <i class="fa fa-trash-o"></i>
-                    </div>
-                  </li>
-                  <li>
-                        <span class="handle">
-                          <i class="fa fa-ellipsis-v"></i>
-                          <i class="fa fa-ellipsis-v"></i>
-                        </span>
-                    <input type="checkbox" value="">
-                    <span class="text">Let theme shine like a star</span>
-                    <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                    <div class="tools">
-                      <i class="fa fa-edit"></i>
-                      <i class="fa fa-trash-o"></i>
-                    </div>
-                  </li>
-                  <li>
-                        <span class="handle">
-                          <i class="fa fa-ellipsis-v"></i>
-                          <i class="fa fa-ellipsis-v"></i>
-                        </span>
-                    <input type="checkbox" value="">
-                    <span class="text">Let theme shine like a star</span>
-                    <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                    <div class="tools">
-                      <i class="fa fa-edit"></i>
-                      <i class="fa fa-trash-o"></i>
-                    </div>
-                  </li>
-                  <li>
-                        <span class="handle">
-                          <i class="fa fa-ellipsis-v"></i>
-                          <i class="fa fa-ellipsis-v"></i>
-                        </span>
-                    <input type="checkbox" value="">
-                    <span class="text">Check your messages and notifications</span>
-                    <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                    <div class="tools">
-                      <i class="fa fa-edit"></i>
-                      <i class="fa fa-trash-o"></i>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <!-- /.box-body -->
-          </div>
-      </div>
-
     </div>
     <!-- /.row (main row) -->
 

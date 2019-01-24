@@ -17,6 +17,7 @@ class DistributionModel extends GenericModel
         GROUP_CONCAT(gdbn.box_number) as box_number
         FROM gpx_distribution gd
         LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
+        WHERE gd.id LIKE '%GPDIST-%'
         GROUP BY gd.id
         ");
         $query->execute();
