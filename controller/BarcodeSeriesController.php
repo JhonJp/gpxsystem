@@ -13,7 +13,7 @@ class BarcodeSeriesController extends GenericController
     {       
         $model = new BarcodeSeriesModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("boxtype","series");
+        $columns = array("series");
         echo $this->twig->render('_generic_component/barcode_series/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,

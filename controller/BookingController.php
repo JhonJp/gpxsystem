@@ -12,7 +12,7 @@ class BookingController extends GenericController{
     {
         $model = new BookingModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("transaction_no","customer","book_date","status","qty");
+        $columns = array("book_date","transaction_no","branch","customer","status","qty");
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,

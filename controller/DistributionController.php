@@ -11,7 +11,7 @@ class DistributionController extends GenericController{
     {
         $model = new DistributionModel($this->connection);
         $list = $model->getlist();         
-        $columns = array("type","destination","truck_number","driver_name","remarks","qty","box_number");
+        $columns = array("type","destination","truck_number","remarks","qty","box_number");
         $moduledescription = "List of all distributed box type";
 
         echo $this->twig->render('_generic_component/list.html', array(

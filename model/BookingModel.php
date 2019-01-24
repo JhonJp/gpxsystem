@@ -14,10 +14,13 @@ class BookingModel extends GenericModel
     {
         $query = $this->connection->prepare("
         SELECT gb.transaction_no , CONCAT(gc.firstname,' ',gc.lastname) as customer ,
-        book_date , gbs.name as status , COUNT(gbcb.box_number) as qty
+        book_date , gbs.name as status , COUNT(gbcb.box_number) as qty,
+        gbr.name as branch
         FROM
         gpx_booking gb
         LEFT JOIN gpx_customer gc ON gb.customer = gc.account_no
+        LEFT JOIN gpx_employee gemp ON gemp.id = gb.createdby
+        LEFT JOIN gpx_branch gbr ON gbr.id = gemp.branch
         JOIN gpx_booking_status gbs ON gb.booking_status = gbs.id
         LEFT JOIN gpx_booking_consignee_box gbcb ON gb.transaction_no = gbcb.transaction_no
         GROUP BY gb.transaction_no

@@ -216,7 +216,7 @@ class GenericController{
             case 'loading':         
                 $model = new LoadingModel($this->connection);
                 $list = $model->getlist();  
-                $columns = array("loaded_date","shipping_name","container_no","etd","eta","qty","box_number");
+                $columns = array("loaded_date","shipping_line","container_no","etd","eta","qty","box_number","loaders_name","branch");
                 $moduledescription = "List of all loaded in container";
                 break;   
             case 'unloading':
@@ -228,13 +228,13 @@ class GenericController{
             case 'warehouse_acceptance':
                 $model = new WarehouseAcceptanceModel($this->connection);
                 $list = $model->getlist();         
-                $columns = array("warehouse_name","deliver_by","truck_no","accepted_by","accepted_date","qty","box_number");
+                $columns = array("accepted_date","warehouse_name","deliver_by","truck_no","accepted_by","qty","box_number");
                 $moduledescription = "List of all accepted box numbers per warehouse";
 				break;
             case 'delivery':
                 $model = new DeliveryModel($this->connection);
                 $list = $model->getlist();         
-                $columns = array("customer","receiver","box_number","delivered_date","status");
+                $columns = array("delivered_date","destination","delivered_by","customer","receiver","box_number","status");
                 $moduledescription = "List of all delivered box numbers";
 				break;
             case 'warehouse_inventory':

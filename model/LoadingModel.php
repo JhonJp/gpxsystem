@@ -11,11 +11,15 @@ class LoadingModel extends GenericModel
 
     public function getlist()
     {
-        $query = $this->connection->prepare("SELECT gl.* ,
+        $query = $this->connection->prepare("SELECT gl.*, gl.shipping_name as shipping_line ,
         COUNT(glbn.box_number) as qty,
+        gbr.name as branch,
+        CONCAT(gemp.firstname,' ',gemp.lastname) as loaders_name,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_loading_box_number a WHERE a.loading_id = gl.id) as box_number
         FROM gpx_loading gl
         LEFT JOIN gpx_loading_box_number glbn ON gl.id = glbn.loading_id
+        LEFT JOIN gpx_employee gemp ON gemp.id = gl.createdby
+        LEFT JOIN gpx_branch gbr ON gbr.id = gemp.branch
         GROUP BY gl.id");
         $query->execute();
         $result = $query->fetchAll();

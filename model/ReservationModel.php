@@ -15,16 +15,18 @@ class ReservationModel extends GenericModel
         $query = $this->connection->prepare("SELECT
         gr.id ,
         gr.reservation_no,
-        CONCAT(ge.firstname, ' ',ge.lastname) as assigned_to,
+        CONCAT(ge.firstname, ' ',ge.lastname) as driver_name,
         CONCAT(gc.firstname, ' ',gc.lastname) as customer,
         SUM(grb.quantity) as qty ,
         CONCAT(SUM(grb.deposit)) as deposit ,
-        gr.createddate as reservation_date,
+        gr.createddate as date,
+        gbr.name as branch,
         grs.name as status
         FROM gpx_reservation gr
         JOIN gpx_reservation_boxtype grb ON gr.reservation_no = grb.reservation_no
         LEFT JOIN gpx_customer gc ON gc.account_no = gr.account_no
         JOIN gpx_employee ge ON gr.assigned_to = ge.id
+        LEFT JOIN gpx_branch gbr ON ge.branch = gbr.id
         LEFT JOIN gpx_reservation_status grs ON grs.id = gr.status
         GROUP BY gr.id
         ORDER BY gr.createddate DESC

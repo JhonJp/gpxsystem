@@ -19,7 +19,7 @@ class DeliveryModel extends GenericModel
         gsd1.name as origin ,
         gsd2.name as destination,
         gds.name as status,
-
+        CONCAT(gemp.firstname, ' ',gemp.lastname)  as delivered_by,
         gdbn.createddate as delivered_date
         FROM gpx_delivery_box_number gdbn
         JOIN gpx_delivery  gd ON gdbn.delivery_id = gd.id  
@@ -27,6 +27,7 @@ class DeliveryModel extends GenericModel
         LEFT JOIN gpx_source_destination gsd1 ON gdbn.origin = gsd1.id
         LEFT JOIN gpx_source_destination gsd2 ON gdbn.destination = gsd2.id
         LEFT JOIN gpx_customer gc1 ON gc1.account_no = gd.customer
+        LEFT JOIN gpx_employee gemp ON gemp.id = gd.createdby
         LEFT JOIN gpx_customer gc2 ON gc2.account_no = gdbn.receiver
 
         GROUP BY

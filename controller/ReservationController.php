@@ -12,7 +12,7 @@ class ReservationController extends GenericController
     {
         $model = new ReservationModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("reservation_no","customer","qty","deposit","assigned_to","reservation_date","status");
+        $columns = array("date","reservation_no","customer","qty","deposit","driver_name","branch","status");
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
