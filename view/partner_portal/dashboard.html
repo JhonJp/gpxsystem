@@ -97,7 +97,7 @@
                       <td>{{ i+1 }}</td>
                       <td>{{data[i].loaded_date|date("d/M/Y")}}</td>
                       <td>{{data[i].container_no}}</td>
-                      <td>{{data[i].eta}}</td>
+                      <td>{{data[i].eta|date("d/M/Y")}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
