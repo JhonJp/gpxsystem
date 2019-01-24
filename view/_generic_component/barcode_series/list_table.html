@@ -6,7 +6,7 @@
             {% if name == 'series' %}
             <th>{{ name|upper|replace({"_" : " "}) }} (START - END)</th>
             {% else %}
-                <th>{{ name|upper|replace({"_" : " "}) }}</th>
+            <th>{{ name|upper|replace({"_" : " "}) }}</th>
             {% endif %}
             {% endfor %}
             {% if moduledescription == 'Barcode Series' %}
@@ -20,19 +20,21 @@
         <tr>
             <td>{{ key + 1 }}</td>
             {% for name in columns %}
-                {% if name == 'barcode' %}
+            {% if name == 'date' %}
+            <td>{{ value[name]|date("d/M/Y") }}</td>
+                {% elseif name == 'barcode' %}
                     <td class="col-sm-6">
                         <div class="col-sm-12">
                             <div class="row">
                                 {% for i in value['start']..value['end'] %}
                                         {% if i is divisible by(3) %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data=00000{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}00000{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% else %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data=00000{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}00000{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% endif %}
