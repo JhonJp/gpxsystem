@@ -12,11 +12,7 @@ class BarcodeSeriesModel extends GenericModel
     public function getlist()
     {
         $query = $this->connection->prepare("
-        SELECT box.name as boxtype,
-        bar.id as id,
-        CONCAT(bar.series_start,' - ',bar.series_end) AS series
-        FROM gpx_barcode_series bar
-        JOIN gpx_boxtype box ON box.id = bar.boxtype_id
+        SELECT bar.*,CONCAT(bar.series_start,' - ', bar.series_end) as series FROM gpx_barcode_series bar
         ORDER BY bar.id DESC
         ");
         $query->execute();
@@ -41,18 +37,55 @@ class BarcodeSeriesModel extends GenericModel
         return $result;
     }
 
-    public function saveSeries($boxtype,$start,$end,$qty)
+    public function saveSeries($data)
+    {
+        try {
+            $quantity = $data->data[0]->quantity;
+            $series_start = $data->data[0]->series_start;
+            $series_end = $data->data[0]->series_end;
+            $by = $this->getuserlogin();
+            $createddate = date('Y/m/d H:i:s');
+            if($series_start == null ){
+                $series_start = 0;
+            }
+            $query = $this->connection->prepare("
+            INSERT INTO gpx_barcode_series(quantity,series_start,series_end,createdby,createddate) 
+            VALUES (:quantity,:start,:end,:by,:date)
+            ");
+            $query->execute(array(
+                "quantity"=>$quantity,
+                "start"=>$series_start,
+                "end"=>$series_end,
+                "by"=>$by,
+                "date"=>$createddate
+                )
+            );
+            
+        } catch (Exception $e) {
+            $this->error_logs("Barcodeseries - save", $e->getMessage());
+        }
+    }
+
+    public function getMax()
     {
         $query = $this->connection->prepare("
-        INSERT INTO gpx_barcode_series(boxtype_id,quantity,series_start,series_end)
-        VALUES (:id,:q,:ss,:se)
+        SELECT COUNT(id)
+        FROM gpx_barcode_series
         ");
-        $query->execute(array(
-            "id"=>$boxtype,
-        "q"=>$qty,
-        "ss"=>$start,
-        "se"=>$end)
-        );
+        $query->execute();
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
+    public function getEnd($max)
+    {
+        $query = $this->connection->prepare("
+        SELECT gs.series_end
+        FROM gpx_barcode_series gs WHERE gs.id = :id
+        ");
+        $query->execute(array("id"=>$max));
+        $result = $query->fetchColumn();
+        return $result;
     }
 }
 

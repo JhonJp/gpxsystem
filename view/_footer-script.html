@@ -76,7 +76,7 @@
             buttons: [
                 'csv', 'excel', 'pdf', 'print'
             ]
-        })     
+        })    
     })
 </script>
 
@@ -93,6 +93,12 @@
             x.type = "password";
         }
     });
+    $('#bquantity').change(function(){
+        var q = parseInt($('#bquantity').val());
+        var start = parseInt($('#bstart').val());
+        var end = (start + q)
+        document.getElementById("bend").innerHTML = end.toString();
+    }) 
 
     $('#modal-payment').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -133,6 +139,42 @@
       return i;
     }
 </script>
+<script type="text/javascript">
+    $("#btnSeries").click(function () {
+        var quantityval = $("#bquantity").val();
+        var ss = $("#bstart").val();
+        var quantity = parseInt($("#bquantity").val());
+        var series_start = parseInt($("#bstart").val());
+        var series_end = (quantity + series_start);
+        //console.log(quantity,series_start,series_end);
+        var end = $("#bend").text();
 
+        var data = {
+            "data": [{
+                quantity: quantityval,
+                series_start: ss,
+                series_end: end
+            }]
+        }
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                data: JSON.stringify(data)
+            },
+            url: 'index.php?controller=barcodeseries&action=save',
+            success: function (data) {
+                console.log(data);  
+                document.getElementById("notification").style.display = "block";
+                $("#header").html(`<i class="icon fa fa-check"></i> Save`);
+                $("#message").html("Your created data was successfully saved!");
+                $("#notificationtype").addClass("alert-success");
+                setInterval(function () {
+                    window.location.href = 'index.php?controller=barcodeseries&action=list';
+                }, 3000);        
+            },
+        });
+    });
+</script>
 </body>
 </html>

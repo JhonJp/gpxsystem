@@ -28,26 +28,30 @@ class BarcodeSeriesController extends GenericController
     {
         $id = isset($_GET['id']) ? $_GET['id'] : null;        
         $result = null;
-
+        $model = new BarcodeSeriesModel($this->connection);
+        $max = $model->getMax();
+        $end = null;
+        if($max == 0){
+            $end = 0;
+        }else{
+            $end = $model->getEnd($max);
+        }
         echo $this->twig->render('cargo-management/box-barcode/edit.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
             "allboxtype" => $this->allboxtype,
+            "seriesend" => $model->getEnd($max),
             "moduledescription" => "Add new barcode series",                 
         ));
     }
 
     public function save()
-    {
+    {       
+        $data = json_decode(utf8_encode($_POST['data']));     
+
         $model = new BarcodeSeriesModel($this->connection);
-        $boxtype = isset($_POST['boxtype']) ? $_POST['boxtype'] : null;
-        $qty = isset($_POST['qty']) ? $_POST['qty'] : null;
-        $start = isset($_POST['seriesstart']) ? $_POST['seriesstart'] : null;
-        $end = isset($_POST['seriesend']) ? $_POST['seriesend'] : null;
-       //echo $start;
-        $this->$model->saveSeries($boxtype,$start,$end,$qty);
-        header('Location:index.php?controller=barcodeseries&action=list');
-        
+        $result = $model->saveSeries($data);
+        //print_r($result);
     }
 
     public function view()
@@ -65,6 +69,7 @@ class BarcodeSeriesController extends GenericController
             "moduledescription" => "Barcode Series",     
         ));
     }
+
 
 }
 

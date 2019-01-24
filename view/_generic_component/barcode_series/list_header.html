@@ -5,7 +5,7 @@
         <div class="box-tools pull-right">
             <div class="btn-group">
                 {% if breadcrumb.action != 'view' %}
-                <a href="#" class="btn btn-block btn-primary">
+                <a href="index.php?controller=barcodeseries&action=edit" class="btn btn-block btn-primary">
                     <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
                 {% endif %}
             </div>
