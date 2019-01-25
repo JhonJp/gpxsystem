@@ -181,12 +181,12 @@ class BookingModel extends GenericModel
                     //DISCOUNTS
                     $countdiscount = count($data['data'][$x]['discounts']);
                     for ($xy = 0; $xy < $countdiscount; $xy++) {
-                        $queries = $this->connection->prepare("INSERT INTO gpx_booking_discount(transaction_no,discount,remarks)
-                    VALUES (:trans,:disc,:rem)");
-                        $result = $query->execute(array(
-                            "trans" => $data['data'][$x]['discounts'][$xy]['transaction_no'],
-                            "disc" => $data['data'][$x]['discounts'][$y]['discount'],
-                            "rem" => $data['data'][$x]['discounts'][$y]['remarks'],
+                        $queries = $this->connection->prepare("INSERT INTO gpx_booking_discount(transaction_no, discount, remarks) 
+                        VALUES (:transaction_no,:discount,:remarks)");
+                        $result = $queries->execute(array(
+                            "transaction_no" => $data['data'][$x]['discounts'][$xy]['transaction_no'],
+                            "discount" => $data['data'][$x]['discounts'][$xy]['discount'],
+                            "remarks" => $data['data'][$x]['discounts'][$xy]['remarks'],
                         ));
                     }
 
