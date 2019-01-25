@@ -38,6 +38,7 @@ class BoxTypeModel extends GenericModel
         size_length = :size_length,
         size_width = :size_width,
         size_height = :size_height,
+        nsb = :nsb,
         description = :description
         WHERE id = :id");
         $result = $query->execute(array(
@@ -47,7 +48,8 @@ class BoxTypeModel extends GenericModel
             "size_length"=>$data['size_length'],
             "size_width"=>$data['size_width'],
             "size_height"=>$data['size_height'],
-            "description"=>$data['description']
+            "description"=>$data['description'],
+            "nsb"=>$data['nsb'],
         ));
         $this->connection = null; 
         return $result;

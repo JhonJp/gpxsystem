@@ -47,6 +47,7 @@ class BoxtypeController extends GenericController
             "size_width" => (isset($_POST['size_width']) ? $_POST['size_width'] : 0),
             "size_height" => (isset($_POST['size_height']) ? $_POST['size_height'] : 0),
             "description" => (isset($_POST['description']) ? $_POST['description'] :  $_POST['boxtype']),
+            "nsb" => (isset($_POST['nsbtype']) ? $_POST['nsbtype'] :  $_POST['nsbtype']),
         );
         
         if($id <> ""){
