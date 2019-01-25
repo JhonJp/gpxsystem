@@ -65,25 +65,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Images</label>
-                                                <div class="col-md-9">
-                                                   {% for row in images %}
-                                                    <img src='data:image/jpeg;base64,{{ row['images'] }}' />
-                                                   {% endfor %}                                                   
-                                                </div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            {% for key,row in images %}
+                                            <div class="col-sm-2 margin-bottom">
+                                                <img class="img-responsive" src='data:image/jpeg;base64,{{ row['images'] }}' />
                                             </div>
+                                            {% endfor %}
+                                            <!-- /.col -->
                                         </div>
-
+                                        <!-- /.row -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
-
             </div>
         </div>
 </div>

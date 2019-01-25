@@ -59,14 +59,17 @@
                     value[name] }}</a>
                 {% endif %}
             </td>
-            {% elseif 'date' in name
-            or name == 'arrival_time'
+            {% elseif name == 'arrival_time'
             or name == 'etd'
             or name == 'reservation_date'
             or name == 'eta' %}
             <td>
                 <!-- {{ value[name]|date('d/M/Y h:m A') }} -->
                 {{ value[name]|date('d/M/Y h:m A') }}
+            </td>
+            {% elseif name == "unload_date"%}
+            <td>
+                {{ value[name]|date('d/M/Y') }}
             </td>
             {% else %}
             <td>{{ value[name] }}</td>
