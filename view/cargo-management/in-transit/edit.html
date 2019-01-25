@@ -50,10 +50,16 @@
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">Status</label>
                                             <div class="col-md-9">
-                                                <select id="intransStat" class="form-control select2">
-                                                    <option disabled selected>Update status</option>
-                                                    <option value="">BOC Processing</option>
-                                                    <option value="">BOC Releasing</option>
+                                                <select id="intransStat" name="intransstat" class="form-control select2">
+                                                    <option disabled selected value="{{status}}">
+                                                        {% if status == "" %}
+                                                        Update status
+                                                        {% else %}
+                                                        {{status}}
+                                                        {% endif %}
+                                                    </option>
+                                                    <option value="BOC Processing">BOC Processing</option>
+                                                    <option value="BOC Releasing">BOC Releasing</option>
                                                 </select>
                                             </div>
                                         </div>

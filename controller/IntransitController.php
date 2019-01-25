@@ -13,7 +13,7 @@ class IntransitController extends GenericController
     {               
         $model = new InTransitModel($this->connection);
         $list = $model->getlist();
-        $columns = array("container_no","etd","eta","qty","box_number");
+        $columns = array("container_no","etd","eta","qty","box_number","status");
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
@@ -27,9 +27,11 @@ class IntransitController extends GenericController
     {     
         $model = new InTransitModel($this->connection);
         $container_no = isset($_GET['container_no']) ? $_GET['container_no'] : null;      
+        $status = null;
         $result = null;
         $history = null;
         if (isset($container_no)) {
+            $status = $model->getIntransitStatus($container_no);
             $result = $model->getdetailsbyid($container_no);
             $history = $model->gethistory($container_no);
         }
@@ -38,6 +40,7 @@ class IntransitController extends GenericController
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,         
             "result" => $result,            
+            "status" => $status,            
             "history" => $history,            
         ));
     }
@@ -47,8 +50,9 @@ class IntransitController extends GenericController
         $container_no = isset($_POST['container_no'])  ?  $_POST['container_no'] : "";
         $eta = isset($_POST['eta'])  ?  $_POST['eta'] : "";
         $etd = isset($_POST['etd'])  ?  $_POST['etd'] : "";
+        $status = isset($_POST['intransstat'])  ?  $_POST['intransstat'] : "";
         $model = new InTransitModel($this->connection);
-        $result = $model->updateLoading($container_no,$eta,$etd);
+        $result = $model->updateLoading($container_no,$eta,$etd,$status);
 
         header("Location: index.php?controller=intransit&action=list");
     }

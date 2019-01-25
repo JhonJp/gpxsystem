@@ -28,6 +28,14 @@ class InTransitModel extends GenericModel
         return $result; 
     }
 
+    public function getIntransitStatus($container_no){
+
+        $query = $this->connection->prepare("SELECT status FROM gpx_intransit where container_no = :container_no");
+        $query->execute(array("container_no"=>$container_no));    
+        $result = $query->fetchColumn();
+        return $result; 
+    }
+
     public function gethistory($container_no){
         
         $query = $this->connection->prepare("SELECT * FROM gpx_intransit_history where container_no = :container_no");
@@ -36,7 +44,7 @@ class InTransitModel extends GenericModel
         return $result; 
     }
 
-    public function updateLoading($container_no,$eta,$etd){
+    public function updateLoading($container_no,$eta,$etd, $status){
 
         $query = $this->connection->prepare("INSERT INTO gpx_intransit_history(container_no,date_from,date_to)
         VALUES(:container_no,(SELECT eta FROM  gpx_loading WHERE container_no = :container_no LIMIT 1),:date_to)");
@@ -64,12 +72,13 @@ class InTransitModel extends GenericModel
 
         
         $query = $this->connection->prepare("UPDATE gpx_intransit 
-        SET eta = :eta , etd = :etd
+        SET eta = :eta , etd = :etd, status = :stat
         where container_no = :container_no");
         $result = $query->execute(array(
             "container_no"=>$container_no,
             "eta"=>$eta,
             "etd"=>$etd,
+            "stat"=>$status,
         ));   
         
         
