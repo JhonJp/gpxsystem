@@ -178,6 +178,18 @@ class BookingModel extends GenericModel
                         $this->updateReservationStatusBoxNumber($box_no, $transaction_number);
                     }
 
+                    //DISCOUNTS
+                    $countdiscount = count($data['data'][$x]['discounts']);
+                    for ($xy = 0; $xy < $countdiscount; $xy++) {
+                        $queries = $this->connection->prepare("INSERT INTO gpx_booking_discount(transaction_no,discount,remarks)
+                    VALUES (:trans,:disc,:rem)");
+                        $result = $query->execute(array(
+                            "trans" => $data['data'][$x]['discounts'][$xy]['transaction_no'],
+                            "disc" => $data['data'][$x]['discounts'][$y]['discount'],
+                            "rem" => $data['data'][$x]['discounts'][$y]['remarks'],
+                        ));
+                    }
+
                     //$this->updateReservationStatus($data['data'][$x]['reservation_no']);
 
                     $query = $this->connection->prepare("SELECT * FROM gpx_payment
