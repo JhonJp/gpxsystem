@@ -11,7 +11,7 @@ class UnloadingModel extends GenericModel
 
     public function getlist()
     {
-        $query = $this->connection->prepare("SELECT gu.* ,
+        $query = $this->connection->prepare("SELECT gu.*, gu.arrival_time as arrival_time,
         COUNT(gubn.box_number) as qty,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
         FROM gpx_unloading gu 

@@ -20,8 +20,10 @@
                     {% endfor %}
                 {% elseif name == "date" or name == "unload_date" or
                  name == "loaded_date" or name == "eta"
-                  or name == "arrival_time" %}
-                    {{value[name]|date("d/M/Y")}}
+                 %}
+                    {{value[name]|date('d/M/Y')}}
+                {% elseif name == "arrival_time" %}
+                {{value[name]|date('d/M/Y h:m A')}}
                 {% elseif name == "status" %}
                     <span class="label label-success">{{ value[name] }}</span>
                 {% else %}
