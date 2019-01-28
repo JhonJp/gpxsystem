@@ -222,7 +222,7 @@ class GenericController{
             case 'unloading':
                 $model = new UnloadingModel($this->connection);
                 $list = $model->getlist();         
-                $columns = array("unload_date","container_no","forwarder_name","arrival_time","qty","box_number");
+                $columns = array("unload_date","container_no","forwarder_name","time_start","time_end","arrival_time","qty","box_number");
                 $moduledescription = "List of all unloaded";
 				break;
             case 'warehouse_acceptance':
