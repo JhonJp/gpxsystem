@@ -80,7 +80,7 @@ class PartnerPortalController extends GenericController
             case "dist":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getdistlocal();         
-                $columns = array("date","type","mode_of_shipment","destination","truck_number","driver_name","remarks","qty");
+                $columns = array("date","type","mode_of_shipment","destination","truck_number","driver_name","remarks","qty","eta");
                 $moduledescription = "PORTAL DISTRIBUTION";
         
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
