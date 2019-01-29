@@ -73,11 +73,12 @@ class DistributionModel extends GenericModel
                 if (count($check) == 0) {
                     $dist_type = $data['data'][$x]['type'];
                     $query = $this->connection->prepare("INSERT INTO gpx_distribution(
-                    id,distribution_type,destination_name,truck_number,driver_name,remarks,createddate,createdby)
+                    id,distribution_type,mode_of_shipment,destination_name,truck_number,driver_name,remarks,createddate,createdby)
                     VALUES (:id,:distribution_type,:destination_name,:truck_number,:driver_name,:remarks,:createddate,:createdby)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "distribution_type" => $data['data'][$x]['type'],
+                        "mode_of_shipment" => $data['data'][$x]['mode_of_shipment'],
                         "destination_name" => $data['data'][$x]['name'],
                         "truck_number" => $data['data'][$x]['truck_no'],
                         "driver_name" => $data['data'][$x]['driver_name'],
