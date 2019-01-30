@@ -56,7 +56,7 @@ class DeliveryModel extends GenericModel
 
                     $query = $this->connection->prepare("INSERT INTO gpx_delivery(
                     id,transaction_no,createddate,createdby,customer,receivedby,relationship)
-                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,)");
+                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "transaction_no" => $data['data'][$x]['transaction_no'],
