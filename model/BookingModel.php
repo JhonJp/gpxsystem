@@ -59,6 +59,7 @@ class BookingModel extends GenericModel
                         "boxtype" => $row2['boxtype'],
                         "transaction_no" => $row2['transaction_no'],
                         "box_number" => $row2['box_number'],
+                        "hardport" => $row2['hardport'],
                     )
                 );
             }
@@ -161,8 +162,8 @@ class BookingModel extends GenericModel
                     $countboxnumber = count($data['data'][$x]['booking_box']);
                     for ($y = 0; $y < $countboxnumber; $y++) {
                         $query = $this->connection->prepare("INSERT INTO gpx_booking_consignee_box(consignee,boxtype,
-                        transaction_no,box_number,source_id,destination_id)
-                    VALUES (:consignee,:boxtype,:transaction_no,:box_number,:source_id,:destination_id)");
+                        transaction_no,box_number,source_id,destination_id,hardport)
+                    VALUES (:consignee,:boxtype,:transaction_no,:box_number,:source_id,:destination_id,:hardport)");
                         $result = $query->execute(array(
                             "consignee" => $data['data'][$x]['booking_box'][$y]['consignee'],
                             "boxtype" => $data['data'][$x]['booking_box'][$y]['boxtype'],
@@ -170,11 +171,13 @@ class BookingModel extends GenericModel
                             "box_number" => $data['data'][$x]['booking_box'][$y]['box_number'],
                             "source_id" => $data['data'][$x]['booking_box'][$y]['source_id'],
                             "destination_id" => $data['data'][$x]['booking_box'][$y]['destination_id'],
+                            "hardport" => $data['data'][$x]['booking_box'][$y]['hardport'],
                         ));
 
                         //////UPDATE RESERVATION STATUS///////
                         $box_no = $data['data'][$x]['booking_box'][$y]['box_number'];
                         $transaction_number = $data['data'][$x]['transaction_no'];
+                        $this->updateReservationStatus($data['data'][$x]['reservation_no']);
                         $this->updateReservationStatusBoxNumber($box_no, $transaction_number);
                     }
 
@@ -272,7 +275,7 @@ class BookingModel extends GenericModel
     public function updateReservationStatus($reservation_no)
     {
         $query = $this->connection->prepare("UPDATE gpx_reservation
-        SET status = 4 , transaction_no = :transaction_no
+        SET status = 2 , transaction_no = :transaction_no
         WHERE reservation_no = :reservation_no");
         $query->execute(array(
             "reservation_no" => $reservation_no,
