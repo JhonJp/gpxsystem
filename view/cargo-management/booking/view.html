@@ -78,6 +78,7 @@
                                                 <th>Receiver</th>
                                                 <th>Box Type</th>
                                                 <th>Box Number</th>
+                                                <th>Hard Port</th>
                                                 <th>Action</th>
                                             </tr>
                                             {% for key,value in box_numbers %}
@@ -86,6 +87,11 @@
                                                 <td>{{ value['receiver'] }}</td>
                                                 <td>{{ value['boxtype'] }}</td>
                                                 <td><b>{{ value['box_number'] }}</b></td>
+                                                {% if value['hardport'] == '1' %}
+                                                <td><span class="label label-success">True</span></td>
+                                                {% else %}
+                                                <td><span class="label label-danger">False</span></td>
+                                                {% endif %}
                                                 <td>
                                                     <a title="Track" href="index.php?controller=trackntrace&action=search&transaction_no={{ value['transaction_no'] }}"
                                                     class="btn btn-xs bg-navy">
