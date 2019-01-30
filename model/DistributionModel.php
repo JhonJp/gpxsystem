@@ -118,10 +118,10 @@ class DistributionModel extends GenericModel
                                 "transaction_no" => $this->gettransactionno($data['data'][$x]['distribution_box'][$y]['boxnumber']),
                                 "status" => "In Transit",
                                 "dateandtime" => $data['data'][$x]['created_date'],
-                                "activity" => "In Transit Local",
+                                "activity" => "In Transit ".$data['data'][$x]['mode_of_shipment'],
                                 "location" => $data['data'][$x]['name'],
                                 "qty" => $countboxnumber,
-                                "details" => "Truck number is ".$data['data'][$x]['truck_no']
+                                "details" => "In Transit ".$data['data'][$x]['mode_of_shipment'].", ".", ETA ".$data['data'][$x]['eta']
                             );
                             $this->savetrackntrace($logs); 
                         }else if($dist_type == "Direct") {
@@ -161,7 +161,6 @@ class DistributionModel extends GenericModel
 
     public function checkdata($id)
     {
-
         $query = $this->connection->prepare("SELECT * FROM gpx_distribution WHERE id = :id");
         $query->execute(array("id" => $id));
         $result = $query->fetchAll();
