@@ -55,7 +55,7 @@ class PartnerPortalController extends GenericController
             case "deliver":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getDeliveries();
-                $columns = array("date","destination","customer","receiver","box_number","driver_name","status");
+                $columns = array("date","destination","customer","receiver","box_number","driver_name","received_by","status");
 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],

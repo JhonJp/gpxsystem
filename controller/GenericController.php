@@ -234,7 +234,7 @@ class GenericController{
             case 'delivery':
                 $model = new DeliveryModel($this->connection);
                 $list = $model->getlist();         
-                $columns = array("delivered_date","destination","delivered_by","customer","receiver","box_number","status");
+                $columns = array("delivered_date","destination","delivered_by","customer","receiver","box_number","received_by","status");
                 $moduledescription = "List of all delivered box numbers";
 				break;
             case 'warehouse_inventory':

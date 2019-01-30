@@ -12,13 +12,13 @@ class DeliveryModel extends GenericModel
     public function getlist()
     {        
         $query = $this->connection->prepare("SELECT         
-        
         CONCAT(gc1.firstname, ' ',gc1.lastname) as customer,        
         GROUP_CONCAT(gdbn.box_number) as box_number,
         CONCAT(gc2.firstname, ' ',gc2.lastname)  as receiver,
         gsd1.name as origin ,
         gsd2.name as destination,
         gds.name as status,
+        gd.receivedby as received_by,
         CONCAT(gemp.firstname, ' ',gemp.lastname)  as delivered_by,
         gdbn.createddate as delivered_date
         FROM gpx_delivery_box_number gdbn
@@ -34,8 +34,7 @@ class DeliveryModel extends GenericModel
         gdbn.receiver,
         gdbn.origin ,
         gdbn.destination,
-        gds.name,
-        gdbn.createddate
+        gds.name
         ");
         $query->execute();    
         $result = $query->fetchAll();
@@ -56,14 +55,16 @@ class DeliveryModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_delivery(
-                    id,transaction_no,createddate,createdby,customer)
-                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer)");
+                    id,transaction_no,createddate,createdby,customer,receivedby,relationship)
+                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "transaction_no" => $data['data'][$x]['transaction_no'],
                         "createddate" => $data['data'][$x]['createddate'],
                         "createdby" => $data['data'][$x]['createdby'],
                         "customer" => $data['data'][$x]['customer'],
+                        "receivedby" => $data['data'][$x]['receivedby'],
+                        "relationship" => $data['data'][$x]['relationship'],
                     ));
 
                     $countboxnumber = count($data['data'][$x]['delivery_box']);
