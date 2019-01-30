@@ -190,11 +190,29 @@ class GenericModel{
         return $result;
     }
 
+    //ALL PROVINCE ALL FIELDS
+    public function getallprovincetojson()
+    {
+        $query = $this->connection->prepare("SELECT * FROM refprovince");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //ALL CITY
     public function getallcity($provCode)
     {
         $query = $this->connection->prepare("SELECT citymunCode as id , citymunDesc as name FROM refcitymun WHERE provCode = :provCode ORDER BY citymunDesc");
         $query->execute(array("provCode"=>$provCode));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //ALL CITY ALL FIELDS
+    public function getallcityjs()
+    {
+        $query = $this->connection->prepare("SELECT * FROM refcitymun");
+        $query->execute();
         $result = $query->fetchAll();
         return $result;
     }
@@ -207,6 +225,16 @@ class GenericModel{
         $result = $query->fetchAll();
         return $result;
     }
+
+    //ALL BARANGAY ALL FIELDS
+    public function getallbarangayjs()
+    {
+        $query = $this->connection->prepare("SELECT * FROM refbrgy LIMIt 100");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 
     //ALL SOURCE LOCATION
     public function getallsource()
