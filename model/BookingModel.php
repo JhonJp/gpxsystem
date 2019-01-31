@@ -14,7 +14,7 @@ class BookingModel extends GenericModel
     {
         $query = $this->connection->prepare("
         SELECT gb.transaction_no , CONCAT(gc.firstname,' ',gc.lastname) as customer ,
-        book_date , gbs.name as status , COUNT(gbcb.box_number) as qty,
+        gb.book_date , gbs.name as status , COUNT(gbcb.box_number) as qty,gbcb.box_number,
         gbr.name as branch
         FROM
         gpx_booking gb
@@ -30,6 +30,7 @@ class BookingModel extends GenericModel
         $this->connection = null;
         return $result;
     }
+    
 
     public function getlistapi()
     {
@@ -146,7 +147,8 @@ class BookingModel extends GenericModel
 
                 if (count($check) == 0) {
                     //BOOKING
-                    $query = $this->connection->prepare("INSERT INTO gpx_booking(transaction_no,reservation_no,customer,book_date,booking_status,booking_type,createdby)
+                    $query = $this->connection->prepare("INSERT INTO gpx_booking(transaction_no,reservation_no,customer,
+                    book_date,booking_status,booking_type,createdby)
                 VALUES (:transaction_no,:reservation_no,:customer,:book_date,:booking_status,:booking_type,:createdby)");
                     $result = $query->execute(array(
                         "transaction_no" => $data['data'][$x]['transaction_no'],
@@ -179,6 +181,18 @@ class BookingModel extends GenericModel
                         $transaction_number = $data['data'][$x]['transaction_no'];
                         $this->updateReservationStatus($data['data'][$x]['reservation_no']);
                         $this->updateReservationStatusBoxNumber($box_no, $transaction_number);
+
+                        ///////////TRACK N TRACE LOGS/////////
+                        $logs = array(
+                            "transaction_no" => $box_no,
+                            "status" => "Picked-Up",
+                            "dateandtime" => $data['data'][$x]['booking_date'],
+                            "activity" => "Picked-Up",
+                            "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
+                            "qty" => "1",
+                            "details" => "Box has been picked-up on ".$data['data'][$x]['booking_date'],
+                        );
+                        $this->savetrackntrace($logs);
                     }
 
                     //DISCOUNTS
@@ -192,7 +206,7 @@ class BookingModel extends GenericModel
                             "remarks" => $data['data'][$x]['discounts'][$xy]['remarks'],
                         ));
                     }
-
+                
                     //$this->updateReservationStatus($data['data'][$x]['reservation_no']);
 
                     $query = $this->connection->prepare("SELECT * FROM gpx_payment
@@ -233,17 +247,6 @@ class BookingModel extends GenericModel
                             "createddate" => $data['data'][$x]['payment'][0]['createddate'],
                         ));
                     }
-                    ///////////TRACK N TRACE LOGS/////////
-                    $logs = array(
-                        "transaction_no" => $data['data'][$x]['transaction_no'],
-                        "status" => "Picked-Up",
-                        "dateandtime" => $data['data'][$x]['booking_date'],
-                        "activity" => "Picked-Up",
-                        "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
-                        "qty" => $countboxnumber,
-                        "details" => "Quantity of ".$countboxnumber." box(s)",
-                    );
-                    $this->savetrackntrace($logs);
                 }
             }
 
@@ -274,8 +277,7 @@ class BookingModel extends GenericModel
 
     public function updateReservationStatus($reservation_no)
     {
-        $query = $this->connection->prepare("UPDATE gpx_reservation
-        SET status = 2 , transaction_no = :transaction_no
+        $query = $this->connection->prepare("UPDATE gpx_reservation SET status = 4
         WHERE reservation_no = :reservation_no");
         $query->execute(array(
             "reservation_no" => $reservation_no,

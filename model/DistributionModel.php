@@ -115,12 +115,12 @@ class DistributionModel extends GenericModel
                             
                            //////////TRACK N TRACE LOGS/////////
                             $logs = array(
-                                "transaction_no" => $this->gettransactionno($data['data'][$x]['distribution_box'][$y]['boxnumber']),
+                                "transaction_no" => $data['data'][$x]['distribution_box'][$y]['boxnumber'],
                                 "status" => "In Transit",
                                 "dateandtime" => $data['data'][$x]['created_date'],
                                 "activity" => "In Transit ".$data['data'][$x]['mode_of_shipment'],
                                 "location" => $data['data'][$x]['name'],
-                                "qty" => $countboxnumber,
+                                "qty" => "1",
                                 "details" => "In Transit ".$data['data'][$x]['mode_of_shipment'].", ".", ETA ".$data['data'][$x]['eta']
                             );
                             $this->savetrackntrace($logs); 
@@ -136,12 +136,12 @@ class DistributionModel extends GenericModel
 
                             //////////TRACK N TRACE LOGS/////////
                             $logs = array(
-                                "transaction_no" => $this->gettransactionno($data['data'][$x]['distribution_box'][$y]['boxnumber']),
+                                "transaction_no" => $data['data'][$x]['distribution_box'][$y]['boxnumber'],
                                 "status" => "For Delivery",
                                 "dateandtime" => $data['data'][$x]['created_date'],
                                 "activity" => "For Delivery",
                                 "location" => $data['data'][$x]['name'],
-                                "qty" => $countboxnumber,
+                                "qty" => "1",
                                 "details" => "Truck number is ".$data['data'][$x]['truck_no']
                             );
                             $this->savetrackntrace($logs); 

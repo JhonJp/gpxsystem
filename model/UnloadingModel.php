@@ -62,19 +62,19 @@ class UnloadingModel extends GenericModel
 
                         //////////TRACK N TRACE LOGS/////////
                         $logs = array(
-                            "transaction_no" => $this->gettransactionno($data['data'][$x]['unloading_boxes'][$y]['box_num']),
+                            "transaction_no" => $data['data'][$x]['unloading_boxes'][$y]['box_num'],
                             "status" => "Unloaded",
                             "dateandtime" => $data['data'][$x]['unload_date'],
                             "activity" => "Unloaded in Container",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                            "qty" => $countboxnumber,
-                            "details" => "Arrived at ".$data['data'][$x]['unload_eta'],
+                            "qty" => "1",
+                            "details" => "Box has been unloaded and arrived on ".$data['data'][$x]['unload_eta'],
                         );
                         $this->savetrackntrace($logs);
-                    }
 
-                    //////////UPDATE BOOKING STATUS//////////
-                    $this->updateBookingStatus($data['data'][$x]['unloading_boxes'][0]['box_num'],"4");
+                        //////////UPDATE BOOKING STATUS//////////
+                        $this->updateBookingStatus($data['data'][$x]['unloading_boxes'][$y]['box_num'],"4");
+                    }
 
                 }
             }

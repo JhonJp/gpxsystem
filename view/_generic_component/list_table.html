@@ -61,11 +61,14 @@
             </td>
             {% elseif name == 'arrival_time'
             or name == 'etd'
+            or name == 'book_date'
             or name == 'reservation_date'
+            or name == 'date'
+            or name == 'accepted_date'
             or name == 'eta' %}
             <td>
-                <!-- {{ value[name]|date('d/M/Y h:m A') }} -->
-                {{ value[name]|date('d/M/Y h:m A') }}
+                <!-- {{ value[name]|date('d/M/Y h:i A') }} -->
+                {{ value[name]|date('d/M/Y h:i A') }}
             </td>
             {% elseif name == "unload_date"%}
             <td>
@@ -119,9 +122,6 @@
                 <a href="index.php?controller=booking&action=view&transaction_no={{ value['transaction_no'] }}" 
                 title="View" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>
-                <a href="index.php?controller=trackntrace&action=search&transaction_no={{ value['transaction_no'] }}"
-                title="Track" class="btn btn-xs bg-navy">
-                    <span class="fa fa-location-arrow"></span></a>
                 {% elseif breadcrumb.controller == 'reservation' %}
                 <a href="index.php?controller=reservation&action=view&reservation_no={{ value['reservation_no'] }}" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>

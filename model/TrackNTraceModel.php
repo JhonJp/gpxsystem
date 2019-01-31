@@ -26,11 +26,48 @@ class TrackNTraceModel extends GenericModel
         LEFT JOIN gpx_booking gb ON gtnt.transaction_no = gb.transaction_no
         LEFT JOIN gpx_customer gc ON gc.account_no = gb.customer
         WHERE gtnt.transaction_no = :transaction_no
-        GROUP BY gtnt.transaction_no, gtnt.status
         ORDER BY gtnt.id DESC
         ");
         $query->execute(array("transaction_no"=>$transaction_no));    
         $result = $query->fetchAll(); 
+        return $result;     
+    }
+
+    public function getReceiver($boxnumber)
+    {        
+        $query = $this->connection->prepare("
+        SELECT CONCAT(gc.firstname,' ', gc.lastname) as receiver 
+        FROM gpx_booking_consignee_box gbcb
+        LEFT JOIN gpx_customer gc ON gbcb.consignee = gc.account_no
+        WHERE gbcb.box_number = :boxnumber        
+        ");
+        $query->execute(array("boxnumber"=>$boxnumber));    
+        $result = $query->fetchAll(); 
+        return $result;     
+    }
+
+    public function checkHardPort($boxnumber)
+    {        
+        $query = $this->connection->prepare("
+        SELECT gbcb.hardport 
+        FROM gpx_booking_consignee_box gbcb
+        WHERE gbcb.box_number = :boxnumber        
+        ");
+        $query->execute(array("boxnumber"=>$boxnumber));    
+        $result = $query->fetchColumn(); 
+        return $result;     
+    }
+
+    public function getSender($transaction_no)
+    {        
+        $query = $this->connection->prepare("
+        SELECT CONCAT(gc.firstname,' ', gc.lastname) as sender 
+        FROM gpx_booking gb
+        LEFT JOIN gpx_customer gc ON gb.customer = gc.account_no
+        WHERE gb.transaction_no = :transaction_no        
+        ");
+        $query->execute(array("transaction_no"=>$transaction_no));    
+        $result = $query->fetchColumn(); 
         return $result;     
     }
 
@@ -60,6 +97,7 @@ class TrackNTraceModel extends GenericModel
         $result = $query->fetchAll();
         return $result;
     }
+
 
 }
 ?>

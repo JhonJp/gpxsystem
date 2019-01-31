@@ -14,22 +14,28 @@ class TracknTraceController extends GenericController
     {       
         $result = null;
         $mess = null;
+        $receiver = null;
+        $sender = null;
+        $hardport = null;
         $model = new TrackNTraceModel($this->connection);
         $genericmodel = new GenericModel($this->connection);
         
         $boxnumber = isset($_GET['boxnumber']) ? $_GET['boxnumber'] : "";
-        $transaction_no = $genericmodel->gettransactionno($boxnumber);
+        //$transaction_no = $genericmodel->gettransactionno($boxnumber);
         
-        if($transaction_no == ""){
-            $transaction_no = isset($_POST['transaction_no']) ? $_POST['transaction_no'] : "";        
+        if($boxnumber == ""){
+            $boxnumber = isset($_POST['boxnumber']) ? $_POST['boxnumber'] : "";        
         }
-        if($transaction_no == ""){
-            $transaction_no = isset($_GET['transaction_no']) ? $_GET['transaction_no'] : "";
+        if($boxnumber == ""){
+            $boxnumber = isset($_GET['boxnumber']) ? $_GET['boxnumber'] : "";
         }   
         //SEARCH
-        if($transaction_no != ""){
-            $result = $model->getdatabytransactionid($transaction_no);
-            $mess = $model->getMessagesByTransaction($transaction_no);
+        if($boxnumber != ""){
+            $result = $model->getdatabytransactionid($boxnumber);
+            $mess = $model->getMessagesByTransaction($boxnumber);
+            $receiver = $model->getReceiver($boxnumber);
+            $hardport = $model->checkHardPort($boxnumber);
+            $sender = $model->getSender($this->getTransByBoxnumber($boxnumber));
         }
         echo $this->twig->render('cargo-management/trackntrace/search.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
@@ -37,7 +43,10 @@ class TracknTraceController extends GenericController
             "url" => $_SERVER['REQUEST_URI'],                 
             "result" => $result,
             "messages" => $mess,
-            "transaction_no" => $transaction_no
+            "receiver" => $receiver,
+            "sender" => $sender,
+            "hardport" => $hardport,
+            "transaction_no" => $boxnumber
         ));    
     }
 
@@ -57,7 +66,7 @@ class TracknTraceController extends GenericController
             }
             
             if (isset($result)){ 
-                header("Location:index.php?controller=trackntrace&action=search&transaction_no=".$trans);               
+                header("Location:index.php?controller=trackntrace&action=search&boxnumber=".$trans);               
             }
             else{                    
                 header("Location:index.php?controller=trackntrace&action=search");
@@ -67,6 +76,16 @@ class TracknTraceController extends GenericController
         }
     }
 
+    public function getTransByBoxnumber($boxnumber){
+        $query = $this->connection->prepare("
+        SELECT transaction_no 
+        FROM gpx_booking_consignee_box gbcb
+        WHERE gbcb.box_number = :boxnumber        
+        ");
+        $query->execute(array("boxnumber"=>$boxnumber));    
+        $result = $query->fetchColumn(); 
+        return $result; 
+    }
 
 }
 

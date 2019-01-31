@@ -11,8 +11,8 @@
                         <div class="col-md-12">
                             <div class="col-md-5">
                                 <form method="POST" action="index.php?controller=trackntrace&action=search" class="input-group">
-                                    <input type="text" id="transaction_no" name="transaction_no" 
-                                    class="form-control" placeholder="Tracking #" value="{{transaction_no}}">
+                                    <input type="text" id="boxnumber" name="boxnumber" 
+                                    class="form-control" placeholder="Box #" value="{{transaction_no}}">
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-danger btn-flat"><span
                                                 class="fa fa-fw fa-search"></span></button>
@@ -28,17 +28,63 @@
                                         <h3 class="box-title">Details</h3>
                                     </div>
                                     <div class="box-body">
-                                        <div class="col-md-6">
-                                            <h5>Transaction # : <span class="label label-success"><b> {{transaction_no }}</b></span></h5>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5>Sender name : <span class="label label-success"><b>{{result[0].sender}}</b></span></h5>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5>Current Status : <span class="label label-success"><b>{{result[0].status}}</b></span></h5>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5>Quantity : <span class="label label-success"><b>{{ result[0].qty }} pcs.</b></span></h5>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="col-md-12">
+                                                    <h5>Box # : <span class="label label-success"><b> {{transaction_no }}</b></span></h5>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h5>Current Status : <span class="label label-success"><b>{{result[0].status}}</b></span></h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="col-md-12">
+                                                    <h5>Sender : <span class="label label-success"><b>{{sender}}</b></span></h5>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <h5>Receiver : <span class="label label-success"><b>{{receiver[0].receiver}}</b></span></h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="col-md-12">
+                                                        {% if result[0].status == "Loaded" %}
+                                                            <h5>Estimated Days of Voyage :
+                                                                <span class="label label-success">
+                                                                    <b>{{result[0].dateandtime|date_modify("+45 days")|date("d-F-Y")}}</b>
+                                                                </span>
+                                                            </h5>
+                                                        {% elseif result[0].status == "Unloaded" or result[0].status == "In Transit" %}
+                                                            <h5>Estimated Date of Discharge :
+                                                                <span class="label label-success">
+                                                                    <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
+                                                                </span>
+                                                            </h5>
+                                                        {% elseif result[0].status == "Direct" %}
+                                                            <h5>Estimated Date of Delivery :
+                                                                <span class="label label-success">
+                                                                    {% if hardport == "1" %}
+                                                                        <b>{{result[0].dateandtime|date_modify("+30 days")|date("d-F-Y")}}</b>
+                                                                    {% else %}
+                                                                        <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
+                                                                    {% endif %}
+                                                                </span>
+                                                            </h5>
+                                                        {% else %}
+                                                            <h5>Estimated Date of Loading :
+                                                                <span class="label label-success">
+                                                                    <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
+                                                                </span>
+                                                            </h5>
+                                                        {% endif %}
+                                                </div>
+                                                <div class="col-md-12">
+                                                    {% if hardport == "1" %}
+                                                        <h5>Hardport Destination : <span class="label label-warning"><b>True</b></span></h5>
+                                                    {% else %}
+                                                        <h5>Hardport Destination : <span class="label label-danger"><b>False</b></span></h5>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +106,7 @@
                                         {% for key,row in result %}
                                         <tr>
                                             <td>{{ key+1 }}</td>
-                                            <td>{{ row.dateandtime|date("d/M/Y") }}</td>
+                                            <td>{{ row.dateandtime|date("d/M/Y h:i A") }}</td>
                                             <td>{{ row.activity }}</td>
                                             <td>{{ row.location }}</td>
                                             <td>{{ row.details }}</td>

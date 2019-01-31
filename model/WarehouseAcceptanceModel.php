@@ -35,6 +35,7 @@ class WarehouseAcceptanceModel extends GenericModel
 
     public function apisave($data)
     {
+        $quant = 1;
         try {
             $countdata = count($data['data']);
 
@@ -74,12 +75,12 @@ class WarehouseAcceptanceModel extends GenericModel
 
                         ///////////TRACK N TRACE LOGS/////////
                         $logs = array(
-                            "transaction_no" => $this->gettransactionno($data['data'][$x]['acceptance_box'][$y]['boxnumber']),
+                            "transaction_no" => $data['data'][$x]['acceptance_box'][$y]['boxnumber'],
                             "status" => "Accepted",
                             "dateandtime" => $data['data'][$x]['createddate'],
                             "activity" => "Warehouse Accepted",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                            "qty" => $countboxnumber,
+                            "qty" => "1",
                             "details" => "Accepted at ".$this->getlocationemployeebyid($data['data'][$x]['createdby'])
                         );
                         $this->savetrackntrace($logs);

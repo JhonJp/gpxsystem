@@ -161,14 +161,17 @@
           <!-- /.box-header -->
           <div class="box-body">
             <ul class="products-list product-list-in-box" style="height:280px;overflow-x:hidden;overflow-y:scroll;">
-              {% for i in 0..booking-1 %}
+              {% for i in 0..booked-1 %}
               <li class="item">
                 <div class="product-img">
                   <img src="./libraries/admin-lte/dist/img/default-50x50.gif" alt="Product Image">
                 </div>
                 <div class="product-info">
                   <a href="index.php?controller=booking&action=view&transaction_no={{bookingData[i].transaction_no}}" class="product-title">{{bookingData[i].transaction_no}}
-                    <span class="label label-warning pull-right">{{bookingData[i].total_amount}}</span></a>
+                    {% if bookingData[i].total_amount != 0 %}
+                      <span class="label label-warning pull-right">{{bookingData[i].total_amount}}.00</span>
+                    {% endif %}
+                    </a>
                   <span class="product-description">
                     {{bookingData[i].book_date}}
                   </span>

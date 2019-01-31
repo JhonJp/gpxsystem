@@ -77,35 +77,35 @@ class LoadingModel extends GenericModel
 
                         ///////////TRACK N TRACE LOGS/////////
                         $logs = array(
-                            "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][$y]['box_num']),
+                            "transaction_no" => $data['data'][$x]['loading_boxes'][$y]['box_num'],
                             "status" => "Loaded",
                             "dateandtime" => $data['data'][$x]['load_date'],
                             "activity" => "Loaded In Container",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
-                            "qty" => $countboxnumber,
-                            "details" => "Container number is ".$data['data'][$x]['load_container'].". Shipper name is ".$data['data'][$x]['load_shipper'],
+                            "qty" => "1",
+                            "details" => "Container number is ".$data['data'][$x]['load_container'].". Shipping line is ".$data['data'][$x]['load_shipper'],
                         );
                         $this->savetrackntrace($logs);
 
                         ///////////TRACK N TRACE LOGS/////////
                         $logss = array(
-                            "transaction_no" => $this->gettransactionno($data['data'][$x]['loading_boxes'][0]['box_num']),
+                            "transaction_no" => $data['data'][$x]['loading_boxes'][$y]['box_num'],
                             "status" => "In-Transit",
                             "dateandtime" => $data['data'][0]['load_etd'],
                             "activity" => "In-Transit International",
                             "location" =>  $data['data'][$x]['load_shipper'],
-                            "qty" => $countboxnumber,
+                            "qty" => "1",
                             "details" => "Estimated date of arrival ".$data['data'][$x]['load_eta'],
                         );
                         $this->savetrackntrace($logss);
 
                         ///////////TRACK N TRACE LOGS/////////
-
+                        
+                        //////////UPDATE BOOKING STATUS//////////
+                        $this->updateBookingStatus($data['data'][$x]['loading_boxes'][$y]['box_num'], "7");
 
                     }
 
-                    //////////UPDATE BOOKING STATUS//////////
-                    $this->updateBookingStatus($data['data'][$x]['loading_boxes'][0]['box_num'], "7");
 
                     
                 }
