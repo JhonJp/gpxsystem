@@ -101,6 +101,7 @@ class PartnerPortalModel extends GenericModel
         CONCAT(gemp.firstname, ' ',gemp.lastname)  as driver_name,
         gds.name as status,
         gd.receivedby as received_by,
+        gd.remarks as remarks,
         gdbn.createddate as date
         FROM gpx_delivery_box_number gdbn
         JOIN gpx_delivery gd ON gdbn.delivery_id = gd.id  
