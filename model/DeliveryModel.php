@@ -55,8 +55,8 @@ class DeliveryModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_delivery(
-                    id,transaction_no,createddate,createdby,customer,receivedby,relationship)
-                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship)");
+                    id,transaction_no,createddate,createdby,customer,receivedby,relationship,remarks)
+                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,:remarks)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "transaction_no" => $data['data'][$x]['transaction_no'],
@@ -65,6 +65,7 @@ class DeliveryModel extends GenericModel
                         "customer" => $data['data'][$x]['customer'],
                         "receivedby" => $data['data'][$x]['receivedby'],
                         "relationship" => $data['data'][$x]['relationship'],
+                        "remarks" => $data['data'][$x]['remarks'],
                     ));
 
                     $countboxnumber = count($data['data'][$x]['delivery_box']);
@@ -72,8 +73,8 @@ class DeliveryModel extends GenericModel
                     for ($y = 0; $y < $countboxnumber; $y++) {
 
                         $query2 = $this->connection->prepare("INSERT INTO gpx_delivery_box_number(
-                        box_number,transaction_no,receiver,origin,destination,delivery_id,createddate,status,remarks)
-                        VALUES (:box_number,:transaction_no,:receiver,:origin,:destination,:delivery_id,:createddate,:status,:remarks)");
+                        box_number,transaction_no,receiver,origin,destination,delivery_id,createddate,status)
+                        VALUES (:box_number,:transaction_no,:receiver,:origin,:destination,:delivery_id,:createddate,:status)");
                         $result = $query2->execute(array(
                             "box_number" => $data['data'][$x]['delivery_box'][$y]['box_number'],
                             "transaction_no" => $data['data'][$x]['transaction_no'],                            
@@ -83,7 +84,6 @@ class DeliveryModel extends GenericModel
                             "delivery_id" => $data['data'][$x]['delivery_box'][$y]['delivery_id'],                            
                             "createddate" => $data['data'][$x]['delivery_box'][$y]['createddate'],                            
                             "status" => $data['data'][$x]['delivery_box'][$y]['status'],                            
-                            "remarks" => $data['data'][$x]['delivery_box'][$y]['remarks'],                            
                         ));
 
                         ///////TRACK AND TRACE////////
@@ -94,7 +94,7 @@ class DeliveryModel extends GenericModel
                             "activity" => "Delivered",
                             "location" => $this->getcustomeraddresss($data['data'][$x]['delivery_box'][0]['receiver']),
                             "qty" => $countboxnumber,
-                            "details" =>"Remarks: ".$data['data'][$x]['delivery_box'][0]['remarks']
+                            "details" =>"Remarks: ".$data['data'][$x]['remarks']
                             
                         );
                         $this->savetrackntrace($logs);
