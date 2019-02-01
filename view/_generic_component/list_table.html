@@ -74,6 +74,10 @@
             <td>
                 {{ value[name]|date('d/M/Y') }}
             </td>
+            {% elseif name == "loaded_date"%}
+            <td>
+                {{ value[name]|date('d/M/Y') }}
+            </td>
             {% else %}
             <td>{{ value[name] }}</td>
             {% endif %}

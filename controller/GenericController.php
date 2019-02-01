@@ -78,6 +78,9 @@ class GenericController{
             case "list":
                 $this->list();
                 break;
+            case "viewrec":
+                $this->viewrec();
+                break;
             case "filterbranch":
                 $this->filterbranch();
                 break;
@@ -242,7 +245,7 @@ class GenericController{
                 $list = $model->getlist();         
                 $columns = array("warehouse_name","manufacturer_name","box_type_and_quantity");   
                 $moduledescription = "List of quantity per box type";             
-				break;
+                break;
         }
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],

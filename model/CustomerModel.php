@@ -20,6 +20,36 @@ class CustomerModel extends GenericModel
         return $result;
     }
 
+    public function getcustomerbyAccnt($id)
+    {
+        $query = $this->connection->prepare("SELECT  * FROM gpx_customer WHERE account_no = :id");
+        $query->execute(array(
+            "id" => $id,
+        ));
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
+    public function getreceiverbyAccnt($id)
+    {
+        $query = $this->connection->prepare("SELECT  gc.*,
+        gprov.provDesc as province,
+        gbry.brgyDesc as brgy,
+        gct.citymunDesc as city
+        FROM gpx_customer gc
+        LEFT JOIN refbrgy gbry ON gbry.brgyCode = gc.barangay
+        LEFT JOIN refcitymun gct ON gct.citymunCode = gc.city
+        LEFT JOIN refprovince gprov ON gprov.provCode = gc.province
+        WHERE account_no = :id");
+        $query->execute(array(
+            "id" => $id,
+        ));
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
     public function getaccountno()
     {
         $query = $this->connection->prepare("SELECT MAX(accountno) as lastno FROM gpx_customer");

@@ -38,14 +38,16 @@ class UnloadingModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_unloading(
-                    id,unload_date,container_no,forwarder_name,arrival_time,createdby)
-                    VALUES (:id,:unload_date,:container_no,:forwarder_name,:arrival_time,:createdby)");
+                    id,unload_date,container_no,forwarder_name,arrival_time,time_start,time_end,createdby)
+                    VALUES (:id,:unload_date,:container_no,:forwarder_name,:arrival_time,:time_start,:time_end,:createdby)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "unload_date" => $data['data'][$x]['unload_date'],
                         "container_no" => $data['data'][$x]['unload_shipper'],
                         "forwarder_name" => $data['data'][$x]['unload_container'],
                         "arrival_time" => $data['data'][$x]['unload_eta'],
+                        "time_start" => $data['data'][$x]['time_start'],
+                        "time_end" => $data['data'][$x]['time_end'],
                         "createdby" => $data['data'][$x]['createdby'],
                     ));
 

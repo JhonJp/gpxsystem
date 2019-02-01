@@ -39,6 +39,38 @@ class CustomerController extends GenericController
         ));
     }
 
+    public function view()
+    {
+        $id = isset($_GET['accnt']) ? $_GET['accnt'] : null;
+        $result = null;
+
+        if (isset($id)) {
+            $customer = new CustomerModel($this->connection);
+            $result = $customer->getcustomerbyAccnt($id);            
+        }
+        echo $this->twig->render('customer-management/customer/view.html', array(
+            "logindetails" => $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
+            "result" => $result
+        ));
+    }
+
+    public function viewrec()
+    {
+        $id = isset($_GET['accnt']) ? $_GET['accnt'] : null;
+        $result = null;
+
+        if (isset($id)) {
+            $customer = new CustomerModel($this->connection);
+            $result = $customer->getreceiverbyAccnt($id);            
+        }
+        echo $this->twig->render('customer-management/receiver/view.html', array(
+            "logindetails" => $_SESSION['logindetails'],
+            "breadcrumb" => "receiver",
+            "result" => $result
+        ));
+    }
+
     public function save()
     {        
         $details = isset($_POST['data']) ? json_decode(utf8_encode($_POST['data'])) : null;

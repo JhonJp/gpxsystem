@@ -67,7 +67,7 @@ class TrackNTraceModel extends GenericModel
         WHERE gb.transaction_no = :transaction_no        
         ");
         $query->execute(array("transaction_no"=>$transaction_no));    
-        $result = $query->fetchColumn(); 
+        $result = $query->fetchAll(); 
         return $result;     
     }
 

@@ -1,0 +1,145 @@
+{% extends "./_layout.html" %} {% block content %}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Receiver
+        </h1>
+        <small><i>Receiver Information</i></small>
+    </section>
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <form class="row" action="" type="post" id="savecustomer">
+            <input name="id" id="id" type="hidden" value="{{ result[0].id }}">
+            <input name="type" id="type" type="hidden" value="{{ breadcrumb.controller }}">
+
+            <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            <h4><b>View</b></h4>
+                        </div>
+                    </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Personal Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        {{ include("_generic_component/notification.html") }}
+
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'First name' , 'id' : 'firstname',
+                                            'value' : result[0].firstname , 'required' : false, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Last name' , 'id' : 'lastname',
+                                            'value' : result[0].lastname , 'required' : true, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Middle name' , 'id' : 'middlename',
+                                            'value' : result[0].middlename , 'required' : false, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Birthday</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group date">
+                                                        <input type="date" name="birthdate" class="form-control pull-right"
+                                                            id="datepicker" placeholder="Birthday" value="{{ result[0].birthdate }}" readonly>
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Mobile' , 'id' : 'mobile',
+                                            'value' : result[0].mobile , 'required' : true, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Secondary number' , 'id' : 'mobile_two',
+                                            'value' : result[0].secondary_number , 'required' : false, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Another number' , 'id' : 'mobile_three',
+                                            'value' : result[0].another_number , 'required' : false, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Phone</label>
+                                                <div class="col-md-9">
+                                                    <input type="tel" class="form-control" name="phone" placeholder="Phone"
+                                                        value="{{ result[0].phone }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Gender</label>
+                                                <div class="col-md-9">
+                                                    <input id="radio1" name="gender" value="MALE" type="radio" {% if
+                                                        result[0].gender=='MALE' %} checked="true" {% else %} checked="true"
+                                                        {% endif %} readonly>
+                                                    MALE
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input id="radio1" name="gender" value="FEMALE" type="radio" {% if
+                                                        result[0].gender=='FEMALE' %} checked="true" {% endif %} readonly>
+                                                    FEMALE
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_email.html'
+                                            with {'label': 'Email' , 'id' : 'email',
+                                            'value' : result[0].email , 'required' : false, 'readonly': true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Address</label>
+                                                <div class="col-md-9">
+                                                    <textarea class="form-control" readonly>{{result[0].house_number_street}} {{result[0].city }} {{result[0].province }}</textarea>
+                                                </div>
+                                                <input name="account_no" id="account_no" type="hidden" value="{{ result[0].account_no }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-block btn-primary"><span class="fa fa-fw fa-save"></span>Save</button>
+                    </div>
+                </div>
+            </div>
+</div>
+</form>
+<!-- /.row -->
+
+</section>
+</div>
+{% endblock content %}

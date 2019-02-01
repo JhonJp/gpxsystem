@@ -40,14 +40,14 @@
                                             <div class="col-md-4">
                                                 <div class="col-md-12">
                                                     <h5>Sender : 
-                                                        <a href="#">
-                                                            <span class="label label-success"><b>{{sender}}</b></span>
+                                                        <a href="index.php?controller=customer&action=view&accnt={{sender[0].accnt}}">
+                                                            <span class="label label-success"><b>{{sender[0].sender}}</b></span>
                                                         </a>
                                                     </h5>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <h5>Receiver : 
-                                                        <a href="#">
+                                                        <a href="index.php?controller=customer&action=viewrec&accnt={{receiver[0].cons}}">
                                                             <span class="label label-success"><b>{{receiver[0].receiver}}</b></span>
                                                         </a>
                                                     </h5>
@@ -67,7 +67,7 @@
                                                                     <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
                                                                 </span>
                                                             </h5>
-                                                        {% elseif result[0].status == "Direct" %}
+                                                        {% elseif result[0].status == "Direct" or result[0].status == "For Delivery" %}
                                                             <h5>Estimated Date of Delivery :
                                                                 <span class="label label-success">
                                                                     {% if hardport == "1" %}
@@ -77,10 +77,16 @@
                                                                     {% endif %}
                                                                 </span>
                                                             </h5>
-                                                        {% else %}
+                                                        {% elseif result[0].status == "Picked-Up" %}
                                                             <h5>Estimated Date of Loading :
                                                                 <span class="label label-success">
                                                                     <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
+                                                                </span>
+                                                            </h5>
+                                                        {% elseif result[0].status == "" %}
+                                                            <h5>Estimated Date of Loading :
+                                                                <span class="label label-success">
+                                                                    <b></b>
                                                                 </span>
                                                             </h5>
                                                         {% endif %}
@@ -88,8 +94,10 @@
                                                 <div class="col-md-12">
                                                     {% if hardport == "1" %}
                                                         <h5>Hardport Destination : <span class="label label-warning"><b>True</b></span></h5>
-                                                    {% else %}
+                                                    {% elseif hardport == "0" %}
                                                         <h5>Hardport Destination : <span class="label label-danger"><b>False</b></span></h5>
+                                                    {% else %}
+                                                        <h5>Hardport Destination : <span class="label label-danger"><b></b></span></h5>
                                                     {% endif %}
                                                 </div>
                                             </div>
