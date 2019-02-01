@@ -36,7 +36,7 @@ class TrackNTraceModel extends GenericModel
     public function getReceiver($boxnumber)
     {        
         $query = $this->connection->prepare("
-        SELECT CONCAT(gc.firstname,' ', gc.lastname) as receiver 
+        SELECT CONCAT(gc.firstname,' ', gc.lastname) as receiver, gbcb.consignee as cons 
         FROM gpx_booking_consignee_box gbcb
         LEFT JOIN gpx_customer gc ON gbcb.consignee = gc.account_no
         WHERE gbcb.box_number = :boxnumber        
@@ -61,7 +61,7 @@ class TrackNTraceModel extends GenericModel
     public function getSender($transaction_no)
     {        
         $query = $this->connection->prepare("
-        SELECT CONCAT(gc.firstname,' ', gc.lastname) as sender 
+        SELECT CONCAT(gc.firstname,' ', gc.lastname) as sender, gc.account_no as accnt 
         FROM gpx_booking gb
         LEFT JOIN gpx_customer gc ON gb.customer = gc.account_no
         WHERE gb.transaction_no = :transaction_no        
