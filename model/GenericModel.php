@@ -410,7 +410,7 @@ class GenericModel{
         GROUP_CONCAT(gdbn.boxtype_id) as boxtype_id
         FROM gpx_distribution gd
         LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
-        WHERE gd.distribution_type = 'Sales Driver'
+        WHERE gd.distribution_type = 'Sales Driver' AND gd.status != '0' 
         GROUP BY gd.id 
         ");
         $query->execute();

@@ -76,6 +76,17 @@ class UnloadingModel extends GenericModel
                         $this->updateBookingStatus($data['data'][$x]['unloading_boxes'][$y]['box_num'],"4");
                     }
 
+                    $countimagebox = count($data['data'][$x]['unloading_boxes_image']);
+                    for ($y = 0; $y < $countboxnumber; $y++) {
+                        $query = $this->connection->prepare("INSERT INTO gpx_unloading_boximage(transaction_no,box_number,image) 
+                        VALUES (:transaction_no,:box_number,:image)");
+                        $result = $query->execute(array(
+                            "transaction_no" => $data['data'][$x]['unloading_boxes_image'][$y]['transaction_number'],
+                            "box_number" => $data['data'][$x]['unloading_boxes_image'][$y]['boxnumber'],
+                            "image" => $data['data'][$x]['unloading_boxes_image'][$y]['image'],
+                        ));
+                    }
+
                 }
             }
         } catch (Exception $e) {

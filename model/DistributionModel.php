@@ -44,7 +44,7 @@ class DistributionModel extends GenericModel
         GROUP_CONCAT(gdbn.box_number) as box_number
         FROM gpx_distribution gd
         LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
-        WHERE driver_name = :driver_name AND distribution_type = 'Direct'  
+        WHERE driver_name = :driver_name AND distribution_type = 'Direct' AND gd.status = '1'  
         GROUP BY gd.id
         ");
         $query->execute(array("driver_name" => $name));
@@ -73,8 +73,8 @@ class DistributionModel extends GenericModel
                 if (count($check) == 0) {
                     $dist_type = $data['data'][$x]['type'];
                     $query = $this->connection->prepare("INSERT INTO gpx_distribution(
-                    id,distribution_type,mode_of_shipment,destination_name,truck_number,driver_name,remarks,eta,createddate,createdby)
-                    VALUES (:id,:distribution_type,:mode_of_shipment,:destination_name,:truck_number,:driver_name,:remarks,:eta,:createddate,:createdby)");
+                    id,distribution_type,mode_of_shipment,destination_name,truck_number,driver_name,remarks,eta,createddate,createdby,status)
+                    VALUES (:id,:distribution_type,:mode_of_shipment,:destination_name,:truck_number,:driver_name,:remarks,:eta,:createddate,:createdby,:status)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "distribution_type" => $data['data'][$x]['type'],
@@ -86,6 +86,7 @@ class DistributionModel extends GenericModel
                         "eta" => $data['data'][$x]['eta'],
                         "createddate" => $data['data'][$x]['created_date'],
                         "createdby" => $data['data'][$x]['created_by'],
+                        "status" => $data['data'][$x]['acceptance_status'],
                     ));
 
                     $countboxnumber = count($data['data'][$x]['distribution_box']);
@@ -150,6 +151,8 @@ class DistributionModel extends GenericModel
                     }
 
                     
+                }else{
+                    $this->updateDistStat($data['data'][$x]['id']);
                 }
             }
 
@@ -179,6 +182,15 @@ class DistributionModel extends GenericModel
             "boxnumber" => $box_number,
         ));
 
+    }
+
+    public function updateDistStat($id)
+    {
+        $query = $this->connection->prepare("
+        UPDATE gpx_distribution SET status='1' WHERE id = :id");
+        $result = $query->execute(array(
+            "id" => $id,
+        ));
     }
 
 }
