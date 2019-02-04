@@ -54,6 +54,8 @@
                 {% if breadcrumb.controller == "Account Type" %}
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}">{{
                     value[name] }}</a>
+                {% elseif breadcrumb.controller == "partnerportal" %}
+                    {{ value[name] }}
                 {% else %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=edit&id={{ value['id'] }}">{{
                     value[name] }}</a>
@@ -95,6 +97,7 @@
                 and breadcrumb.controller != 'delivery'
                 and breadcrumb.controller != 'incidentreport'
                 and breadcrumb.controller != 'report'
+                and breadcrumb.controller != 'partnerportal'
                 %}
                 {% if breadcrumb.controller == "Account Type" %}
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"
@@ -103,7 +106,6 @@
                 {% elseif breadcrumb.controller == "intransit" %}
                 <a href="index.php?controller=intransit&action=edit&container_no={{ value['container_no'] }}"
                     title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
-                
                 {% elseif breadcrumb.controller == 'barcodeseries' %}
                 <a href="#" title="View" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>

@@ -48,6 +48,5 @@ $(document).ready(function () {
         $('#from').val("");
         $('#to').val("");
         
-        
     });
 });

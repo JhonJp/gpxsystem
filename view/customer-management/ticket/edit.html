@@ -27,11 +27,6 @@
                                         {{ include("_generic_component/notification.html") }}
                                         <div class="col-md-6">
                                             {% include '_generic_component/dropdown.html'
-                                            with {'label': 'Transaction #' , 'data' : alltransactionsno, 'id' :
-                                            'transaction_no'} %}                                        
-                                        </div>
-                                        <div class="col-md-6">
-                                            {% include '_generic_component/dropdown.html'
                                             with {'label': 'Ticket Type' , 'data' : allltickettype, 'id' :
                                             'ticket_type'} %}
                                         </div>
@@ -46,21 +41,12 @@
                                         </div>
                                         <div class="col-md-6">
                                             {% include '_generic_component/dropdown.html'
-                                            with {'label': 'Priority' , 'data' : allpriority, 'id' : 'priority'} %}
-                                        </div>
-                                        <div class="col-md-6">
-                                            {% include '_generic_component/dropdown.html'
                                             with {'label': 'Status' , 'data' : allstatus, 'id' : 'status'} %}
                                         </div>
                                         <div class="col-md-6">
                                             {% include '_generic_component/input_textarea.html'
                                             with {'label': 'Description' , 'id' : 'description',
                                             'value' : result[0].description , 'required' : true} %}
-                                        </div>
-                                        <div class="col-md-6">
-                                            {% include '_generic_component/input_textarea.html'
-                                            with {'label': 'Solution' , 'id' : 'solution',
-                                            'value' : result[0].solution , 'required' : false} %}
                                         </div>
                                     </div>
                                 </div>

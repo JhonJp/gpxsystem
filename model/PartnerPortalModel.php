@@ -9,6 +9,23 @@ class PartnerPortalModel extends GenericModel
     parent::__construct($connection);
   }
 
+  //LIST    
+  public function getrolelist()
+  {        
+      $query = $this->connection->prepare("SELECT gu.* , gr.name as role ,
+      CONCAT(ge.firstname,' ',ge.lastname) as 'employee_name' 
+      FROM gpx_users gu 
+      JOIN gpx_employee ge ON gu.employee_id = ge.id
+      JOIN gpx_role gr ON gr.id = gu.role_id
+      WHERE gr.name LIKE '%Partner%'
+      ORDER BY ge.firstname ASC
+      ");
+      $query->execute();    
+      $result = $query->fetchAll();
+      $this->connection = null; 
+      return $result;
+  }
+
   //COUNT deliveries
   public function countdeliveries()
   {
@@ -143,23 +160,94 @@ class PartnerPortalModel extends GenericModel
         return $result;
     }
 
+    //ALL BRANCH PARTNER
+    public function getallbranchpartner(){  
+
+        $query = $this->connection->prepare("SELECT * FROM gpx_branch WHERE type LIKE '%Partner%' ORDER BY name ASC");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //LIST    
     public function getTickets()
     {  
         $query = $this->connection->prepare("SELECT gt.* , CONCAT(ge.firstname,' ',ge.lastname) as assigned_to
-        , gty.name as ticket_type , gts.name as status , gtp.name as priority
+        , gty.name as ticket_type , gts.name as status,
+         CONCAT(gc.firstname,' ', gc.lastname) as customer_name
         FROM gpx_tickets gt 
         JOIN gpx_tickets_type gty ON gty.id = gt.ticket_type
         JOIN gpx_tickets_status gts ON gts.id = gt.status
-        JOIN gpx_tickets_priority gtp ON gtp.id = gt.priority
+        JOIN gpx_customer gc ON gt.account_no = gc.account_no
         JOIN gpx_employee ge ON ge.id = gt.assigned_to
         ");
         $query->execute();    
         $result = $query->fetchAll();
-        $this->connection = null; 
         return $result;     
     }
 
+    public function getPartnerEmployee()
+    {
+        $query = $this->connection->prepare("SELECT ge.* , 
+        CONCAT(ge.firstname, ' ', ge.lastname) as name  , gb.name as branch 
+        FROM gpx_employee ge 
+        LEFT JOIN gpx_branch gb ON ge.branch = gb.id
+        WHERE gb.type LIKE '%Partner%'
+        ORDER BY ge.firstname");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //LIST ROLE PARTNER
+    public function getPartnerRoles()
+    {        
+        $query = $this->connection->prepare("SELECT * FROM gpx_role WHERE name LIKE '%Partner%'");
+        $query->execute();    
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function saveRole($data)
+    {        
+        $query = $this->connection->prepare("INSERT INTO gpx_users VALUES(:username,:password,:employee_id,:role_id)");
+        $result = $query->execute(array(
+            "username" => $data['username'],
+            "password" => $data['password'],
+            "employee_id" => $data['employee_id'],
+            "role_id" => $data['role_id'],
+        ));    
+        return $result;
+    }
+
+    public function updateRole($data,$id)
+    {        
+        $query = $this->connection->prepare("UPDATE gpx_users 
+        SET 
+        username = :username,
+        password = :password,
+        employee_id = :employee_id,
+        role_id = :role_id
+        WHERE id = :id");
+        $result = $query->execute(array(
+            "id"=>$id,
+            "username" => $data['username'],
+            "password" => $data['password'],
+            "employee_id" => $data['employee_id'],
+            "role_id" => $data['role_id'],
+        ));    
+        $this->connection = null; 
+        return $result;
+    }
+
+    public function checkusername($username)
+    {        
+        $query = $this->connection->prepare("SELECT count(*) as cnt FROM gpx_users WHERE username = :username");
+        $query->execute(array("username"=>$username));    
+        $result = $query->fetchColumn();
+        $this->connection = null; 
+        return $result;
+    }
   
     
 }

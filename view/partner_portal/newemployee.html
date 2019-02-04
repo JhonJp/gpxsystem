@@ -1,0 +1,279 @@
+{% extends "./_layout.html" %} {% block content %}
+
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <form class="row" action="" type="post" id="savepartneremp">
+            <input name="id" id="id" type="hidden" value="{{ result[0].id }}">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                        {{ include("_generic_component/notification.html") }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Personal Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'First name' , 'id' : 'firstname',
+                                            'value' : result[0].firstname , 'required' : true} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Last name' , 'id' : 'lastname',
+                                            'value' : result[0].lastname , 'required' : true} %}
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Middle name' , 'id' : 'middlename',
+                                            'value' : result[0].middlename , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Birthday</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group date">
+                                                        <input type="date" name="birthdate" class="form-control pull-right"
+                                                            id="datepicker" placeholder="Birthday" value="{{ result[0].birthdate }}">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Mobile #' , 'id' : 'mobile',
+                                            'value' : result[0].mobile , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Phone #' , 'id' : 'phone',
+                                            'value' : result[0].phone , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Gender</label>
+                                                <div class="col-md-9">
+                                                    <input id="radio1" name="gender" value="MALE" type="radio" {% if
+                                                        result[0].gender=='MALE' %} checked="true" {% else %} checked="true"
+                                                        {% endif %}>
+                                                    MALE
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input id="radio1" name="gender" value="FEMALE" type="radio" {% if
+                                                        result[0].gender=='FEMALE' %} checked="true" {% endif %}>
+                                                    FEMALE
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Position' , 'id' : 'position',
+                                            'value' : result[0].position , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_email.html'
+                                            with {'label': 'Email' , 'id' : 'email',
+                                            'value' : result[0].email , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/dropdown.html'
+                                            with {'label': 'Branch' , 'data' : allbranch, 'id' : 'branch'} %}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr class=" cm-hr">
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Fathers Name' , 'id' : 'fathersname',
+                                            'value' : result[0].fathersname , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Mothers Name' , 'id' : 'mothersname',
+                                            'value' : result[0].mothersname , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Civil Status' , 'id' : 'civilstatus',
+                                            'value' : result[0].civilstatus , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Religion' , 'id' : 'religion',
+                                            'value' : result[0].religion , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr class=" cm-hr">
+                                        </div>                                        
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Address</label>
+                                                <div class="col-md-9 form-inline">
+                                                    <input type="text" name="house_number_street" class="form-control col-md-4"
+                                                        style="width:100%" placeholder="House # Street" value="{{ result[0].house_number_street }}">
+                                                    <input type="text" name="barangay" class="form-control col-md-2"
+                                                        style="width:50%" placeholder="Barangay or Village" value="{{ result[0].barangay }}">
+                                                    <input type="text" name="city" class="form-control col-md-2" style="width:50%"
+                                                        placeholder="City" value="{{ result[0].city }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Educational Background
+                                        </h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Elementary' , 'id' : 'elementary',
+                                            'value' : result[0].elementary , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Year Graduated' , 'id' : 'elementaryyeargraduated',
+                                            'value' : result[0].elementaryyeargraduated , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'High School' , 'id' : 'highschool',
+                                            'value' : result[0].elementary , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Year Graduated' , 'id' : 'highschooleargraduated',
+                                            'value' : result[0].elementaryyeargraduated , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'College' , 'id' : 'college',
+                                            'value' : result[0].elementary , 'required' : false} %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {% include '_generic_component/input_text.html'
+                                            with {'label': 'Year Graduated' , 'id' : 'collegeyeargraduated',
+                                            'value' : result[0].elementaryyeargraduated , 'required' : false} %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Work Experience
+                                        </h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
+                                                class="fa fa-minus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Company' , 'id' : 'company1',
+                                                'value' : result[0].company1 , 'required' : false} %}
+                                            </div>
+                                            <div class="col-md-3">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Position' , 'id' : 'position1',
+                                                'value' : result[0].position1 , 'required' : false} %}
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Date</label>
+                                                    <div class="col-md-5">
+                                                        <input type="date" name="date_from1" class="form-control pull-right"
+                                                            id="datepicker" value="{{ result[0].date_from1 }}">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="date" name="date_to1" class="form-control pull-right"
+                                                            id="datepicker" value="{{ result[0].date_to1 }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Company' , 'id' : 'company2',
+                                                'value' : result[0].company2 , 'required' : false} %}
+                                            </div>
+                                            <div class="col-md-3">
+                                                {% include '_generic_component/input_text.html'
+                                                with {'label': 'Position' , 'id' : 'position2',
+                                                'value' : result[0].position2 , 'required' : false} %}
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Date</label>
+                                                    <div class="col-md-5">
+                                                        <input type="date" name="date_from2" class="form-control pull-right"
+                                                            id="datepicker" value="{{ result[0].date_from2 }}">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input type="date" name="date_to2" class="form-control pull-right"
+                                                            id="datepicker" value="{{ result[0].date_to2 }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-block btn-primary"><span class="fa fa-fw fa-save"></span>Save</button>
+                    </div>
+                </div>
+            </div>
+</div>
+</form>
+<!-- /.row -->
+
+</section>
+</div>
+{% endblock content %}

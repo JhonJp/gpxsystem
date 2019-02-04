@@ -13,11 +13,12 @@ class TicketModel extends GenericModel
     public function getlist()
     {  
         $query = $this->connection->prepare("SELECT gt.* , CONCAT(ge.firstname,' ',ge.lastname) as assigned_to
-        , gty.name as ticket_type , gts.name as status , gtp.name as priority
+        , gty.name as ticket_type , gts.name as status,
+         CONCAT(gc.firstname,' ', gc.lastname) as customer_name
         FROM gpx_tickets gt 
         JOIN gpx_tickets_type gty ON gty.id = gt.ticket_type
         JOIN gpx_tickets_status gts ON gts.id = gt.status
-        JOIN gpx_tickets_priority gtp ON gtp.id = gt.priority
+        JOIN gpx_customer gc ON gt.account_no = gc.account_no
         JOIN gpx_employee ge ON ge.id = gt.assigned_to
         ");
         $query->execute();    
@@ -37,25 +38,19 @@ class TicketModel extends GenericModel
 
     public function update($id,$data){
         $query = $this->connection->prepare("UPDATE gpx_tickets 
-        SET transaction_no = :transaction_no,
-        ticket_type = :ticket_type ,
-        priority = :priority,
+        SET ticket_type = :ticket_type ,
         status = :status,
         assigned_to = :assigned_to,
         account_no = :account_no,
-        description = :description,
-        solution = :solution
+        description = :description
         WHERE id = :id");
         $result = $query->execute(array(
             "id" => $id,
-            "transaction_no"=> $data['transaction_no'],
             "ticket_type"=> $data['ticket_type'],
             "account_no"=> $data['account_no'],
-            "priority"=> $data['priority'],
             "status"=> $data['status'],
             "assigned_to"=> $data['assigned_to'],
             "description"=> $data['description'],
-            "solution"=> $data['solution'],
         ));    
         $this->connection = null; 
         return $result; 

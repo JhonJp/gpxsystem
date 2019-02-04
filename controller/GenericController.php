@@ -135,7 +135,16 @@ class GenericController{
                 break; 
             case "isn":
                 $this->insertNotify();
-                break;                  
+                break;  
+            case "newrole":
+                $this->newrole();
+                break;   
+            case "sr":
+                $this->saverole();
+                break;    
+            case "userrole":
+                $this->listusr();
+                break;                 
             default:
                 $this->list();
                 break;

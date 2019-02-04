@@ -13,7 +13,7 @@ class TicketController extends GenericController
     {     
         $model = new TicketModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("ticket_no","transaction_no","ticket_type","account_no","priority","status","assigned_to");
+        $columns = array("ticket_no","customer_name","description","ticket_type","status","assigned_to");
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
@@ -52,14 +52,11 @@ class TicketController extends GenericController
 
         $data = array(
                 "ticket_no" => "T".$this->current_userid.date('mHis'),
-                "transaction_no" => (isset($_POST['transaction_no']) ? $_POST['transaction_no'] : ""),
                 "ticket_type" => (isset($_POST['ticket_type']) ? $_POST['ticket_type'] : ""),
                 "account_no" => (isset($_POST['account_no']) ? $_POST['account_no'] : ""),
-                "priority" => (isset($_POST['priority']) ? $_POST['priority'] : ""),
                 "status" => (isset($_POST['status']) ? $_POST['status'] : ""),
                 "assigned_to" => (isset($_POST['assigned_to']) ? $_POST['assigned_to'] : ""),
                 "description" => (isset($_POST['description']) ? $_POST['description'] : ""),
-                "solution" => (isset($_POST['solution']) ? $_POST['solution'] : ""),
                 "created_by" =>  $this->current_userid
         );
 

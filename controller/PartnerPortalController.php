@@ -67,15 +67,15 @@ class PartnerPortalController extends GenericController
                 break;
             case "tickets":
                 $model = new PartnerPortalModel($this->connection);
-                $list = $model->getTickets();        
-                $columns = array("ticket_no","transaction_no","ticket_type","account_no","priority","status","assigned_to");
-                echo $this->twig->render('_generic_component/report/list_part.html', array(
-                    "logindetails" =>  $_SESSION['logindetails'],
-                    "breadcrumb" => $this->breadcrumb,
-                    "list" => $list,        
-                    "columns" => $columns,  
-                    "module" => "PORTAL TICKET"                 
-                ));
+                    $list = $model->getTickets();        
+                    $columns = array("ticket_no","customer_name","description","ticket_type","status","assigned_to");
+                    echo $this->twig->render('_generic_component/report/list_part.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,        
+                        "columns" => $columns,  
+                        "module" => "PORTAL TICKET"                 
+                    ));
                 break;
             case "dist":
                 $model = new PartnerPortalModel($this->connection);
@@ -95,6 +95,147 @@ class PartnerPortalController extends GenericController
                 break;
         }
 
+    }
+
+    public function edit()
+    {        
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $result = null;     
+        $branch = null; 
+        $part = new PartnerPortalModel($this->connection); 
+        $branch = $part->getallbranchpartner($id);   
+        if (isset($id)) {
+            $model = new EmployeeModel($this->connection);
+            $result = $model->getemployeebyid($id);
+        }
+        echo $this->twig->render('partner_portal/newemployee.html', array(
+            "logindetails" =>  $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
+            "allbranch" => $branch,
+            "result" => $result
+        ));
+    }
+
+    public function save()
+    {
+        $id = isset($_POST['id']) ? $_POST['id'] : null;
+
+        $data = array(
+            "firstname" => (isset($_POST['firstname']) ? $_POST['firstname'] : ""),
+            "lastname" => (isset($_POST['lastname']) ? $_POST['lastname'] : ""),
+            "middlename" => (isset($_POST['middlename']) ? $_POST['middlename'] : ""),
+            "birthdate" => (isset($_POST['birthdate']) ? $_POST['birthdate'] : null),
+            "mobile" => (isset($_POST['mobile']) ? $_POST['mobile'] : ""),
+            "position" => (isset($_POST['position']) ? $_POST['position'] : ""),
+            "phone" => (isset($_POST['phone']) ? $_POST['phone'] : ""),
+            "gender" => (isset($_POST['gender']) ? $_POST['gender'] : ""),            
+            "email" => (isset($_POST['email']) ? $_POST['email'] : ""),         
+            "fathersname" => (isset($_POST['fathersname']) ? $_POST['fathersname'] : ""),
+            "mothersname" => (isset($_POST['mothersname']) ? $_POST['mothersname'] : ""),
+            "civilstatus" => (isset($_POST['civilstatus']) ? $_POST['civilstatus'] : ""),
+            "religion" => (isset($_POST['religion']) ? $_POST['religion'] : ""),
+            "branch" => (isset($_POST['branch']) ? $_POST['branch'] : ""),            
+            "house_number_street" => (isset($_POST['house_number_street']) ? $_POST['house_number_street'] : ""),            
+            "barangay" => (isset($_POST['barangay']) ? $_POST['barangay'] : ""),
+            "city" => (isset($_POST['city']) ? $_POST['city'] : ""),
+
+            "elementary" => (isset($_POST['elementary']) ? $_POST['elementary'] : ""),
+            "elementaryyeargraduated" => (isset($_POST['elementaryyeargraduated']) ? $_POST['elementaryyeargraduated'] : ""),
+            "highschool" => (isset($_POST['highschool']) ? $_POST['highschool'] : ""),
+            "highschooleargraduated" => (isset($_POST['highschooleargraduated']) ? $_POST['highschooleargraduated'] : ""),
+            "college" => (isset($_POST['college']) ? $_POST['college'] : ""),
+            "collegeyeargraduated" => (isset($_POST['collegeyeargraduated']) ? $_POST['collegeyeargraduated'] : ""),
+
+            "company1" => (isset($_POST['company1']) ? $_POST['company1'] : ""),
+            "position1" => (isset($_POST['position1']) ? $_POST['position1'] : ""),
+            "date_from1" => (isset($_POST['date_from1']) ? $_POST['date_from1'] : ""),
+            "date_to1" => (isset($_POST['date_to1']) ? $_POST['date_to1'] : ""),
+
+            "company2" => (isset($_POST['company2']) ? $_POST['company2'] : ""),
+            "position2" => (isset($_POST['position2']) ? $_POST['position2'] : ""),
+            "date_from2" => (isset($_POST['date_from2']) ? $_POST['date_from2'] : ""),
+            "date_to2" => (isset($_POST['date_to2']) ? $_POST['date_to2'] : ""),
+
+            "createdby" => $this->current_userid
+        );
+
+        if ($id <> "") {
+            //UPDATE
+            $model = new EmployeeModel($this->connection);
+            $result = $model->update($data,$id);
+        } else {
+            //INSERT
+            $model = new EmployeeModel($this->connection);
+            $result = $model->insert($data,"gpx_employee");
+        }
+        print_r($result);
+    }
+
+    public function newrole()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $error = isset($_GET['error']) ? $_GET['error'] : null;
+        $empmodel = new PartnerPortalModel($this->connection);
+        $result = null;
+        $employee = $empmodel->getPartnerEmployee();
+        $role = $empmodel->getPartnerRoles();
+
+        if (isset($id)) {
+            $model = new UserModel($this->connection);
+            $result = $model->getuserbyid($id);
+        }
+
+        echo $this->twig->render('partner_portal/newuser.html', array(
+            "logindetails" => $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
+            "allemployee" => $employee,
+            "allrole" => $role,
+            "result" => $result,
+            "error" => $error
+        ));
+    }
+
+    public function saverole()
+    {
+        $id = isset($_POST['id']) ? $_POST['id'] : "";
+        $result = 0;
+        $data = array(
+            "username" => (isset($_POST['username']) ? $_POST['username'] : ""),
+            "password" => (isset($_POST['pass']) ? $_POST['pass'] : ""),
+            "employee_id" => (isset($_POST['employee_id']) ? $_POST['employee_id'] : ""),
+            "role_id" => (isset($_POST['role_id']) ? $_POST['role_id'] : ""),
+        );
+       
+        if ($id <> "") {
+            $model = new PartnerPortalModel($this->connection);
+            $result = $model->updateRole($data, $id);
+        } else {
+            $model = new PartnerPortalModel($this->connection);
+            if ($model->checkusername($data['username']) == 0) {
+                $model = new GenericModel($this->connection);
+                $result = $model->insert($data, USERS);
+            }
+        }
+
+        if ($result == 1)
+            header("Location: index.php?controller=partnerportal&action=userrole");
+        else
+            header("Location: index.php?controller=partnerportal&action=userrole&error=true");
+    }
+
+    //LIST
+    public function listusr()
+    {
+        $model = new PartnerPortalModel($this->connection);
+        $list = $model->getrolelist();
+        $columns = array("employee_name", "username", "role");
+        echo $this->twig->render('_generic_component/list.html', array(
+            "logindetails" => $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
+            "list" => $list,
+            "columns" => $columns,
+            "url" => $_SERVER['REQUEST_URI'],
+        ));
     }
 
 }
