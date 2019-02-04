@@ -30,6 +30,16 @@ class BookingModel extends GenericModel
         $this->connection = null;
         return $result;
     }
+
+    public function getlistContent()
+    {
+        $query = $this->connection->prepare("
+        SELECT * FROM gpx_boxcontents
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
     
 
     public function getlistapi()
@@ -164,8 +174,8 @@ class BookingModel extends GenericModel
                     $countboxnumber = count($data['data'][$x]['booking_box']);
                     for ($y = 0; $y < $countboxnumber; $y++) {
                         $query = $this->connection->prepare("INSERT INTO gpx_booking_consignee_box(consignee,boxtype,
-                        transaction_no,box_number,source_id,destination_id,hardport)
-                    VALUES (:consignee,:boxtype,:transaction_no,:box_number,:source_id,:destination_id,:hardport)");
+                        transaction_no,box_number,source_id,destination_id,box_content,hardport)
+                    VALUES (:consignee,:boxtype,:transaction_no,:box_number,:source_id,:destination_id,:box_content,:hardport)");
                         $result = $query->execute(array(
                             "consignee" => $data['data'][$x]['booking_box'][$y]['consignee'],
                             "boxtype" => $data['data'][$x]['booking_box'][$y]['boxtype'],
@@ -173,6 +183,7 @@ class BookingModel extends GenericModel
                             "box_number" => $data['data'][$x]['booking_box'][$y]['box_number'],
                             "source_id" => $data['data'][$x]['booking_box'][$y]['source_id'],
                             "destination_id" => $data['data'][$x]['booking_box'][$y]['destination_id'],
+                            "box_content" => $data['data'][$x]['booking_box'][$y]['contents'],
                             "hardport" => $data['data'][$x]['booking_box'][$y]['hardport'],
                         ));
 
