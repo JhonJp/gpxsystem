@@ -1,10 +1,18 @@
 <div class="box-header with-border">
         <div class="box-title">
+            {% if breadcrumb.action == 'viewbarcodedistributed' %}
+                <h4><b>BARCODES DISTRIBUTED TO DRIVER</b></h4>
+            {% elseif moduledescription == 'List of barcode distributed to driver' %}
+            <h4><b>BARCODE DISTRIBUTION TRANSACTION</b></h4>
+            {% else %}
             <h4><b>{{ breadcrumb.action|upper }}</b></h4>
+            {% endif %}
         </div>
         <div class="box-tools pull-right">
             <div class="btn-group">
-                {% if breadcrumb.action != 'view' %}
+                {% if breadcrumb.action == 'viewbarcodedistributed' %}
+                {% elseif breadcrumb.action == 'viewbarcodedist' %}
+                {% elseif breadcrumb.action != 'view' %}
                 <a href="index.php?controller=barcodeseries&action=edit" class="btn btn-block btn-primary">
                     <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
                 {% endif %}

@@ -10,6 +10,7 @@
             {% endif %}
             {% endfor %}
             {% if moduledescription == 'Barcode Series' %}
+            {% elseif breadcrumb.action == 'viewbarcodedistributed' %}
             {% else %}
                 <th width="10px">ACTION</th>
             {% endif %}
@@ -20,7 +21,17 @@
         <tr>
             <td>{{ key + 1 }}</td>
             {% for name in columns %}
-            {% if name == 'date' %}
+            {% if name == 'status' %}
+            <td>
+                <span class="label label-success">
+                    {% if value[name] == '0' %}
+                        Not Yet Used
+                    {% elseif value[name] == '1' %}
+                        Used by driver
+                    {% endif %}
+                </span>
+            </td>
+            {% elseif name == 'date' %}
             <td>{{ value[name]|date("d/M/Y") }}</td>
                 {% elseif name == 'barcode' %}
                     <td class="col-sm-6">
@@ -63,7 +74,15 @@
                 <td>{{ value[name] }}</td>
                 {% endif %}
             {%  endfor %}
-            {% if breadcrumb.controller == 'barcodeseries' and moduledescription != 'Barcode Series' %}
+            {% if breadcrumb.controller == 'barcodeseries' and breadcrumb.action == 'viewbarcodedist' %}
+            <td>
+                <a href="index.php?controller={{breadcrumb.controller}}&action=viewbarcodedistributed&id={{value['transaction_no']}}" title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span>
+                </a>
+            </td>
+            {% elseif breadcrumb.controller == 'barcodeseries' and breadcrumb.action == 'viewbarcodedistributed' %}
+                
+            {% elseif breadcrumb.controller == 'barcodeseries' and moduledescription != 'Barcode Series' %}
             <td>
                 <a href="index.php?controller={{breadcrumb.controller}}&action=view&d={{value['id']}}" title="View" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span>

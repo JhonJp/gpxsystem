@@ -356,6 +356,18 @@ class GenericModel{
         return $result;
     }
 
+    //ALL BOX NUMBER DISTRIBUTED
+    public function getboxnumbersbyDriver($id)
+    {
+        $query = $this->connection->prepare("
+        SELECT gbd.*, GROUP_CONCAT(gdbn.boxnumber) as box_number FROM gpx_barcode_distribution gbd 
+        JOIN gpx_barcode_distribution_number gdbn ON gbd.transaction_no = gdbn.transaction_no
+        WHERE gbd.driver_id = :id");
+        $query->execute(array("id"=>$id,));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //ALL BOX RATES
     public function getboxrates()
     {

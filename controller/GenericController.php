@@ -13,6 +13,7 @@ require_once __DIR__ . "/../model/WarehouseInventoryModel.php";
 require_once __DIR__ . "/../model/EmployeeModel.php";
 require_once __DIR__ . "/../model/ChartaccountsModel.php";
 require_once __DIR__ . "/../model/RoleModel.php";
+require_once __DIR__ . "/../model/BarcodeSeriesModel.php";
 
 class GenericController{
     
@@ -129,9 +130,15 @@ class GenericController{
             case "view":
                 $this->view();
                 break;
+            case "viewbarcodedist":
+                $this->viewbarcodedist();
+                break;
             ///////////////PARTNER PORTAL /////////////
             case "partnerdashboard":
                 $this->partnerdashboard();
+                break;
+            case "viewbarcodedistributed":
+                $this->viewbarcodedistributedbyid();
                 break; 
             case "isn":
                 $this->insertNotify();

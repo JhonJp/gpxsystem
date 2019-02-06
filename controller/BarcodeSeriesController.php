@@ -13,7 +13,7 @@ class BarcodeSeriesController extends GenericController
     {       
         $model = new BarcodeSeriesModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("date","branch","user","series","quantity");
+        $columns = array("date","branch","created_by","series","quantity");
         echo $this->twig->render('_generic_component/barcode_series/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
@@ -67,6 +67,38 @@ class BarcodeSeriesController extends GenericController
             "columns" => $columns,
             "list" => $data,     
             "moduledescription" => "Barcode Series",     
+        ));
+    }
+
+    //view all barcode distributed
+    public function viewbarcodedistributedbyid()
+    {        
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $model = new BarcodeSeriesModel($this->connection);
+        $columns = array("boxnumber","status");
+        $data = $model->getBarcodes($id); 
+
+        echo $this->twig->render('_generic_component/barcode_series/list.html', array(
+            "logindetails" =>  $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,     
+            "columns" => $columns,
+            "list" => $data,     
+            "moduledescription" => "Barcodes Distributed to Driver",     
+        ));
+    }
+
+    public function viewbarcodedist()
+    {        
+        $model = new BarcodeSeriesModel($this->connection);
+        $columns = array("date","driver","created_by","branch");
+        $data = $model->getBarcodesDist(); 
+
+        echo $this->twig->render('_generic_component/barcode_series/list.html', array(
+            "logindetails" =>  $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,     
+            "columns" => $columns,
+            "list" => $data,     
+            "moduledescription" => "List of barcode distributed to driver",     
         ));
     }
 
