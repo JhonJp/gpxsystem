@@ -347,6 +347,15 @@ class GenericModel{
         return $result;
     }
 
+    //ALL BOX NUMBER SERIES
+    public function getboxnumbers($id)
+    {
+        $query = $this->connection->prepare("SELECT * FROM gpx_barcode_series WHERE createdby = :id");
+        $query->execute(array("id"=>$id,));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //ALL BOX RATES
     public function getboxrates()
     {

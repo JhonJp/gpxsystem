@@ -27,14 +27,31 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 {% for i in value['start']..value['end'] %}
+                                        {% if i|length < 2 %}
+                                        {% set zeros = '0000000' %}
+                                        {% elseif i|length < 3 %}
+                                        {% set zeros = '000000' %}
+                                        {% elseif i|length < 4 %}
+                                        {% set zeros = '00000' %}
+                                        {% elseif i|length < 5 %}
+                                        {% set zeros = '0000' %}
+                                        {% elseif i|length < 6 %}
+                                        {% set zeros = '000' %}
+                                        {% elseif i|length < 7 %}
+                                        {% set zeros = '00' %}
+                                        {% elseif i|length < 8 %}
+                                        {% set zeros = '0' %}
+                                        {% else %}
+                                        {% set zeros = '' %}
+                                        {% endif %}
                                         {% if i is divisible by(3) %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}00000{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% else %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}00000{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% endif %}
