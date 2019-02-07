@@ -11,6 +11,7 @@
             {% endfor %}
             {% if moduledescription == 'Barcode Series' %}
             {% elseif breadcrumb.action == 'viewbarcodedistributed' %}
+            <th>ACTION</th>
             {% else %}
                 <th width="10px">ACTION</th>
             {% endif %}
@@ -23,14 +24,23 @@
             {% for name in columns %}
             {% if name == 'status' %}
             <td>
-                <span class="label label-success">
-                    {% if value[name] == '0' %}
-                        Not Yet Used
-                    {% elseif value[name] == '1' %}
-                        Used by driver
-                    {% endif %}
-                </span>
+                {% if value[name] == '0' %}
+                <span class="label label-warning">Not Yet Used</span>
+                {% elseif value[name] == '1' %}
+                <span class="label label-success"> Used by driver</span>
+                {% endif %}
             </td>
+            {% if value[name] == '0' %}
+            <td>
+                <a href="index.php?controller=trackntrace&action=search&boxnumber={{value['boxnumber']}}"
+                title="Edit" class="btn btn-xs btn-primary disabled"><span class="fa fa fa-location-arrow"></span></a>
+            </td>
+            {% elseif value[name] == '1' %}
+            <td>
+                <a href="index.php?controller=trackntrace&action=search&boxnumber={{value['boxnumber']}}"
+                title="Edit" class="btn btn-xs bg-navy"><span class="fa fa fa-location-arrow"></span></a>
+            </td>
+            {% endif %}
             {% elseif name == 'date' %}
             <td>{{ value[name]|date("d/M/Y") }}</td>
                 {% elseif name == 'barcode' %}

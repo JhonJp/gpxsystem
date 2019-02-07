@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="col-md-12">
-                                                        {% if result[0].status == "Loaded" %}
+                                                        {% if result[0].status == "Loaded" or result[0].status == "In-Transit" %}
                                                             <h5>Estimated Days of Voyage :
                                                                 <span class="label label-success">
                                                                     <b>{{result[0].dateandtime|date_modify("+45 days")|date("d-F-Y")}}</b>
@@ -77,7 +77,8 @@
                                                                     {% endif %}
                                                                 </span>
                                                             </h5>
-                                                        {% elseif result[0].status == "Picked-Up" %}
+                                                        {% elseif result[0].status == "Picked-Up" 
+                                                        or result[0].status == "Accepted" %}
                                                             <h5>Estimated Date of Loading :
                                                                 <span class="label label-success">
                                                                     <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>

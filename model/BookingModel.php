@@ -192,6 +192,7 @@ class BookingModel extends GenericModel
                         $transaction_number = $data['data'][$x]['transaction_no'];
                         $this->updateReservationStatus($data['data'][$x]['reservation_no']);
                         $this->updateReservationStatusBoxNumber($box_no, $transaction_number);
+                        $this->updateBarcodeStatus($box_no);
 
                         ///////////TRACK N TRACE LOGS/////////
                         $logs = array(
@@ -282,6 +283,17 @@ class BookingModel extends GenericModel
         $query->execute(array(
             "box_number" => $box_number,
             "transaction_no" => $transaction_number,
+        ));
+
+    }
+
+    public function updateBarcodeStatus($box_number)
+    {
+        $query = $this->connection->prepare("UPDATE gpx_barcode_distribution_number
+        SET status = 1 
+        WHERE boxnumber = :box_number");
+        $query->execute(array(
+            "box_number" => $box_number,
         ));
 
     }

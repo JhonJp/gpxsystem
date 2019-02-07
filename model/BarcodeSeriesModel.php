@@ -29,6 +29,28 @@ class BarcodeSeriesModel extends GenericModel
         return $result;
     }
 
+    public function getlistbydate($datefrom,$dateto)
+    {
+        $query = $this->connection->prepare("
+        SELECT bar.createddate as date,
+        bar.id,
+        bar.quantity as quantity,
+        CONCAT(gemp.firstname,' ',gemp.lastname) as created_by,
+        gb.name as branch,
+        CONCAT(bar.series_start,' - ', bar.series_end) as series
+        FROM gpx_barcode_series bar
+        LEFT JOIN gpx_employee gemp ON gemp.id = bar.createdby
+        LEFT JOIN gpx_branch gb ON gb.id = gemp.branch
+        WHERE bar.createddate BETWEEN :datefrom AND :dateto
+        OR bar.createddate LIKE :like
+        ORDER BY bar.id DESC
+        ");
+        $query->execute(array("datefrom"=>$datefrom, "dateto"=>$dateto,"like"=>"%$datefrom%"));
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
     public function getData($id)
     {
         $query = $this->connection->prepare("

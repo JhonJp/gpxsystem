@@ -5,6 +5,9 @@
             {% for name in columns %}
             <th>{{ name|upper|replace({"_" : " "}) }}</th>
             {% endfor %}
+            {% if module|lower == "portal ticket" %}
+            <th>ACTION</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -25,18 +28,35 @@
                 {% elseif name == "arrival_time" %}
                 {{value[name]|date('d/M/Y h:m A')}}
                 {% elseif name == "status" %}
-                    {% if value[name]|lower == "pending" %}
-                        <span class="label label-warning">{{ value[name] }}</span>
-                    {% elseif value[name]|lower == "in progress" %}
-                        <span class="label label-primary">{{ value[name] }}</span>
-                    {% else %}
-                        <span class="label label-success">{{ value[name] }}</span>
+                    {% set stat = 'label-warning' %}
+                    {% if
+                        value['status'] == "Completed" %}
+                    {% set stat = 'label-success' %}
+                    {% elseif value['status'] == "Cancelled" %}
+                    {% set stat = 'label-danger' %}
+                    {% elseif value['status'] == "In Progress"
+                    or value['status'] == "Pending" %}
+                    {% set stat = 'label-info' %}
                     {% endif %}
+                        <span class="label {{stat}}">{{ value[name] }}</span>
                 {% else %}
                     {{value[name]}}
                 {% endif %}
             </td>
-            {% endfor %}                
+            {% endfor %}
+            <td>
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=list&module=editticket&id={{ value['id'] }}" title="Edit"
+                class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+            {% if value['status']|lower == "pending" 
+            or value['status']|lower == "completed"
+            or value['status']|lower == "in progress" %}
+                <button href="" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-delete" data-id="{{ value['id'] }}"
+                data-table="{{ breadcrumb.controller }}" data-url="{{ url }}">
+                <span class="fa fa-trash"></span></button>
+            {% else %}
+                <span class="label label-danger">{{ value[name] }}</span>
+            {% endif %}
+            </td>             
         </tr>
         {% endfor %}
     </tbody>

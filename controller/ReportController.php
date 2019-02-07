@@ -44,6 +44,12 @@ class ReportController extends GenericController
         }
         else if($module == 'unl'){
              $this->genericfilter($module, $filter,"","");
+        } 
+        else if($module == 'barcodeseries'){
+            $this->genericfilter($module, $filter,"","");
+        }
+        else if($module == 'packinglist'){
+        $this->genericfilter($module, $filter,"","");
         }   
     }
 
@@ -307,6 +313,11 @@ class ReportController extends GenericController
             $this->genericfilter("boxpurchase","bydaterange",$datefirst, $datesec);
         }else if($mode == "boxdisposedreport"){
             $this->genericfilter("boxdisposed","bydaterange",$datefirst, $datesec);
+        }else if($mode == "packinglist"){
+            $this->genericfilter("packinglist","bydaterange",$datefirst, $datesec);
+        }
+        else if($mode == "barcodeseries"){
+            $this->genericfilter("barcodeseries","bydaterange",$datefirst, $datesec);
         }else{
             header("Location:index.php?controller=report&action=list&module=reserve&filter=default");
         }
@@ -360,7 +371,7 @@ class ReportController extends GenericController
                 }else if ($filterby == "default"){
                     $model = new ReportModel($this->connection);
                     $list = $model->getunllist();
-                    $columns = array("date","container_no","forwarder_name","arrival_time","qty","box_number");
+                    $columns = array("date","container_no","forwarder_name","arrival_time","qty","box_number","box_content");
                 
                     echo $this->twig->render('_generic_component/report/list_gen.html', array(
                         "logindetails" =>  $_SESSION['logindetails'],
@@ -499,6 +510,56 @@ class ReportController extends GenericController
                         "list" => $list,        
                         "columns" => $columns,  
                         "module" => "BRANCH INCENTIVES REPORT"              
+                    ));
+                }
+                break;
+            case "barcodeseries":
+                if ($filterby == "bydaterange"){
+                    $model = new BarcodeSeriesModel($this->connection);
+                    $list = $model->getlistbydate($datefrom, $dateto);        
+                    $columns = array("date","branch","created_by","series","quantity");
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,            
+                        "columns" => $columns,   
+                        "module" => "BARCODE SERIES",                                   
+                    ));
+                }else if ($filterby == "default"){
+                    $model = new BarcodeSeriesModel($this->connection);
+                    $list = $model->getlist();        
+                    $columns = array("date","branch","created_by","series","quantity");
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,            
+                        "columns" => $columns,   
+                        "module" => "BARCODE SERIES",                                   
+                    ));
+                }
+                break;
+            case "packinglist":
+                if ($filterby == "bydaterange"){
+                    $model = new ReportModel($this->connection);
+                    $list = $model->getbookingwithconsigneebydate($datefrom,$dateto);        
+                    $columns = array("book_date","name_of_sender","box_number","description");
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,            
+                        "columns" => $columns,   
+                        "module" => "PACKING LIST",                                   
+                    ));
+                }else if ($filterby == "default"){
+                    $model = new ReportModel($this->connection);
+                    $list = $model->getbookingwithconsignee();        
+                    $columns = array("book_date","name_of_sender","box_number","description");
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,            
+                        "columns" => $columns,   
+                        "module" => "PACKING LIST",                                   
                     ));
                 }
                 break;

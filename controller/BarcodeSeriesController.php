@@ -82,7 +82,7 @@ class BarcodeSeriesController extends GenericController
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,     
             "columns" => $columns,
-            "list" => $data,     
+            "list" => $data,          
             "moduledescription" => "Barcodes Distributed to Driver",     
         ));
     }

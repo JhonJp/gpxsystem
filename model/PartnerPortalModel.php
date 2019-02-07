@@ -172,7 +172,7 @@ class PartnerPortalModel extends GenericModel
     //LIST    
     public function getTickets()
     {  
-        $query = $this->connection->prepare("SELECT gt.* , CONCAT(ge.firstname,' ',ge.lastname) as assigned_to
+        $query = $this->connection->prepare("SELECT gt.* ,ge.branch, CONCAT(ge.firstname,' ',ge.lastname) as assigned_to
         , gty.name as ticket_type , gts.name as status,
          CONCAT(gc.firstname,' ', gc.lastname) as customer_name
         FROM gpx_tickets gt 
@@ -180,6 +180,8 @@ class PartnerPortalModel extends GenericModel
         JOIN gpx_tickets_status gts ON gts.id = gt.status
         JOIN gpx_customer gc ON gt.account_no = gc.account_no
         JOIN gpx_employee ge ON ge.id = gt.assigned_to
+        JOIN gpx_branch gbranch ON gbranch.id = ge.branch
+        WHERE gbranch.type LIKE '%Partner%'
         ");
         $query->execute();    
         $result = $query->fetchAll();
@@ -247,6 +249,14 @@ class PartnerPortalModel extends GenericModel
         $result = $query->fetchColumn();
         $this->connection = null; 
         return $result;
+    }
+
+    public function getticketbyid($id)
+    {   
+        $query = $this->connection->prepare("SELECT * FROM gpx_tickets WHERE id = :id");
+        $query->execute(array("id"=>$id));    
+        $result = $query->fetchAll();
+        return $result;     
     }
   
     

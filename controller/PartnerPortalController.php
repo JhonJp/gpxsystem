@@ -6,6 +6,7 @@ class PartnerPortalController extends GenericController
     {
         parent::__construct();
         require_once __DIR__ . "/../model/PartnerPortalModel.php";
+        require_once __DIR__ . "/../model/TicketModel.php";
     }
 
     public function partnerdashboard()
@@ -74,7 +75,8 @@ class PartnerPortalController extends GenericController
                         "breadcrumb" => $this->breadcrumb,
                         "list" => $list,        
                         "columns" => $columns,  
-                        "module" => "PORTAL TICKET"                 
+                        "module" => "PORTAL TICKET",
+                        "url" => $_SERVER['REQUEST_URI'],                 
                     ));
                 break;
             case "dist":
@@ -93,6 +95,9 @@ class PartnerPortalController extends GenericController
                 break;
             case "savenewticket":
                 $this->savenewticket();
+                break;
+            case "editticket":
+                $this->editticket();
                 break;
             case "newticket":
                 $id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -290,6 +295,30 @@ class PartnerPortalController extends GenericController
 
         if($result == 1)
             header("Location: index.php?controller=partnerportal&action=list&module=tickets");
+    }
+
+    public function editticket()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $result = null; 
+        $empmodel = new PartnerPortalModel($this->connection);
+        $employee = $empmodel->getPartnerEmployee(); 
+        if(isset($id)){
+            $model = new PartnerPortalModel($this->connection);
+            $result = $model->getticketbyid($id);    
+        }
+
+        echo $this->twig->render('partner_portal/newticket.html', array(
+            "logindetails" =>  $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
+            "allltickettype" => $this->alltickettype,
+            "allcustomers" => $this->allcustomers,
+            "allemployee" => $employee,
+            "allpriority" => $this->allticketpriority,
+            "allstatus" => $this->allticketstatus,
+            "alltransactionsno" => $this->alltransactionsno,
+            "result" => $result
+        ));
     }
 
 

@@ -462,6 +462,9 @@ class ReportModel extends GenericModel
         gu.forwarder_name as forwarder_name,
         gu.arrival_time as arrival_time,
         COUNT(gubn.box_number) as qty,
+        (SELECT GROUP_CONCAT(gcb.box_content) FROM gpx_unloading_box_number gub
+        LEFT JOIN gpx_booking_consignee_box gcb ON gcb.box_number = gub.box_number
+        WHERE gub.unloading_id = gu.id) as box_content,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
         FROM gpx_unloading gu 
         LEFT JOIN gpx_unloading_box_number gubn ON gu.id = gubn.unloading_id
@@ -482,6 +485,9 @@ class ReportModel extends GenericModel
         gu.forwarder_name as forwarder_name,
         gu.arrival_time as arrival_time,
         COUNT(gubn.box_number) as qty,
+        (SELECT GROUP_CONCAT(gcb.box_content) FROM gpx_unloading_box_number gub
+        LEFT JOIN gpx_booking_consignee_box gcb ON gcb.box_number = gub.box_number
+        WHERE gub.unloading_id = gu.id) as box_content,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
         FROM gpx_unloading gu 
         LEFT JOIN gpx_unloading_box_number gubn ON gu.id = gubn.unloading_id
@@ -500,6 +506,45 @@ class ReportModel extends GenericModel
 
         $query = $this->connection->prepare("SELECT * FROM gpx_branch ORDER BY name ASC");
         $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    // GET BOOKING WITH CONSIGNEES
+    public function getbookingwithconsignee(){
+        $query = $this->connection->prepare("
+        SELECT gbc.box_number as box_number,
+        gb.book_date as book_date,
+        gbc.box_content as description,
+        CONCAT(gc.firstname,' ',gc.lastname) as name_of_sender
+        FROM gpx_booking gb
+        LEFT JOIN gpx_booking_consignee_box gbc ON gbc.transaction_no = gb.transaction_no
+        LEFT JOIN gpx_customer gc ON gc.account_no = gb.customer
+        ORDER BY gb.id ASC
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    // GET BOOKING WITH CONSIGNEES FILTER BY DATE
+    public function getbookingwithconsigneebydate($datefrom,$dateto){
+        $query = $this->connection->prepare("
+        SELECT gbc.box_number as box_number,
+        gb.book_date as book_date,
+        gbc.box_content as description,
+        CONCAT(gc.firstname,' ',gc.lastname) as name_of_sender
+        FROM gpx_booking gb
+        LEFT JOIN gpx_booking_consignee_box gbc ON gbc.transaction_no = gb.transaction_no
+        LEFT JOIN gpx_customer gc ON gc.account_no = gb.customer
+        WHERE gb.book_date BETWEEN :datefrom AND :dateto
+        OR gb.book_date LIKE :like
+        ORDER BY gb.id
+        ");
+        $query->execute(array(
+            "datefrom"=>$datefrom,
+            "dateto"=>$dateto,
+            "like"=>"%$datefrom%"));
         $result = $query->fetchAll();
         return $result;
     }

@@ -3,7 +3,11 @@
         <tr>
             <th width="3px">#</th>
             {% for name in columns %}
+            {% if name == "series" %}
+            <th>{{ name|upper|replace({"_" : " "}) }} (start - end)</th>
+            {% else %}
             <th>{{ name|upper|replace({"_" : " "}) }}</th>
+            {% endif %}
             {% endfor %}
         </tr>
     </thead>
@@ -14,7 +18,7 @@
             {% for name in columns %}            
             <td>
                 {% if name == "date" %}
-                    {{value[name]|date("M/d/Y")}}
+                    {{value[name]|date("d/M/Y")}}
                 {% else %}
                     {{value[name]}}
                 {% endif %}

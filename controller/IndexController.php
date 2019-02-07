@@ -87,6 +87,7 @@ class IndexController extends GenericController
                 CASE "reservation" : $table = "gpx_reservation"; break;
                 CASE "warehouse_inventory" : $table = "gpx_warehouse_inventory"; break;
                 CASE "Account Type" : $table = "gpx_chartaccounts_type"; break;
+                CASE "partnerportal" : $table = "gpx_tickets"; break;
                 default: $table = ""; break;
             }
             $model = new IndexModel($this->connection);
