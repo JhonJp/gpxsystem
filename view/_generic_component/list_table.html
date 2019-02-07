@@ -72,9 +72,21 @@
                 <!-- {{ value[name]|date('d/M/Y h:i A') }} -->
                 {{ value[name]|date('d/M/Y h:i A') }}
             </td>
-            {% elseif name == "unload_date"%}
+            {% elseif name == "unloaded_date"%}
             <td>
                 {{ value[name]|date('d/M/Y') }}
+            </td>
+            {% elseif name == "age"%}
+            <td>
+                {% set current = "now" %}
+                {% set unldate = value["unload_date"] %}
+                {% set difference = date(current).diff(date(unldate)) %}
+                {% set leftDays = difference.days %}
+                {% if leftDays == 1 or leftDays == 0 %}
+                   <span class="label label-warning">Less 1 day or 1 day</span>
+                {% else %}
+                <span class="label label-warning">{{ leftDays }} days</span>
+                {% endif %}
             </td>
             {% elseif name == "loaded_date"%}
             <td>
@@ -98,6 +110,7 @@
                 and breadcrumb.controller != 'incidentreport'
                 and breadcrumb.controller != 'report'
                 and breadcrumb.controller != 'partnerportal'
+                and breadcrumb.controller != 'boxaging'
                 %}
                 {% if breadcrumb.controller == "Account Type" %}
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"

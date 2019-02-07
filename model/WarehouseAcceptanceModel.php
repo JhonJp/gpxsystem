@@ -18,7 +18,6 @@ class WarehouseAcceptanceModel extends GenericModel
         gwa.createddate as accepted_date,
         COUNT(gwab.box_number) as qty,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_warehouse_acceptance_box_number a
-
         WHERE a.warehouse_acceptance_id = gwa.id) as box_number
         FROM gpx_warehouse_acceptance gwa
         JOIN gpx_warehouse gw ON gwa.warehouse_id = gw.id

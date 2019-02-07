@@ -14,6 +14,8 @@ class BarcodeSeriesModel extends GenericModel
         $query = $this->connection->prepare("
         SELECT bar.createddate as date,
         bar.id,
+        bar.series_start as start,
+        bar.series_end as end,
         bar.quantity as quantity,
         CONCAT(gemp.firstname,' ',gemp.lastname) as created_by,
         gb.name as branch,

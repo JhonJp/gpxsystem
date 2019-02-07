@@ -17,6 +17,9 @@
     <div class="box-tools pull-right">
         <div class="btn-group">
             {% if 
+                breadcrumb.controller == "boxaging" 
+                %}
+            {% elseif 
             breadcrumb.controller == "Account Type" 
             %}
             <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">

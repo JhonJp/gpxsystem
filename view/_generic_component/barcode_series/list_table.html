@@ -22,7 +22,45 @@
         <tr>
             <td>{{ key + 1 }}</td>
             {% for name in columns %}
-            {% if name == 'status' %}
+            {% if name == 'series' %}
+            <td>
+                    {% if value['start']|length < 2 %}
+                    {% set zeros = '0000000' %}
+                    {% elseif value['start']|length < 3 %}
+                    {% set zeros = '000000' %}
+                    {% elseif value['start']|length < 4 %}
+                    {% set zeros = '00000' %}
+                    {% elseif value['start']|length < 5 %}
+                    {% set zeros = '0000' %}
+                    {% elseif value['start']|length < 6 %}
+                    {% set zeros = '000' %}
+                    {% elseif value['start']|length < 7 %}
+                    {% set zeros = '00' %}
+                    {% elseif value['start']|length < 8 %}
+                    {% set zeros = '0' %}
+                    {% else %}
+                    {% set zeros = '' %}
+                    {% endif %}
+                    {% if value['end']|length < 2 %}
+                    {% set zerosend = '0000000' %}
+                    {% elseif value['end']|length < 3 %}
+                    {% set zerosend = '000000' %}
+                    {% elseif value['end']|length < 4 %}
+                    {% set zerosend = '00000' %}
+                    {% elseif value['end']|length < 5 %}
+                    {% set zerosend = '0000' %}
+                    {% elseif value['end']|length < 6 %}
+                    {% set zerosend = '000' %}
+                    {% elseif value['end']|length < 7 %}
+                    {% set zerosend = '00' %}
+                    {% elseif value['end']|length < 8 %}
+                    {% set zerosend = '0' %}
+                    {% else %}
+                    {% set zerosend = '' %}
+                    {% endif %}
+                        {{"now"|date("y")}}{{zeros}}{{value['start']}} - {{"now"|date("y")}}{{zerosend}}{{value['end']}}
+            </td>
+            {% elseif name == 'status' %}
             <td>
                 {% if value[name] == '0' %}
                 <span class="label label-warning">Not Yet Used</span>

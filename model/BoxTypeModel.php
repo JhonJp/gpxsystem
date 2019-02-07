@@ -20,6 +20,16 @@ class BoxTypeModel extends GenericModel
         return $result;
     }
 
+    public function getdescriptions()
+    {        
+        $query = $this->connection->prepare("SELECT *
+         FROM gpx_boxcontents ORDER BY id");
+        $query->execute();
+        $result = $query->fetchAll();
+        $this->connection = null; 
+        return $result;
+    }
+
     public function getboxtypebydid($id)
     {        
         $query = $this->connection->prepare("SELECT * FROM gpx_boxtype WHERE id = :id");
