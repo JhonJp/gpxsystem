@@ -91,6 +91,31 @@ class PartnerPortalController extends GenericController
                     "module" => $moduledescription                                            
                 )); 
                 break;
+            case "savenewticket":
+                $this->savenewticket();
+                break;
+            case "newticket":
+                $id = isset($_GET['id']) ? $_GET['id'] : null;
+                $result = null;
+                $empmodel = new PartnerPortalModel($this->connection);
+                $employee = $empmodel->getPartnerEmployee(); 
+                if(isset($id)){
+                    $model = new TicketModel($this->connection);
+                    $result = $model->getticketbyid($id);    
+                }
+
+                echo $this->twig->render('partner_portal/newticket.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,
+                    "allltickettype" => $this->alltickettype,
+                    "allcustomers" => $this->allcustomers,
+                    "allemployee" => $employee,
+                    "allpriority" => $this->allticketpriority,
+                    "allstatus" => $this->allticketstatus,
+                    "alltransactionsno" => $this->alltransactionsno,
+                    "result" => $result
+                ));
+                break;
             default:
                 break;
         }
@@ -229,14 +254,44 @@ class PartnerPortalController extends GenericController
         $model = new PartnerPortalModel($this->connection);
         $list = $model->getrolelist();
         $columns = array("employee_name", "username", "role");
-        echo $this->twig->render('_generic_component/list.html', array(
+        echo $this->twig->render('_generic_component/report/list_part.html', array(
             "logindetails" => $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
             "list" => $list,
             "columns" => $columns,
             "url" => $_SERVER['REQUEST_URI'],
+            "module" => "USERS AND ROLES",
         ));
     }
+
+    // SAVE NEW TICKET
+    public function savenewticket()
+    {
+        $ticketid = isset($_POST['ticketid']) ? $_POST['ticketid'] : "";
+
+        $data = array(
+                "ticket_no" => "T".$this->current_userid.date('mHis'),
+                "ticket_type" => (isset($_POST['ticket_type']) ? $_POST['ticket_type'] : ""),
+                "account_no" => (isset($_POST['account_no']) ? $_POST['account_no'] : ""),
+                "status" => (isset($_POST['status']) ? $_POST['status'] : ""),
+                "assigned_to" => (isset($_POST['assigned_to']) ? $_POST['assigned_to'] : ""),
+                "description" => (isset($_POST['description']) ? $_POST['description'] : ""),
+                "created_by" =>  $this->current_userid
+        );
+
+        if($ticketid <> ""){
+            $model = new TicketModel($this->connection);
+            $result = $model->update($ticketid,$data);
+        }
+        else{
+            $model = new GenericModel($this->connection);
+            $result = $model->insert($data,"gpx_tickets");
+        }
+
+        if($result == 1)
+            header("Location: index.php?controller=partnerportal&action=list&module=tickets");
+    }
+
 
 }
 

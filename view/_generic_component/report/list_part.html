@@ -12,6 +12,17 @@
           <div class="box-title">
             <h4><b>LIST</b></h4>
           </div>
+          {% if module|lower == 'portal ticket' %}
+          <div class="box-tools pull-right">
+            <a href="index.php?controller=partnerportal&action=list&module=newticket" class="btn btn-block btn-primary">
+              <span class="fa fa-fw fa-plus"></span> NEW {{ module|upper|replace({"_" : " "}) }}</a>
+        </div>
+        {% elseif module|lower == 'users and roles' %}
+          <div class="box-tools pull-right">
+            <a href="index.php?controller=partnerportal&action=edit" class="btn btn-block btn-primary">
+              <span class="fa fa-fw fa-plus"></span> NEW AGENT</a>
+        </div>
+        {% endif %}
         </div>
         {# {{}} #}
         <div class="box-body">

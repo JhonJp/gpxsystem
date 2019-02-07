@@ -25,7 +25,13 @@
                 {% elseif name == "arrival_time" %}
                 {{value[name]|date('d/M/Y h:m A')}}
                 {% elseif name == "status" %}
-                    <span class="label label-success">{{ value[name] }}</span>
+                    {% if value[name]|lower == "pending" %}
+                        <span class="label label-warning">{{ value[name] }}</span>
+                    {% elseif value[name]|lower == "in progress" %}
+                        <span class="label label-primary">{{ value[name] }}</span>
+                    {% else %}
+                        <span class="label label-success">{{ value[name] }}</span>
+                    {% endif %}
                 {% else %}
                     {{value[name]}}
                 {% endif %}
