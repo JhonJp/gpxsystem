@@ -5,7 +5,7 @@
             {% for name in columns %}
             <th>{{ name|upper|replace({"_" : " "}) }}</th>
             {% endfor %}
-            {% if module|lower == "portal ticket" %}
+            {% if module|lower == "portal ticket" or breadcrumb.action == 'userrole' %}
             <th>ACTION</th>
             {% endif %}
         </tr>
@@ -45,17 +45,22 @@
             </td>
             {% endfor %}
             <td>
+                {% if breadcrumb.action == 'userrole' %}
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=newrole&id={{ value['id'] }}" title="Edit"
+                class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+                {% else %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=list&module=editticket&id={{ value['id'] }}" title="Edit"
                 class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
-            {% if value['status']|lower == "pending" 
-            or value['status']|lower == "completed"
-            or value['status']|lower == "in progress" %}
-                <button href="" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-delete" data-id="{{ value['id'] }}"
-                data-table="{{ breadcrumb.controller }}" data-url="{{ url }}">
-                <span class="fa fa-trash"></span></button>
-            {% else %}
-                <span class="label label-danger">{{ value[name] }}</span>
-            {% endif %}
+                    {% if value['status']|lower == "pending" 
+                    or value['status']|lower == "completed"
+                    or value['status']|lower == "in progress" %}
+                        <button href="" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-delete" data-id="{{ value['id'] }}"
+                        data-table="{{ breadcrumb.controller }}" data-url="{{ url }}">
+                        <span class="fa fa-trash"></span></button>
+                    {% else %}
+                        <span class="label label-danger">{{ value[name] }}</span>
+                    {% endif %}
+                {% endif %}
             </td>             
         </tr>
         {% endfor %}

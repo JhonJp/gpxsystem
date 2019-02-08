@@ -7,6 +7,7 @@ class PartnerPortalController extends GenericController
         parent::__construct();
         require_once __DIR__ . "/../model/PartnerPortalModel.php";
         require_once __DIR__ . "/../model/TicketModel.php";
+        require_once __DIR__ . "/../model/UserModel.php";
     }
 
     public function partnerdashboard()
