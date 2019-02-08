@@ -55,8 +55,8 @@ class DeliveryModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_delivery(
-                    id,transaction_no,createddate,createdby,customer,receivedby,relationship,remarks)
-                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,:remarks)");
+                    id,transaction_no,createddate,createdby,customer,receivedby,relationship,remarks,signature)
+                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,:remarks,:signature)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "transaction_no" => $data['data'][$x]['transaction_no'],
@@ -66,6 +66,7 @@ class DeliveryModel extends GenericModel
                         "receivedby" => $data['data'][$x]['receivedby'],
                         "relationship" => $data['data'][$x]['relationship'],
                         "remarks" => $data['data'][$x]['remarks'],
+                        "signature" => $data['data'][$x]['signature'],
                     ));
 
                     $countboxnumber = count($data['data'][$x]['delivery_box']);
@@ -146,6 +147,13 @@ class DeliveryModel extends GenericModel
 
     public function getdeliveryboxes(){
         $query = $this->connection->prepare("SELECT * FROM gpx_delivery_box_number");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getproof(){
+        $query = $this->connection->prepare("SELECT * FROM gpx_delivery_image");
         $query->execute();
         $result = $query->fetchAll();
         return $result;
