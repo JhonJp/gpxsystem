@@ -45,7 +45,10 @@
             </td>
             {% endfor %}
             <td>
-                {% if breadcrumb.action == 'userrole' %}
+                {% if module|lower == "portal distribution"
+                 or module|lower == "portal unloaded"
+                  or module|lower == "portal delivery" %}
+                {% elseif breadcrumb.action == 'userrole' %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=newrole&id={{ value['id'] }}" title="Edit"
                 class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
                 {% else %}

@@ -88,11 +88,10 @@ class ReportModel extends GenericModel
            SUM(gpay.total_amount) as total_amount,
            gpay.createddate as date
             FROM gpx_booking gb 
-            LEFT JOIN gpx_employee ge ON gb.createdby = ge.id 
-            LEFT JOIN gpx_branch gbranch ON ge.branch = gbranch.id 
-            LEFT JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
+            JOIN gpx_employee ge ON gb.createdby = ge.id 
+            JOIN gpx_branch gbranch ON ge.branch = gbranch.id 
+            JOIN gpx_payment gpay ON gpay.createdby = ge.id 
             
-            GROUP BY gpay.createddate
         ");
         $query->execute();
         $result = $query->fetchAll();
@@ -112,9 +111,9 @@ class ReportModel extends GenericModel
             FROM gpx_booking gb 
             JOIN gpx_employee ge ON gb.createdby = ge.id 
             JOIN gpx_branch gbranch ON ge.branch = gbranch.id 
-            JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
+            JOIN gpx_payment gpay ON gpay.createdby = ge.id
             WHERE gbranch.id = :branch
-            GROUP BY gpay.createddate
+            GROUP BY gbranch.name
         ");
         $query->execute(array("branch"=>$branch));
         $result = $query->fetchAll();
@@ -134,10 +133,10 @@ class ReportModel extends GenericModel
             FROM gpx_booking gb 
             JOIN gpx_employee ge ON gb.createdby = ge.id 
             JOIN gpx_branch gbranch ON ge.branch = gbranch.id 
-            JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
+            JOIN gpx_payment gpay ON gpay.createdby = ge.id 
             WHERE gpay.createddate BETWEEN :first AND :second
             OR gpay.createddate LIKE :like
-            GROUP BY gpay.createddate
+            GROUP BY gbranch.name
         ");
         $query->execute(array("first"=>$first,"second"=>$second,"like"=>"%$first%"));
         $result = $query->fetchAll();
@@ -159,18 +158,29 @@ class ReportModel extends GenericModel
     public function salesreportbyemployee()
     {        
         $query = $this->connection->prepare("
-        SELECT 
+        SELECT gpay.*,
+        ge.id,
         CONCAT(ge.firstname, ' ',ge.lastname) as employee_name,
         gb.transaction_no as transaction_number,
         gb.boxtype as box_type,
         gpay.createddate as date,
-        COUNT(gb.boxtype) as qty,
-        gpay.total_amount as total_amount
-        FROM gpx_booking_consignee_box gb 
-        LEFT JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
-        LEFT JOIN gpx_employee ge ON gpay.createdby = ge.id
+        COUNT(gb.boxtype) as qty
+        FROM gpx_booking_consignee_box gb
+        JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no
+        JOIN gpx_employee ge ON gpay.createdby = ge.id
+        GROUP BY ge.id
         
-        GROUP BY gb.transaction_no
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function salesemployee()
+    {        
+        $query = $this->connection->prepare("
+        SELECT gpay.total_amount as total_amount
+        FROM gpx_payment gpay
         ");
         $query->execute();
         $result = $query->fetchAll();

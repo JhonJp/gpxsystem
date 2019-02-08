@@ -51,7 +51,7 @@ class PartnerPortalController extends GenericController
                     "breadcrumb" => $this->breadcrumb,
                     "list" => $list,        
                     "columns" => $columns,  
-                    "module" => "PORTAL UNLOADED "              
+                    "module" => "PORTAL UNLOADED"              
                 ));
                 break;
             case "deliver":

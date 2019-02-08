@@ -136,5 +136,20 @@ class DeliveryModel extends GenericModel
         return $result;
     }
 
+    public function getdeliveries($id){
+        $query = $this->connection->prepare("SELECT * FROM gpx_delivery
+        WHERE createdby = :id");
+        $query->execute(array("id" => $id));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getdeliveryboxes(){
+        $query = $this->connection->prepare("SELECT * FROM gpx_delivery_box_number");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 }
 ?>

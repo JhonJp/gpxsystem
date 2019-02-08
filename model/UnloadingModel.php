@@ -38,16 +38,18 @@ class UnloadingModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_unloading(
-                    id,unload_date,container_no,forwarder_name,arrival_time,time_start,time_end,createdby)
-                    VALUES (:id,:unload_date,:container_no,:forwarder_name,:arrival_time,:time_start,:time_end,:createdby)");
+                    id,unload_date,container_no,forwarder_name,arrival_time,time_start,time_end,plate_no,driver_name,createdby)
+                    VALUES (:id,:unload_date,:container_no,:forwarder_name,:arrival_time,:time_start,:time_end,:plate,:drivern,:createdby)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "unload_date" => $data['data'][$x]['unload_date'],
-                        "container_no" => $data['data'][$x]['unload_shipper'],
-                        "forwarder_name" => $data['data'][$x]['unload_container'],
+                        "container_no" => $data['data'][$x]['unload_container'],
+                        "forwarder_name" => $data['data'][$x]['unload_shipper'],
                         "arrival_time" => $data['data'][$x]['unload_eta'],
                         "time_start" => $data['data'][$x]['time_start'],
                         "time_end" => $data['data'][$x]['time_end'],
+                        "plate" => $data['data'][$x]['plate_no'],
+                        "drivern" => $data['data'][$x]['driver_name'],
                         "createdby" => $data['data'][$x]['createdby'],
                     ));
 

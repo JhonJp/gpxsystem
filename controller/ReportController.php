@@ -255,7 +255,7 @@ class ReportController extends GenericController
                 "columns" => $columns,  
                 "module" => "SALES REPORT (BY EMPLOYEE)",
                 "filters" => $filters,
-                "employees" => $emp             
+                "employees" => $emp,            
             ));
         }else if(($mode == "salemp") && ($filter == "byemp")){
             $employee = isset($_GET['empid']) ? $_GET['empid'] : "";

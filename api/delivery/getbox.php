@@ -12,8 +12,7 @@ $connection = $database->connect();
 
 //CALL MODEL    
 $model = new DeliveryModel($connection);
-$id = isset($_GET['id']) ? $_GET['id'] : 0;
-$result = $model->getdeliveries($id);
+$result = $model->getdeliveryboxes();
 
 //OUTPUT
 echo json_encode($result);
