@@ -11,16 +11,10 @@ $database = new Database();
 $connection = $database->connect();;
 
 //CALL MODEL    
-$model = new GenericModel($connection);
-$id = isset($_GET['id']) ? $_GET['id'] : 0;
-$counting = $model->getcountbydriver($id);
+$boxtype = new GenericModel($connection);
+$result = $boxtype->getnsbrates();
 
 //OUTPUT
-if ($counting == 0 ){
-    echo json_encode("No Data Found!");
-}
-else{
-    $result = $model->getboxnumbersbyDriver($id);
-    echo json_encode($result);
-}
+echo json_encode($result);
+
 ?>

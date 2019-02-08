@@ -368,10 +368,30 @@ class GenericModel{
         return $result;
     }
 
+    //ALL BOX NUMBER DISTRIBUTED
+    public function getcountbydriver($id)
+    {
+        $query = $this->connection->prepare("
+        SELECT COUNT(gbd.driver_id) FROM gpx_barcode_distribution gbd 
+        WHERE gbd.driver_id = :id");
+        $query->execute(array("id"=>$id,));
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
     //ALL BOX RATES
     public function getboxrates()
     {
         $query = $this->connection->prepare("SELECT * FROM gpx_boxrate");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //ALL RATES NSB 
+    public function getnsbrates()
+    {
+        $query = $this->connection->prepare("SELECT * FROM gpx_nsbrate");
         $query->execute();
         $result = $query->fetchAll();
         return $result;
