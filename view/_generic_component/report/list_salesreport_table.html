@@ -14,7 +14,7 @@
                 {% for name in columns %}            
                 <td>
                     {% if name == "date" %}
-                        {{value[name]|date("m/d/Y")}}
+                        {{value[name]|date("d/M/Y")}}
                     {% else %}
                         {{value[name]}}
                     {% endif %}

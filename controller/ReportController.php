@@ -53,6 +53,9 @@ class ReportController extends GenericController
         }
         else if($module == 'packinglist'){
         $this->genericfilter($module, $filter,"","");
+        }
+        else if($module == 'loadunlexcept'){
+            $this->genericfilter($module, $filter,"","");
         }   
     }
 
@@ -319,6 +322,12 @@ class ReportController extends GenericController
         }else if($mode == "packinglist"){
             $this->genericfilter("packinglist","bydaterange",$datefirst, $datesec);
         }
+        else if($mode == "loadingunloadingexception"){
+            $this->genericfilter("loadunlexcept","bydaterange",$datefirst, $datesec);
+        }
+        else if($mode == "boxaging"){
+            $this->genericfilter("boxaging","bydaterange",$datefirst, $datesec);
+        }
         else if($mode == "barcodeseries"){
             $this->genericfilter("barcodeseries","bydaterange",$datefirst, $datesec);
         }else{
@@ -358,9 +367,49 @@ class ReportController extends GenericController
                     ));
                 }
                 break;
+            case "loadunlexcept":
+                if ($filterby == "bydaterange"){
+                    $model = new ReportModel($this->connection);
+                    $list = $model->getexceptions();
+
+                    $columns = array("container_no","loaded_qty","unloaded_qty","with_descripancy");
+
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,        
+                        "columns" => $columns,  
+                        "module" => "LOADING UNLOADING EXCEPTION"              
+                    ));
+                }else if ($filterby == "default"){
+                    $model = new ReportModel($this->connection);
+                    $list = $model->getexceptions();
+
+                    $columns = array("container_no","loaded_qty","unloaded_qty","with_descripancy");
+
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,        
+                        "columns" => $columns,  
+                        "module" => "LOADING UNLOADING EXCEPTION"              
+                    ));
+                }
+                break;
             case "boxaging":
                 if ($filterby == "bydaterange"){
-                    
+                    $model = new BoxAgingModel($this->connection);
+                    $list = $model->getfilterbydate($datefrom, $dateto);
+
+                    $columns = array("unloaded_date","box_number","receiver","destination","last_status","age");
+
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,        
+                        "columns" => $columns,  
+                        "module" => "BOX AGING"              
+                    ));
                 }else if ($filterby == "default"){
                     $model = new BoxAgingModel($this->connection);
                     $list = $model->getlist();

@@ -45,9 +45,14 @@ class ReportModel extends GenericModel
         JOIN gpx_warehouse gw ON gwi.warehouse_id = gw.id
         JOIN gpx_boxtype gb ON gwi.boxtype_id = gb.id
         WHERE gwi.createddate BETWEEN :first AND :second
+        OR gwi.createddate LIKE :like
         GROUP BY gwi.manufacturer_name
         ");
-        $query->execute(array("first"=>$datefrom,"second"=>$dateto));
+        $query->execute(array(
+            "first"=>$datefrom,
+            "second"=>$dateto,
+            "like"=>"%$datefrom%",
+        ));
         $result = $query->fetchAll();
         return $result;
     }
@@ -85,13 +90,13 @@ class ReportModel extends GenericModel
         gbranch.name as branch,
          gb.transaction_no as transaction_number,
           CONCAT(ge.firstname, ' ',ge.lastname) as employee_name,
-           SUM(gpay.total_amount) as total_amount,
+          (SELECT SUM(gpay.total_amount) FROM gpx_payment gpay WHERE gpay.createdby = ge.id) as total_amount,
            gpay.createddate as date
             FROM gpx_booking gb 
             JOIN gpx_employee ge ON gb.createdby = ge.id 
             JOIN gpx_branch gbranch ON ge.branch = gbranch.id 
             JOIN gpx_payment gpay ON gpay.createdby = ge.id 
-            
+            GROUP BY gbranch.id
         ");
         $query->execute();
         $result = $query->fetchAll();
@@ -106,7 +111,7 @@ class ReportModel extends GenericModel
         gbranch.name as branch,
          gb.transaction_no as transaction_number,
           CONCAT(ge.firstname, ' ',ge.lastname) as employee_name,
-           SUM(gpay.total_amount) as total_amount,
+          (SELECT SUM(gpay.total_amount) FROM gpx_payment gpay WHERE gpay.createdby = ge.id) as total_amount,
            gpay.createddate as date
             FROM gpx_booking gb 
             JOIN gpx_employee ge ON gb.createdby = ge.id 
@@ -128,7 +133,7 @@ class ReportModel extends GenericModel
         gbranch.name as branch,
          gb.transaction_no as transaction_number,
           CONCAT(ge.firstname, ' ',ge.lastname) as employee_name,
-           SUM(gpay.total_amount) as total_amount,
+          (SELECT SUM(gpay.total_amount) FROM gpx_payment gpay WHERE gpay.createdby = ge.id) as total_amount,
            gpay.createddate as date
             FROM gpx_booking gb 
             JOIN gpx_employee ge ON gb.createdby = ge.id 
@@ -160,14 +165,15 @@ class ReportModel extends GenericModel
         $query = $this->connection->prepare("
         SELECT gpay.*,
         ge.id,
+        (SELECT SUM(gpay.total_amount) FROM gpx_payment gpay WHERE gpay.createdby = ge.id) as total_amount,
         CONCAT(ge.firstname, ' ',ge.lastname) as employee_name,
         gb.transaction_no as transaction_number,
         gb.boxtype as box_type,
         gpay.createddate as date,
         COUNT(gb.boxtype) as qty
         FROM gpx_booking_consignee_box gb
-        JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no
-        JOIN gpx_employee ge ON gpay.createdby = ge.id
+        LEFT JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no
+        LEFT JOIN gpx_employee ge ON gpay.createdby = ge.id
         GROUP BY ge.id
         
         ");
@@ -297,10 +303,9 @@ class ReportModel extends GenericModel
         COUNT(gb.boxtype) as qty,
         gpay.total_amount as total_amount
         FROM gpx_booking_consignee_box gb 
-        LEFT JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
-        LEFT JOIN gpx_employee ge ON gpay.createdby = ge.id
-        
-        GROUP BY gb.transaction_no
+        JOIN gpx_payment gpay ON gb.transaction_no = gpay.transaction_no 
+        JOIN gpx_employee ge ON gpay.createdby = ge.id
+        GROUP BY gpay.createddate
         ");
         $query->execute();
         $result = $query->fetchAll();
@@ -559,6 +564,25 @@ class ReportModel extends GenericModel
         return $result;
     }
 
+    //LOADED UNLOADED EXCEPTION
+    public function getexceptions()
+    {        
+        $query = $this->connection->prepare("
+        SELECT gl.*,gl.id,gu.id,
+        gl.container_no as container_no,
+        (SELECT COUNT(glb.box_number) FROM gpx_loading_box_number glb WHERE glb.loading_id = gl.id) as loaded_qty,
+        (SELECT COUNT(gub.box_number) FROM gpx_unloading_box_number gub WHERE gub.unloading_id = gu.id) as unloaded_qty
+        FROM gpx_loading gl
+        JOIN gpx_unloading gu
+        JOIN gpx_loading_box_number glb ON gl.id = glb.loading_id
+        JOIN gpx_unloading_box_number gub ON gub.unloading_id = gu.id
+        WHERE gub.box_number = glb.box_number
+        GROUP BY gl.id,gu.id
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
     
 }
 ?>

@@ -13,6 +13,8 @@
     </thead>
     <tbody>
         {% for key,value in list %}
+        {% if value["last_status"] == "Delivered" %}
+        {% else %}
         <tr>
             <td>{{ key + 1 }}</td>
             {% for name in columns %} 
@@ -28,18 +30,29 @@
                 <span class="label label-warning">{{ leftDays }} days</span>
                 {% endif %}
             </td>
+            {% elseif name == "with_descripancy" %}
+            <td>
+                {% if value['loaded_qty'] == value['unloaded_qty'] %}
+                <span class="label label-success">No descripancies</span>
+                {% else %}
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} descripancies</span>
+                {% endif %}
+            </td>
             {% else %}
             <td>
                 {% if name == "date"
                 or name == "unloaded_date" %}
                     {{value[name]|date("d/M/Y")}}
+                {% elseif name == "loaded_qty" or name == "unloaded_qty" %}
+                    {{ value[name] }} qty(s)
                 {% else %}
-                    {{value[name]}}
+                    {{ value[name] }}
                 {% endif %}
             </td>
             {% endif %}  
             {% endfor %}                
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
     
