@@ -89,7 +89,7 @@ class DeliveryModel extends GenericModel
 
                         ///////TRACK AND TRACE////////
                         $logs = array(
-                            "transaction_no" => $this->gettransactionno($data['data'][$x]['delivery_box'][$y]['box_number']),
+                            "transaction_no" => $data['data'][$x]['delivery_box'][$y]['box_number'],
                             "status" => "Delivered",
                             "dateandtime" => $data['data'][$x]['createddate'],
                             "activity" => "Delivered",

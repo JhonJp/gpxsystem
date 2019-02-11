@@ -10,6 +10,8 @@
     </thead>
     <tbody>
         {% for key,value in list %}
+        {% if value["last_status"] == "Delivered" %}
+        {% else %}
         <tr>
             <td>{{ key + 1 }}</td>
             {% for name in columns %}
@@ -18,7 +20,9 @@
             <td>
                 {% for box in boxnumbers %}
                 {% if name == 'box_number '%}
-                <span class="label label-success"><a href="index.php?controller=trackntrace&action=search&boxnumber={{ box }}" style="color:white;">{{ box }}</a></span>
+                <a href="index.php?controller=trackntrace&action=search&boxnumber={{ box }}" style="color:white;cursor:pointer;"></a>
+                    <span class="label label-success">{{ box }}</span>
+                </a>
                 {% else %}
                 <span class="label label-success">{{ box }}</span>
                 {% endif %}
@@ -179,6 +183,7 @@
                 {% endif %}
             </td>
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
     {#
