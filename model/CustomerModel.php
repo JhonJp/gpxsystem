@@ -176,9 +176,9 @@ class CustomerModel extends GenericModel
 
                 $query = $this->connection->prepare("INSERT INTO gpx_customer
                 (account_no,firstname,lastname,middlename,mobile,phone,email,birthdate,gender,house_number_street,
-                barangay,postal_code,city,type,createdby)
+                barangay,postal_code,city,type,createdby,sender_account_no)
                 VALUES (:account_no,:firstname,:lastname,:middlename,:mobile,:phone,:email,:birthdate,:gender,:house_number_street,
-                :postal_code,:barangay,:city,:type,:createdby)");
+                :postal_code,:barangay,:city,:type,:createdby,:sender_account_no)");
                 $result = $query->execute(array(
                     "account_no" => $data['data'][$x]['account_no'],
                     "firstname" => $data['data'][$x]['firstname'],
@@ -195,6 +195,7 @@ class CustomerModel extends GenericModel
                     "city" => $data['data'][$x]['city'],
                     "type" => $data['data'][$x]['type'],
                     "createdby" => $data['data'][$x]['createdby'],
+                    "sender_account_no" => $data['data'][$x]['senders_account_no'],
                 ));
             }
         } catch (Exception $e) {

@@ -93,8 +93,24 @@ class GenericModel{
 	//ALL CUSTOMER
     public function getallcustomers()
     {
-        $query = $this->connection->prepare("SELECT * , CONCAT(firstname,' ',lastname) as name FROM gpx_customer");        
+        $query = $this->connection->prepare("
+        SELECT * , CONCAT(firstname,' ',lastname) as name
+        FROM gpx_customer");        
 		$query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //ALL CUSTOMER BY BRANCH
+    public function getallcustomersbybranch($id)
+    {
+        $query = $this->connection->prepare("
+        SELECT gc.* , CONCAT(gc.firstname,' ',gc.lastname) as name
+        FROM gpx_customer gc
+        JOIN gpx_employee ge ON ge.id = gc.createdby
+        JOIN gpx_branch gb ON gb.id = ge.branch
+        WHERE ge.branch = :branch");        
+		$query->execute(array("branch"=>$id));
         $result = $query->fetchAll();
         return $result;
     }
