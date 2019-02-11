@@ -122,7 +122,7 @@ class DistributionModel extends GenericModel
                                 "activity" => "In Transit ".$data['data'][$x]['mode_of_shipment'],
                                 "location" => $data['data'][$x]['name'],
                                 "qty" => "1",
-                                "details" => "In Transit ".$data['data'][$x]['mode_of_shipment'].", ".", ETA ".$data['data'][$x]['eta']
+                                "details" => "In Transit ".$data['data'][$x]['mode_of_shipment'].", ".", ETA ".date_format($data['data'][$x]['eta'], "d/m/Y")
                             );
                             $this->savetrackntrace($logs); 
                         }else if($dist_type == "Direct") {

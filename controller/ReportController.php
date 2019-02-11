@@ -39,6 +39,9 @@ class ReportController extends GenericController
         else if($module == 'booked'){
             $this->genericfilter($module, $filter,"","");
         }
+        else if($module == 'boxaging'){
+            $this->genericfilter($module, $filter,"","");
+        }
         else if($module == 'loads'){
             $this->genericfilter($module, $filter,"",""); 
         }
@@ -352,6 +355,24 @@ class ReportController extends GenericController
                         "list" => $list,        
                         "columns" => $columns,  
                         "module" => "BOX PURCHASE REPORT"              
+                    ));
+                }
+                break;
+            case "boxaging":
+                if ($filterby == "bydaterange"){
+                    
+                }else if ($filterby == "default"){
+                    $model = new BoxAgingModel($this->connection);
+                    $list = $model->getlist();
+
+                    $columns = array("unloaded_date","box_number","receiver","destination","last_status","age");
+
+                    echo $this->twig->render('_generic_component/report/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,        
+                        "columns" => $columns,  
+                        "module" => "BOX AGING"              
                     ));
                 }
                 break;

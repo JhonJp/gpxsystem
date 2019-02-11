@@ -203,7 +203,7 @@ class BookingModel extends GenericModel
                             "activity" => "Picked-Up",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
                             "qty" => "1",
-                            "details" => "Box has been picked-up on ".$data['data'][$x]['booking_date'],
+                            "details" => "Box has been picked-up on ".date_format($data['data'][$x]['booking_date'],"d/m/Y"),
                         );
                         $this->savetrackntrace($logs);
                     }

@@ -15,14 +15,29 @@
         {% for key,value in list %}
         <tr>
             <td>{{ key + 1 }}</td>
-            {% for name in columns %}            
+            {% for name in columns %} 
+            {% if name == "age"%}
             <td>
-                {% if name == "date" %}
+                {% set current = "now" %}
+                {% set unldate = value["unload_date"] %}
+                {% set difference = date(current).diff(date(unldate)) %}
+                {% set leftDays = difference.days %}
+                {% if leftDays == 1 or leftDays == 0 %}
+                   <span class="label label-warning">Less 1 day or 1 day</span>
+                {% else %}
+                <span class="label label-warning">{{ leftDays }} days</span>
+                {% endif %}
+            </td>
+            {% else %}
+            <td>
+                {% if name == "date"
+                or name == "unloaded_date" %}
                     {{value[name]|date("d/M/Y")}}
                 {% else %}
                     {{value[name]}}
                 {% endif %}
             </td>
+            {% endif %}  
             {% endfor %}                
         </tr>
         {% endfor %}

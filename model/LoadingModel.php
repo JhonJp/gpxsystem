@@ -95,7 +95,7 @@ class LoadingModel extends GenericModel
                             "activity" => "In-Transit International",
                             "location" =>  $data['data'][$x]['load_shipper'],
                             "qty" => "1",
-                            "details" => "Estimated date of arrival ".$data['data'][$x]['load_eta'],
+                            "details" => "Estimated date of arrival ".date_format($data['data'][$x]['load_eta'],"d/m/Y"),
                         );
                         $this->savetrackntrace($logss);
 

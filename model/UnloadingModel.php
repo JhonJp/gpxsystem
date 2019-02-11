@@ -72,7 +72,7 @@ class UnloadingModel extends GenericModel
                             "activity" => "Unloaded in Container",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
                             "qty" => "1",
-                            "details" => "Box has been unloaded and arrived on ".$data['data'][$x]['unload_eta'],
+                            "details" => "Box has been unloaded and arrived on ".date_format($data['data'][$x]['unload_eta'],"d/m/Y"),
                         );
                         $this->savetrackntrace($logs);
 
