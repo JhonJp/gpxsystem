@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="pull-right box-tools">
                                         <div class="btn-group">
-                                            <a href="index.php?controller=trackntrace&action=search" class="btn btn-block btn-primary">
+                                            <a href="{{prev}}" class="btn btn-block btn-primary">
                                                 <span class="fa fa-fw fa-arrow-left"></span> RETURN</a>
                                         </div>
                                     </div>
@@ -143,105 +143,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if breadcrumb.controller == 'receiver' %}
-                            <div class="box box-default">
-                                <div class="box-header with-border">
-                                    <div class="box-title">
-                                        <h5>Sub Receiver Details</h5>
-                                    </div>
-                                    <div class="pull-right box-tools">
-                                        <button type="button" class="btn btn-block bg-gray-active" data-toggle="modal"
-                                            data-target="#modal-add">
-                                            <span class="fa fa-fw fa-plus"></span>Add</button>
-                                    </div>
-                                </div>
-                                <div class="box-body form-horizontal">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table id="sub_receiver" class="table table-bordered table-responsive table-striped">
-                                                <thead>
-                                                    <tr>                                                        
-                                                        <th>Firstname</th>
-                                                        <th>Lastname</th>
-                                                        <th>Relation</th>
-                                                        <th>Address</th>
-                                                        <th width="5px;">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for row in subreceiver %}
-                                                    <tr>
-                                                        <td id="fname">{{row.firstname}}</td>
-                                                        <td id="lname">{{row.lastname}}</td>
-                                                        <td id="relation">{{row.relation}}</td>
-                                                        <td id="address">{{row.address}}</td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-xs btn-danger" data-toggle="modal"
-                                                                data-target="#modal-delete"                                                                 
-                                                                data-id="{{ row.id }}"
-                                                                data-table="sub_receiver"
-                                                                data-url="{{url}}">
-                                                            <span class="fa fa-trash"></span></button>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- /.content-wrapper -->
-                            <div class="modal fade" id="modal-add">
-                                <div class="modal-dialog">
-                                    <input type="hidden" id="id" name="id" />
-                                    <input type="hidden" id="table" name="table" />
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title"><span class="fa fa-plus"></span> New Sub Receiver</h4>
-                                        </div>
-                                        <div class="modal-body form-horizontal">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="col-md-12">
-                                                        <div class="col-md-12">
-                                                            {% include '_generic_component/input_text.html'
-                                                            with {'label': 'Firstname' , 'id' : 'sub_firstname',
-                                                            'value' : "" , 'required' : false} %}
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            {% include '_generic_component/input_text.html'
-                                                            with {'label': 'Lastname' , 'id' : 'sub_lastname',
-                                                            'value' : "" , 'required' : false} %}
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            {% include '_generic_component/input_text.html'
-                                                            with {'label': 'Relation' , 'id' : 'sub_relation',
-                                                            'value' : "" , 'required' : false} %}
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            {% include '_generic_component/input_textarea.html'
-                                                            with {'label': 'Address' , 'id' : 'sub_address',
-                                                            'value' : "" , 'required' : false} %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" id="btnSubReceiverAdd" class="btn btn-success"><span
-                                                    class="fa fa-save"></span>&nbsp;
-                                                Save</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -251,7 +152,8 @@
             <div class="box-footer">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-block btn-primary"><span class="fa fa-fw fa-save"></span>Save</button>
+                        <a href="{{prev}}" class="btn btn-block btn-primary">
+                            <span class="fa fa-fw fa-arrow-left"></span> RETURN</a>
                     </div>
                 </div>
             </div>

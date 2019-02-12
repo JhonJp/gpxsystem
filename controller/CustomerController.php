@@ -42,6 +42,7 @@ class CustomerController extends GenericController
     public function view()
     {
         $id = isset($_GET['accnt']) ? $_GET['accnt'] : null;
+        $prev = $_SERVER['HTTP_REFERER'];
         $result = null;
 
         if (isset($id)) {
@@ -51,6 +52,8 @@ class CustomerController extends GenericController
         echo $this->twig->render('customer-management/customer/view.html', array(
             "logindetails" => $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
+            "url"=>$_SERVER['REQUEST_URI'],
+            "prev"=>$prev,
             "result" => $result
         ));
     }
@@ -58,6 +61,7 @@ class CustomerController extends GenericController
     public function viewrec()
     {
         $id = isset($_GET['accnt']) ? $_GET['accnt'] : null;
+        $prev = $_SERVER['HTTP_REFERER'];
         $result = null;
 
         if (isset($id)) {
@@ -67,6 +71,8 @@ class CustomerController extends GenericController
         echo $this->twig->render('customer-management/receiver/view.html', array(
             "logindetails" => $_SESSION['logindetails'],
             "breadcrumb" => "receiver",
+            "url"=>$_SERVER['REQUEST_URI'],
+            "prev"=>$prev,
             "result" => $result
         ));
     }

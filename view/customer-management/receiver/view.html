@@ -18,6 +18,12 @@
                         <div class="box-title">
                             <h4><b>View</b></h4>
                         </div>
+                        <div class="pull-right box-tools">
+                            <div class="btn-group">
+                                <a href="{{prev}}" class="btn btn-block btn-primary">
+                                    <span class="fa fa-fw fa-arrow-left"></span> RETURN</a>
+                            </div>
+                        </div>
                     </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -28,12 +34,6 @@
                                 <div class="box-header with-border">
                                     <div class="box-title">
                                         <h5>Personal Details</h5>
-                                    </div>
-                                    <div class="pull-right box-tools">
-                                        <div class="btn-group">
-                                            <a href="index.php?controller=trackntrace&action=search" class="btn btn-block btn-primary">
-                                                <span class="fa fa-fw fa-arrow-left"></span> RETURN</a>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="box-body form-horizontal">
@@ -134,7 +134,8 @@
             <div class="box-footer">
                 <div class="pull-right">
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-block btn-primary"><span class="fa fa-fw fa-save"></span>Save</button>
+                        <a href="{{prev}}" class="btn btn-block btn-primary">
+                                <span class="fa fa-fw fa-arrow-left"></span> RETURN</a>
                     </div>
                 </div>
             </div>
