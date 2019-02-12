@@ -23,6 +23,36 @@ class GenericModel{
         return $result;
     }
 
+    //LOGIN FUNCTION
+    public function customerlogin($username, $password)
+    {       
+        $query = $this->connection->prepare("
+        SELECT * FROM gpx_customer_password gu JOIN gpx_customer gc
+        ON gu.account_no = gc.account_no 
+        WHERE gu.account_no = :username AND password = :password");
+        $query->execute(array(
+            "username" => $username,            
+            "password" => $password            
+        ));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //LOGIN FUNCTION count
+    public function countlogin($username, $password)
+    {       
+        $query = $this->connection->prepare("
+        SELECT COUNT(gc.account_no) FROM gpx_customer_password gu JOIN gpx_customer gc
+        ON gu.account_no = gc.account_no 
+        WHERE gu.account_no = :username AND password = :password");
+        $query->execute(array(
+            "username" => $username,            
+            "password" => $password            
+        ));
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
     //ERROR MESSAGE
     public function error_logs($module,$error_logs){    
         $query = $this->connection->prepare("INSERT INTO gpx_error_logs(module,error_logs) VALUES (:module,:error_logs)");
