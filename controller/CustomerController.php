@@ -63,7 +63,6 @@ class CustomerController extends GenericController
         $id = isset($_GET['accnt']) ? $_GET['accnt'] : null;
         $prev = $_SERVER['HTTP_REFERER'];
         $result = null;
-
         if (isset($id)) {
             $customer = new CustomerModel($this->connection);
             $result = $customer->getreceiverbyAccnt($id);            

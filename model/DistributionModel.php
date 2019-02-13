@@ -120,7 +120,7 @@ class DistributionModel extends GenericModel
                                 "status" => "In Transit",
                                 "dateandtime" => $data['data'][$x]['created_date'],
                                 "activity" => "In Transit ".$data['data'][$x]['mode_of_shipment'],
-                                "location" => $data['data'][$x]['name'],
+                                "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
                                 "qty" => "1",
                                 "details" => "In Transit ".$data['data'][$x]['mode_of_shipment'].", ".", ETA ".date_format($data['data'][$x]['eta'], "d/m/Y")
                             );
@@ -141,7 +141,7 @@ class DistributionModel extends GenericModel
                                 "status" => "For Delivery",
                                 "dateandtime" => $data['data'][$x]['created_date'],
                                 "activity" => "For Delivery",
-                                "location" => $data['data'][$x]['name'],
+                                "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
                                 "qty" => "1",
                                 "details" => "Truck number is ".$data['data'][$x]['truck_no']
                             );
