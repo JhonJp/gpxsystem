@@ -135,7 +135,6 @@ class GenericController{
             case "viewbarcodedist":
                 $this->viewbarcodedist();
                 break;
-            ///////////////PARTNER PORTAL /////////////
             case "partnerdashboard":
                 $this->partnerdashboard();
                 break;

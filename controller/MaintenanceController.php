@@ -6,6 +6,7 @@ class MaintenanceController extends GenericController
     {
         parent::__construct();
         require_once __DIR__ . "/../model/GenericModel.php";
+        require_once __DIR__ . "/../model/TicketModel.php";
     }
 
 
@@ -17,6 +18,11 @@ class MaintenanceController extends GenericController
                 $model = new GenericModel($this->connection);
                 $list = $model->getmaintenancelist("gpx_chartaccounts_type");
                 $controller = "Account Type"; 
+                break;
+            CASE "ticket" :
+                $model = new GenericModel($this->connection);
+                $list = $model->getmaintenancelist("gpx_tickets_type");
+                $controller = "Ticket"; 
                 break;
             default : 
                 $list = null;
@@ -50,6 +56,11 @@ class MaintenanceController extends GenericController
                 $result = $model->getmaintenancelistbyid("gpx_chartaccounts_type",$id);
                 $controller = "Account Type";
                 break;
+            CASE "ticket" :
+                $model = new GenericModel($this->connection);
+                $result = $model->getmaintenancelistbyid("gpx_tickets_type",$id);
+                $controller = "Ticket";
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -78,6 +89,9 @@ class MaintenanceController extends GenericController
         switch($module){
             CASE "accounttype" :
                 $table = "gpx_chartaccounts_type";                
+                break;
+            CASE "ticket" :
+                $table = "gpx_tickets_type";                
                 break;
             default : 
                 $table = "";

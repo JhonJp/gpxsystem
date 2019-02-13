@@ -11,14 +11,21 @@
     and breadcrumb.controller != 'warehouse_inventory'
     and breadcrumb.controller != 'booking'
     and breadcrumb.controller != 'intransit'
-        and breadcrumb.controller != 'incidentreport'
-        and breadcrumb.controller != 'report'
+    and breadcrumb.controller != 'incidentreport'
+    and breadcrumb.controller != 'report'
     %}
     <div class="box-tools pull-right">
         <div class="btn-group">
             {% if 
                 breadcrumb.controller == "boxaging" 
                 %}
+                <a href="index.php?controller=ticket&action=editticket" class="btn btn-block btn-primary">
+                        <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
+            {% elseif 
+                breadcrumb.controller == "Ticket" 
+                %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
+                    <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
             {% elseif 
             breadcrumb.controller == "Account Type" 
             %}
@@ -30,6 +37,13 @@
             {% endif %}
         </div>
     </div>
+    {% elseif breadcrumb.action == "viewtickets" %}
+    <div class="box-tools pull-right">
+            <div class="btn-group">
+                <a href="index.php?controller=ticket&action=editticket" class="btn btn-block btn-primary">
+                        <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper|replace({"_" : " "}) }}</a>
+            </div>
+        </div>
     {% elseif breadcrumb.action == 'edit' %}
     <div class="box-tools pull-right">
         {% if result is not null %}
