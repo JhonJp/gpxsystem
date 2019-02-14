@@ -132,9 +132,9 @@
                 {% elseif breadcrumb.controller == 'barcodeseries' %}
                 <a href="#" title="View" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>
-                {% elseif breadcrumb.controller == 'warehouse_inventory' %}
-                <a href="#" title="View" class="btn btn-xs bg-green">
-                    <span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.controller == 'inventory' %}
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=view&id={{ value['id'] }}" title="View" class="btn btn-xs bg-green">
+                        <span class="fa fa-eye"></span></a>
                 {% else %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=edit&id={{ value['id'] }}" title="Edit"
                     class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>

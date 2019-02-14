@@ -45,6 +45,15 @@ class WarehouseInventoryModel extends GenericModel
         return $result;
     }
 
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT image 
+        FROM gpx_all_image WHERE transaction_no = :id");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     public function apisave($data)
     {
         try {
@@ -118,5 +127,36 @@ class WarehouseInventoryModel extends GenericModel
         $result = $query->fetchAll();
         return $result;
     }
+
+    public function getdata($id)
+    {
+        $query = $this->connection->prepare("SELECT gi.*,gw.name as warehouse_name
+        FROM gpx_warehouse_inventory gi 
+        JOIN gpx_warehouse gw ON gw.id = gi.warehouse_id
+        WHERE gi.id = :id");
+        $query->execute(array("id" => $id));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getboxes($manname,$warehouse)
+    {
+        $query = $this->connection->prepare("SELECT 
+        gb.name as boxtype,
+        gi.quantity as quantity,
+        gi.price as price
+        FROM gpx_warehouse_inventory gi 
+        JOIN gpx_warehouse gw ON gw.id = gi.warehouse_id
+        JOIN gpx_boxtype gb ON gb.id = gi.boxtype_id
+        WHERE gi.manufacturer_name = :name AND gi.warehouse_id = :warehouse");
+        $query->execute(array(
+            "name" => $manname,
+            "warehouse" => $warehouse,
+        ));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+
 
 }

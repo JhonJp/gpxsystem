@@ -257,12 +257,6 @@ class GenericController{
                 $columns = array("delivered_date","destination","delivered_by","customer","receiver","box_number","received_by","status");
                 $moduledescription = "List of all delivered box numbers";
 				break;
-            case 'warehouse_inventory':
-                $model = new WarehouseInventoryModel($this->connection);
-                $list = $model->getlist();         
-                $columns = array("warehouse_name","manufacturer_name","box_type_and_quantity");   
-                $moduledescription = "List of quantity per box type";             
-                break;
         }
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
