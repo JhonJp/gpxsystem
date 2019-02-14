@@ -72,6 +72,7 @@ class BookingModel extends GenericModel
                         "box_number" => $row2['box_number'],
                         "hardport" => $row2['hardport'],
                         "box_content" => $row2['box_content'],
+                        "status" => $row2['status'],
                     )
                 );
             }

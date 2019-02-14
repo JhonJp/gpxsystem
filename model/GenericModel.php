@@ -559,6 +559,13 @@ class GenericModel{
             "status" => $status,
         ));
 
+        $query = $this->connection->prepare("UPDATE gpx_booking_consignee_box SET status = :status 
+        WHERE box_number = :box_number");
+        $result = $query->execute(array(
+            "box_number" => $box_number,
+            "status" => $status,
+        ));
+
     }
 
     public function gettransactionno($box_number)
