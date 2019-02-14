@@ -49,16 +49,19 @@ class ReservationController extends GenericController
     {
         $reservation_no = isset($_GET['reservation_no']) ? $_GET['reservation_no'] : null;        
         $result = null;
+        $image = null;
         if (isset($reservation_no)) {
             $reservation = new ReservationModel($this->connection);
             $result = $reservation->getreservationdetails($reservation_no);
             $box_number = $reservation->getboxnumbers($reservation_no);
+            $image = $reservation->getimages($reservation_no);
         }
 
         echo $this->twig->render('cargo-management/reservation/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,         
             "result" => $result,
+            "images" => $image,
             "box_number" => $box_number,
         ));
     }

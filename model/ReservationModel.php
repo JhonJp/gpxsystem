@@ -86,6 +86,15 @@ class ReservationModel extends GenericModel
         return $result;
     }
 
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT image 
+        FROM gpx_all_image WHERE transaction_no = :id");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 
     public function save($data, $list)
     {
@@ -280,6 +289,18 @@ class ReservationModel extends GenericModel
                         $status = $data['data'][$x]['reservation_boxtype_box_number'][$y]['status'];
 
                         $this->insertto_gpx_reservation_boxtype_box_number($boxtype, $box_number, $reservation_no, $createddate, $status);
+                    }
+
+                    //INSERT IMAGE ATTACHMENT
+                    $countimage = count($data['data'][$x]['reservation_image']);
+                    for ($image = 0; $image < $countimage; $image++) {
+
+                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                        $result = $query2->execute(array(
+                            "module" => $data['data'][$x]['reservation_image'][$image]['module'],
+                            "trans" => $data['data'][$x]['reservation_no'],                            
+                            "image" => $data['data'][$x]['reservation_image'][$image]['image'],                        
+                        ));
                     }
                     
                     //INSERT PAYMENT

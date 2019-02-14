@@ -39,9 +39,11 @@ class InventoryController extends GenericController
     {
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         $model = new WarehouseInventoryModel($this->connection);
-        $data = $model->getdata($id);
-        $image = $model->getimages($id);
-        $tabledata = $model->getboxes($data[0]['manufacturer_name'],$data[0]['warehouse_id']);
+        if (isset($id)) {
+            $data = $model->getdata($id);
+            $image = $model->getimages($id);
+            $tabledata = $model->getboxes($data[0]['manufacturer_name'],$data[0]['warehouse_id']);
+        }
         echo $this->twig->render('cargo-management/inventory/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,
