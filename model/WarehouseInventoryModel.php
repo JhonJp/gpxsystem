@@ -81,6 +81,17 @@ class WarehouseInventoryModel extends GenericModel
                         "price" => $data['data'][$x]['price'],
                     ));
 
+                    $countimage = count($data['data'][$x]['purchase_order']);
+                    for ($image = 0; $image < $countimage; $image++) {
+
+                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                        $result = $query2->execute(array(
+                            "module" => $data['data'][$x]['purchase_order'][$image]['module'],
+                            "trans" => $data['data'][$x]['id'],                            
+                            "image" => $data['data'][$x]['purchase_order'][$image]['image'],                        
+                        ));
+                    }
+
                     $query = $this->connection->prepare("INSERT INTO gpx_warehouse_inventory_report(
                         id,warehouse_id,manufacturer_name,boxtype_id,quantity,createddate,createdby)
                         VALUES (:id,:warehouse_id,:manufacturer_name,:boxtype_id,:quantity,:createddate,:createdby)");
