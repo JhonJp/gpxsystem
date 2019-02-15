@@ -35,6 +35,7 @@ class InventoryController extends GenericController
        
     }
 
+    //VIEW PER ITEM ON INVENTORY
     public function view()
     {
         $id = isset($_GET['id']) ? $_GET['id'] : null;

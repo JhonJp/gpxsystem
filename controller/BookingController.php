@@ -27,12 +27,14 @@ class BookingController extends GenericController{
         $transaction_no = isset($_GET['transaction_no']) ? $_GET['transaction_no'] : null;
         $model = new BookingModel($this->connection);
         $result = $model->getbookingdetails($transaction_no); 
-        $box_numbers = $model->getbookingboxnumber($transaction_no); 
+        $box_numbers = $model->getbookingboxnumber($transaction_no);
+        $image = $model->getimages($transaction_no); 
 
         echo $this->twig->render('cargo-management/booking/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,     
-            "result" => $result,     
+            "result" => $result,
+            "images" => $image,     
             "box_numbers" => $box_numbers,     
         ));
     }

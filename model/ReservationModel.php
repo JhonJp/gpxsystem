@@ -89,7 +89,7 @@ class ReservationModel extends GenericModel
     public function getimages($trans)
     {
         $query = $this->connection->prepare("SELECT image 
-        FROM gpx_all_image WHERE transaction_no = :id");
+        FROM gpx_all_image WHERE transaction_no = :id AND module = 'reservation'");
         $query->execute(array("id" => $trans));
         $result = $query->fetchAll();
         return $result;

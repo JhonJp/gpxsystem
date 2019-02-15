@@ -220,6 +220,18 @@ class BookingModel extends GenericModel
                             "remarks" => $data['data'][$x]['discounts'][$xy]['remarks'],
                         ));
                     }
+
+                    //INSERT IMAGE ATTACHMENT
+                    $countimage = count($data['data'][$x]['booking_image']);
+                    for ($image = 0; $image < $countimage; $image++) {
+
+                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                        $result = $query2->execute(array(
+                            "module" => $data['data'][$x]['booking_image'][$image]['module'],
+                            "trans" => $data['data'][$x]['transaction_no'],                            
+                            "image" => $data['data'][$x]['booking_image'][$image]['image'],                        
+                        ));
+                    }
                 
                     //$this->updateReservationStatus($data['data'][$x]['reservation_no']);
 
@@ -309,4 +321,15 @@ class BookingModel extends GenericModel
         ));
 
     }
+
+    //GET BOOKING IMAGES
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT image 
+        FROM gpx_all_image WHERE transaction_no = :id AND module = 'booking'");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 }
