@@ -97,7 +97,11 @@
     $('#bquantity').change(function(){
         var q = parseInt($('#bquantity').val());
         var start = parseInt($('#bstart').val());
-        var end = (start + q)
+        if (start != 1){
+            var end = ((q + start) - 1)
+        }else{
+            var end = (q)
+        }
         document.getElementById("bend").innerHTML = end.toString();
     }) 
 
