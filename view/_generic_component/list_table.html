@@ -79,7 +79,13 @@
                 <!-- {{ value[name]|date('d/M/Y h:i A') }} -->
                 {{ value[name]|date('d/M/Y h:i A') }}
             </td>
-            {% elseif name == "unloaded_date"%}
+            {% elseif name == "unloaded_date" 
+            or name == "date_from" or name == "date_to" 
+            or name == "disbursement_date"
+            or name == "liquidation_date"
+            or name == "loan_date"
+            or name == "approved_date"
+            or name == "due_date" %}
             <td>
                 {{ value[name]|date('d/M/Y') }}
             </td>
