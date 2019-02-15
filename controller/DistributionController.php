@@ -26,16 +26,19 @@ class DistributionController extends GenericController{
 
     public function view()
     {              
-        $id = isset($_GET['id']) ? $_GET['id'] : null;        
+        $id = isset($_GET['id']) ? $_GET['id'] : null; 
+        $image = null;       
         $model = new DistributionModel($this->connection);
         $result = $model->getdetails($id);      
-        $boxnumber = $model->getboxnumber($id);      
+        $boxnumber = $model->getboxnumber($id);
+        $image = $model->getimages($id);      
 
         echo $this->twig->render('cargo-management/distribution/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,  
             "result" => $result,
-            "boxnumber" => $boxnumber
+            "boxnumber" => $boxnumber,
+            "images" => $image,
         ));        
     }
     

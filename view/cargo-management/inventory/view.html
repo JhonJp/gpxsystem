@@ -47,7 +47,6 @@
                                             <th>#</th>
                                             <th>Box Type</th>
                                             <th>Quantity</th>
-                                            <th>Price</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -56,13 +55,15 @@
                                                 <td>{{ key + 1 }}</td>
                                                 <td>{{ value['boxtype'] }}</td>
                                                 <td>{{ value['quantity'] }}</td>
-                                                <td>{{ value['price'] }}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
                                         </table>
                                     </div>
                                     <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        Total price : <span class="label label-success">{{ result[0].price }}.00</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

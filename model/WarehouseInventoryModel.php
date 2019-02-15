@@ -19,10 +19,7 @@ class WarehouseInventoryModel extends GenericModel
         FROM gpx_warehouse_inventory gwi
         JOIN gpx_warehouse gw ON gw.id = gwi.warehouse_id
         JOIN gpx_boxtype gb ON gb.id = gwi.boxtype_id
-        GROUP BY 
-        gw.name,
-        gwi.manufacturer_name
-        ");
+        GROUP BY gwi.id");
         $query->execute();
         $result = $query->fetchAll();
         return $result;

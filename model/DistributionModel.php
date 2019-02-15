@@ -89,6 +89,18 @@ class DistributionModel extends GenericModel
                         "status" => $data['data'][$x]['acceptance_status'],
                     ));
 
+                    //INSERT IMAGE ATTACHMENT
+                    $countimage = count($data['data'][$x]['distribution_image']);
+                    for ($image = 0; $image < $countimage; $image++) {
+
+                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                        $result = $query2->execute(array(
+                            "module" => $data['data'][$x]['distribution_image'][$image]['module'],
+                            "trans" => $data['data'][$x]['id'],                            
+                            "image" => $data['data'][$x]['distribution_image'][$image]['image'],                        
+                        ));
+                    }
+
                     $countboxnumber = count($data['data'][$x]['distribution_box']);
 
                     for ($y = 0; $y < $countboxnumber; $y++) {
@@ -191,6 +203,15 @@ class DistributionModel extends GenericModel
         $result = $query->execute(array(
             "id" => $id,
         ));
+    }
+
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT image 
+        FROM gpx_all_image WHERE transaction_no = :id AND module = 'distribution'");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
     }
 
 }
