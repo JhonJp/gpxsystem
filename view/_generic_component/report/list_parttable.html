@@ -5,9 +5,7 @@
             {% for name in columns %}
             <th>{{ name|upper|replace({"_" : " "}) }}</th>
             {% endfor %}
-            {% if module|lower == "portal ticket" or breadcrumb.action == 'userrole' %}
             <th>ACTION</th>
-            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -48,6 +46,7 @@
                 {% if module|lower == "portal distribution"
                  or module|lower == "portal unloaded"
                   or module|lower == "portal delivery" %}
+                {% elseif module == 'PORTAL INTRANSIT INTERNATIONAL' %}
                 {% elseif breadcrumb.action == 'userrole' %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=newrole&id={{ value['id'] }}" title="Edit"
                 class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>

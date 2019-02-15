@@ -65,7 +65,7 @@ class LoadingModel extends GenericModel
                         ));
 
                         //////////UPDATE BOOKING STATUS//////////
-                        $this->updateBookingStatus($data['data'][$x]['loading_boxes'][0]['box_num'], "7");
+                        $this->updateBookingStatus($data['data'][$x]['loading_boxes'][$y]['box_num'], "7");
 
                         ///////////IN TRANSIT/////////
                         $this->save_instransit(

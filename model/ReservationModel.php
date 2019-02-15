@@ -290,18 +290,6 @@ class ReservationModel extends GenericModel
 
                         $this->insertto_gpx_reservation_boxtype_box_number($boxtype, $box_number, $reservation_no, $createddate, $status);
                     }
-
-                    //INSERT IMAGE ATTACHMENT
-                    $countimage = count($data['data'][$x]['reservation_image']);
-                    for ($image = 0; $image < $countimage; $image++) {
-
-                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
-                        $result = $query2->execute(array(
-                            "module" => $data['data'][$x]['reservation_image'][$image]['module'],
-                            "trans" => $data['data'][$x]['reservation_no'],                            
-                            "image" => $data['data'][$x]['reservation_image'][$image]['image'],                        
-                        ));
-                    }
                     
                     //INSERT PAYMENT
                     $this->insertto_gpxpayment("", "", $reservation_no, "Partial", $deposit, 0, $payment_createdby, $payment_createddate);
@@ -336,6 +324,17 @@ class ReservationModel extends GenericModel
                     }
                 }
 
+                //INSERT IMAGE ATTACHMENT
+                $countimage = count($data['data'][$x]['reservation_image']);
+                for ($image = 0; $image < $countimage; $image++) {
+
+                    $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                    $result = $query2->execute(array(
+                        "module" => $data['data'][$x]['reservation_image'][$image]['module'],
+                        "trans" => $data['data'][$x]['reservation_no'],                            
+                        "image" => $data['data'][$x]['reservation_image'][$image]['image'],                        
+                    ));
+                }
             }
             
         } catch (Exception $e) {
