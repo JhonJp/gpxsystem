@@ -22,7 +22,11 @@ class MaintenanceController extends GenericController
             CASE "ticket" :
                 $model = new GenericModel($this->connection);
                 $list = $model->getmaintenancelist("gpx_tickets_type");
-                $controller = "Ticket"; 
+                $controller = "Ticket";
+            CASE "undelivered" :
+                $model = new GenericModel($this->connection);
+                $list = $model->getmaintenancelist("gpx_delivery_substatus");
+                $controller = "Undelivered Reasons"; 
                 break;
             default : 
                 $list = null;
@@ -61,6 +65,11 @@ class MaintenanceController extends GenericController
                 $result = $model->getmaintenancelistbyid("gpx_tickets_type",$id);
                 $controller = "Ticket";
                 break;
+            CASE "undelivered" :
+                $model = new GenericModel($this->connection);
+                $result = $model->getmaintenancelistbyid("gpx_delivery_substatus",$id);
+                $controller = "Undelivered Reasons";
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -93,6 +102,9 @@ class MaintenanceController extends GenericController
             CASE "ticket" :
                 $table = "gpx_tickets_type";                
                 break;
+            CASE "undelivered" :
+                $table = "gpx_delivery_substatus";                
+                break;
             default : 
                 $table = "";
                 break;
@@ -108,8 +120,8 @@ class MaintenanceController extends GenericController
             $result = $model->maintenanceUpdate($data,$table,$id);
         }
         else{
-        $model = new GenericModel($this->connection);
-        $result = $model->insert($data,$table);
+            $model = new GenericModel($this->connection);
+            $result = $model->insert($data,$table);
         }   
         if($result == 1)
             header("Location: index.php?controller=maintenance&action=list&module={$module}");
