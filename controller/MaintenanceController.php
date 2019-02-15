@@ -23,6 +23,7 @@ class MaintenanceController extends GenericController
                 $model = new GenericModel($this->connection);
                 $list = $model->getmaintenancelist("gpx_tickets_type");
                 $controller = "Ticket";
+                break;
             CASE "undelivered" :
                 $model = new GenericModel($this->connection);
                 $list = $model->getmaintenancelist("gpx_delivery_substatus");
