@@ -34,8 +34,11 @@
             <td>
                 {% if value['loaded_qty'] == value['unloaded_qty'] %}
                 <span class="label label-success">No descripancies</span>
-                {% else %}
-                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} descripancies</span>
+                {% elseif value['loaded_qty'] < value['unloaded_qty'] %}
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} extra </span>
+                {% elseif value['loaded_qty'] > value['unloaded_qty'] %}
+                    <span class="label label-danger">{{ value['unloaded_qty'] - value['loaded_qty'] }} descripancies</span>
+                
                 {% endif %}
             </td>
             {% else %}
