@@ -43,7 +43,7 @@ class InventoryController extends GenericController
         if (isset($id)) {
             $data = $model->getdata($id);
             $image = $model->getimages($id);
-            $tabledata = $model->getboxes($data[0]['manufacturer_name'],$data[0]['warehouse_id']);
+            $tabledata = $model->getboxes($id,$data[0]['manufacturer_name'],$data[0]['warehouse_id']);
         }
         echo $this->twig->render('cargo-management/inventory/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],

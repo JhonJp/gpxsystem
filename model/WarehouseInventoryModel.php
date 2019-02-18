@@ -15,7 +15,6 @@ class WarehouseInventoryModel extends GenericModel
         gw.name as warehouse_name ,
         gwi.manufacturer_name ,
         GROUP_CONCAT(CONCAT(gb.name,' ',gwi.quantity)) as box_type_and_quantity
-
         FROM gpx_warehouse_inventory gwi
         JOIN gpx_warehouse gw ON gw.id = gwi.warehouse_id
         JOIN gpx_boxtype gb ON gb.id = gwi.boxtype_id
@@ -127,7 +126,8 @@ class WarehouseInventoryModel extends GenericModel
 
     public function getdata($id)
     {
-        $query = $this->connection->prepare("SELECT gi.*,gw.name as warehouse_name
+        $query = $this->connection->prepare("SELECT gi.*,gi.createddate as createddate,
+        gw.name as warehouse_name
         FROM gpx_warehouse_inventory gi 
         JOIN gpx_warehouse gw ON gw.id = gi.warehouse_id
         WHERE gi.id = :id");
@@ -136,7 +136,7 @@ class WarehouseInventoryModel extends GenericModel
         return $result;
     }
 
-    public function getboxes($manname,$warehouse)
+    public function getboxes($id,$manname,$warehouse)
     {
         $query = $this->connection->prepare("SELECT 
         gb.name as boxtype,
@@ -145,10 +145,11 @@ class WarehouseInventoryModel extends GenericModel
         FROM gpx_warehouse_inventory gi 
         JOIN gpx_warehouse gw ON gw.id = gi.warehouse_id
         JOIN gpx_boxtype gb ON gb.id = gi.boxtype_id
-        WHERE gi.manufacturer_name = :name AND gi.warehouse_id = :warehouse");
+        WHERE gi.manufacturer_name = :name AND gi.warehouse_id = :warehouse AND gi.id = :id");
         $query->execute(array(
             "name" => $manname,
             "warehouse" => $warehouse,
+            "id" => $id,
         ));
         $result = $query->fetchAll();
         return $result;

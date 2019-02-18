@@ -173,34 +173,51 @@ class CustomerModel extends GenericModel
             $countdata = count($data['data']);
 
             for ($x = 0; $x < $countdata; $x++) {
-
-                $query = $this->connection->prepare("INSERT INTO gpx_customer
-                (account_no,firstname,lastname,middlename,mobile,phone,email,birthdate,gender,house_number_street,
-                barangay,postal_code,city,type,createdby,sender_account_no)
-                VALUES (:account_no,:firstname,:lastname,:middlename,:mobile,:phone,:email,:birthdate,:gender,:house_number_street,
-                :postal_code,:barangay,:city,:type,:createdby,:sender_account_no)");
-                $result = $query->execute(array(
-                    "account_no" => $data['data'][$x]['account_no'],
-                    "firstname" => $data['data'][$x]['firstname'],
-                    "lastname" => $data['data'][$x]['lastname'],
-                    "middlename" => $data['data'][$x]['middlename'],
-                    "mobile" => $data['data'][$x]['mobile'],
-                    "phone" => $data['data'][$x]['phone'],
-                    "email" => $data['data'][$x]['email'],
-                    "birthdate" => $data['data'][$x]['birthdate'],
-                    "gender" => $data['data'][$x]['gender'],
-                    "house_number_street" => $data['data'][$x]['unit'],
-                    "postal_code" => $data['data'][$x]['postal'],
-                    "barangay" => $data['data'][$x]['barangay'],
-                    "city" => $data['data'][$x]['city'],
-                    "type" => $data['data'][$x]['type'],
-                    "createdby" => $data['data'][$x]['createdby'],
-                    "sender_account_no" => $data['data'][$x]['senders_account_no'],
-                ));
+                $accnt = $data['data'][$x]['account_no'];
+                
+                if ($this->check($accnt) == 0){
+                    $query = $this->connection->prepare("INSERT INTO gpx_customer
+                    (account_no,firstname,lastname,middlename,mobile,phone,email,birthdate,gender,house_number_street,
+                    barangay,postal_code,city,type,createdby,sender_account_no)
+                    VALUES (:account_no,:firstname,:lastname,:middlename,:mobile,:phone,:email,:birthdate,:gender,:house_number_street,
+                    :postal_code,:barangay,:city,:type,:createdby,:sender_account_no)");
+                    $result = $query->execute(array(
+                        "account_no" => $data['data'][$x]['account_no'],
+                        "firstname" => $data['data'][$x]['firstname'],
+                        "lastname" => $data['data'][$x]['lastname'],
+                        "middlename" => $data['data'][$x]['middlename'],
+                        "mobile" => $data['data'][$x]['mobile'],
+                        "phone" => $data['data'][$x]['phone'],
+                        "email" => $data['data'][$x]['email'],
+                        "birthdate" => $data['data'][$x]['birthdate'],
+                        "gender" => $data['data'][$x]['gender'],
+                        "house_number_street" => $data['data'][$x]['unit'],
+                        "postal_code" => $data['data'][$x]['postal'],
+                        "barangay" => $data['data'][$x]['barangay'],
+                        "city" => $data['data'][$x]['city'],
+                        "type" => $data['data'][$x]['type'],
+                        "createdby" => $data['data'][$x]['createdby'],
+                        "sender_account_no" => $data['data'][$x]['senders_account_no'],
+                    ));
+                }else{
+                    $this->error_logs("Customer - apisave", "Account number exists");
+                }
             }
         } catch (Exception $e) {
             $this->error_logs("Customer - apisave", $e->getMessage());
         }
 
+    }
+
+    public function check($id)
+    {
+        $result = 0;
+        $query = $this->connection->prepare("SELECT * FROM gpx_customer
+        WHERE account_no = :id");
+        $query->execute(array(
+            "id" => $id,
+        ));
+        $result = $query->fetchAll();
+        return count($result);
     }
 }
