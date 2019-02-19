@@ -196,6 +196,9 @@ class BookingModel extends GenericModel
                         $this->updateReservationStatusBoxNumber($box_no, $transaction_number);
                         $this->updateBarcodeStatus($box_no);
 
+                        $timestamp = strtotime($data['data'][$x]['booking_date']);
+                        $newformatdate = date('d/M/Y', $timestamp);
+
                         ///////////TRACK N TRACE LOGS/////////
                         $logs = array(
                             "transaction_no" => $box_no,
@@ -204,7 +207,7 @@ class BookingModel extends GenericModel
                             "activity" => "Picked-Up",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),
                             "qty" => "1",
-                            "details" => "Box has been picked-up on ".date_format($data['data'][$x]['booking_date'],"d/m/Y"),
+                            "details" => "Box has been picked-up on ".$newformatdate,
                         );
                         $this->savetrackntrace($logs);
                     }

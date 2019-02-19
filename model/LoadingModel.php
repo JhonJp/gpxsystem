@@ -87,6 +87,9 @@ class LoadingModel extends GenericModel
                         );
                         $this->savetrackntrace($logs);
 
+                        $timestamp = strtotime($data['data'][$x]['load_eta']);
+                        $newformatdate = date('d/M/Y', $timestamp);
+
                         ///////////TRACK N TRACE LOGS/////////
                         $logss = array(
                             "transaction_no" => $data['data'][$x]['loading_boxes'][$y]['box_num'],
@@ -95,7 +98,7 @@ class LoadingModel extends GenericModel
                             "activity" => "In-Transit International",
                             "location" =>  $data['data'][$x]['load_shipper'],
                             "qty" => "1",
-                            "details" => "Estimated date of arrival ".date_format($data['data'][$x]['load_eta'],"d/m/Y"),
+                            "details" => "Estimated date of arrival ".$newformatdate,
                         );
                         $this->savetrackntrace($logss);
 

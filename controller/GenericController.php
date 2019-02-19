@@ -251,12 +251,6 @@ class GenericController{
                 $columns = array("accepted_date","warehouse_name","deliver_by","truck_no","accepted_by","qty","box_number");
                 $moduledescription = "List of all accepted box numbers per warehouse";
 				break;
-            case 'delivery':
-                $model = new DeliveryModel($this->connection);
-                $list = $model->getlist();         
-                $columns = array("delivered_date","destination","delivered_by","customer","receiver","box_number","received_by","status");
-                $moduledescription = "List of all delivered box numbers";
-				break;
         }
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],

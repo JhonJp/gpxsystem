@@ -11,7 +11,7 @@ class DeliveryModel extends GenericModel
 
     public function getlist()
     {        
-        $query = $this->connection->prepare("SELECT         
+        $query = $this->connection->prepare("SELECT gd.id,        
         CONCAT(gc1.firstname, ' ',gc1.lastname) as customer,        
         GROUP_CONCAT(gdbn.box_number) as box_number,
         CONCAT(gc2.firstname, ' ',gc2.lastname)  as receiver,
@@ -87,6 +87,9 @@ class DeliveryModel extends GenericModel
                             "status" => $data['data'][$x]['delivery_box'][$y]['status'],                            
                         ));
 
+                        $timestamp = strtotime($data['data'][$x]['createddate']);
+                        $newformatdate = date('d/M/Y', $timestamp);
+
                         ///////TRACK AND TRACE////////
                         $logs = array(
                             "transaction_no" => $data['data'][$x]['delivery_box'][$y]['box_number'],
@@ -95,26 +98,23 @@ class DeliveryModel extends GenericModel
                             "activity" => "Delivered",
                             "location" => $this->getcustomeraddresss($data['data'][$x]['delivery_box'][0]['receiver']),
                             "qty" => $countboxnumber,
-                            "details" =>"Remarks: ".$data['data'][$x]['remarks']
+                            "details" =>"Box has been delivered on ".$newformatdate.". Remarks: ".$data['data'][$x]['remarks']
                             
                         );
                         $this->savetrackntrace($logs);
 
                     }
 
-                    //delivery_image
-                    $deliverycountimages = count($data['data'][$x]['delivery_image']);
-                    for ($y = 0; $y < $deliverycountimages; $y++) {
+                    //INSERT IMAGE ATTACHMENT
+                    $countimage = count($data['data'][$x]['delivery_image']);
+                    for ($image = 0; $image < $countimage; $image++) {
 
-                    $query = $this->connection->prepare("INSERT INTO
-                     gpx_delivery_image(
-                            delivery_id,images)
-                        VALUES (:delivery_id,:images)");
-                        $result = $query->execute(array(
-                            "delivery_id" => $data['data'][$x]['id'],
-                            "images" => str_replace("\\","",$data['data'][$x]['delivery_image'][$y]['image']),
+                        $query2 = $this->connection->prepare("INSERT INTO gpx_all_image(module,transaction_no,image) VALUES (:module,:trans,:image)");
+                        $result = $query2->execute(array(
+                            "module" => $data['data'][$x]['delivery_image'][$image]['module'],
+                            "trans" => $data['data'][$x]['id'],                            
+                            "image" => $data['data'][$x]['delivery_image'][$image]['image'],                        
                         ));
-
                     }
                     //////////UPDATE BOOKING STATUS//////////
                     $this->updateBookingStatus( $data['data'][$x]['delivery_box'][0]['box_number'],"6");
@@ -128,10 +128,56 @@ class DeliveryModel extends GenericModel
 
     }
 
+    public function getdeliverydata($transaction_no)
+    {
+        $query = $this->connection->prepare("SELECT
+        gbcb.* ,
+        CONCAT(gc1.firstname, ' ', gc1.lastname) as receiver
+        FROM gpx_booking_consignee_box gbcb
+        LEFT JOIN gpx_customer gc1 ON gbcb.consignee = gc1.account_no
+        LEFT JOIN gpx_reservation_status grs  ON grs.id = gc1.account_no
+        WHERE
+        transaction_no = :transaction_no
+        ");
+        $query->execute(
+            array(
+                "transaction_no" => $transaction_no,
+            )
+        );
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //GET DELIVERY IMAGES
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT image 
+        FROM gpx_all_image WHERE transaction_no = :id AND module = 'delivery'");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     public function checkdata($id)
     {
+        $query = $this->connection->prepare("
+        SELECT gd.*,
+        CONCAT(gc.firstname,' ',gc.lastname) as sender
+        FROM gpx_delivery gd
+        LEFT JOIN gpx_customer gc ON gc.account_no = gd.customer
+        WHERE gd.id = :id");
+        $query->execute(array("id" => $id));
+        $result = $query->fetchAll();
+        return $result;
+    }
 
-        $query = $this->connection->prepare("SELECT * FROM gpx_delivery WHERE id = :id");
+    public function getdeliveryboxnumber($id){
+        $query = $this->connection->prepare("
+        SELECT gdbn.*,CONCAT(gc.firstname,' ',gc.lastname) as receiver
+        FROM gpx_delivery_box_number gdbn
+        LEFT JOIN gpx_delivery gd ON gd.id = gdbn.delivery_id
+        LEFT JOIN gpx_customer gc ON gc.account_no = gdbn.receiver
+        WHERE gdbn.delivery_id = :id");
         $query->execute(array("id" => $id));
         $result = $query->fetchAll();
         return $result;

@@ -108,6 +108,10 @@
             <td>
                 {{ value[name]|date('d/M/Y') }}
             </td>
+            {% elseif name == "delivered_date"%}
+            <td>
+                {{ value[name]|date('d/M/Y') }}
+            </td>
             {% else %}
             <td>{{ value[name] }}</td>
             {% endif %}
@@ -121,7 +125,6 @@
                 and breadcrumb.controller != 'warehouse_acceptance'
                 and breadcrumb.controller != 'booking'
                 and breadcrumb.controller != 'distribution'
-                and breadcrumb.controller != 'delivery'
                 and breadcrumb.controller != 'incidentreport'
                 and breadcrumb.controller != 'report'
                 and breadcrumb.controller != 'partnerportal'
@@ -145,6 +148,9 @@
                 {% elseif breadcrumb.controller == 'barcodeseries' %}
                 <a href="#" title="View" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.controller == 'delivery' %}
+                <a href="index.php?controller={{ breadcrumb.controller }}&action=view&id={{ value['id'] }}" title="View" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
                 {% elseif breadcrumb.controller == 'inventory' %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=view&id={{ value['id'] }}" title="View" class="btn btn-xs bg-green">
                         <span class="fa fa-eye"></span></a>
@@ -157,10 +163,6 @@
                 {% if breadcrumb.controller == 'loan' %}
                 <a href="index.php?controller=loan&action=history&id={{ value['loan_no'] }}" title="History" class="btn btn-xs bg-maroon">
                     <span class="fa fa-history"></span></a>
-                {% endif %}
-
-                {% if breadcrumb.controller == 'delivery' %}
-                    <span class="label label-success">Successful</span>
                 {% endif %}
 
                 {% if breadcrumb.controller == 'booking' %}

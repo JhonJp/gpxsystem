@@ -64,6 +64,9 @@ class UnloadingModel extends GenericModel
                             "unloading_id" => $data['data'][$x]['unloading_boxes'][$y]['transaction_no'],
                         ));
 
+                        $timestamp = strtotime($data['data'][$x]['unload_eta']);
+                        $newformatdate = date('d/M/Y', $timestamp);
+
                         //////////TRACK N TRACE LOGS/////////
                         $logs = array(
                             "transaction_no" => $data['data'][$x]['unloading_boxes'][$y]['box_num'],
@@ -72,7 +75,7 @@ class UnloadingModel extends GenericModel
                             "activity" => "Unloaded in Container",
                             "location" => $this->getlocationemployeebyid($data['data'][$x]['createdby']),
                             "qty" => "1",
-                            "details" => "Box has been unloaded and arrived on ".date_format($data['data'][$x]['unload_eta'],"d/m/Y"),
+                            "details" => "Box has been unloaded and arrived on ".$newformatdate,
                         );
                         $this->savetrackntrace($logs);
 
