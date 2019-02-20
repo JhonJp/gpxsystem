@@ -80,7 +80,7 @@
                             <div class="row">
                                 {% for key,row in images %}
                                 <div class="col-sm-2 margin-bottom">
-                                    <img class="img-responsive" src='data:image/jpeg;base64,{{ row['image'] }}' />
+                                    <img id="myImg" onclick="openModal(this)" class="img-responsive" src='data:image/jpeg;base64,{{ row['image'] }}' />
                                 </div>
                                 {% endfor %}
                                 <!-- /.col -->

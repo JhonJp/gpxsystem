@@ -29,6 +29,11 @@ class MaintenanceController extends GenericController
                 $list = $model->getmaintenancelist("gpx_delivery_substatus");
                 $controller = "Undelivered Reasons"; 
                 break;
+            CASE "expensetype" :
+                $model = new GenericModel($this->connection);
+                $list = $model->getmaintenancelist("gpx_expense_type");
+                $controller = "Expense Type"; 
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -71,6 +76,11 @@ class MaintenanceController extends GenericController
                 $result = $model->getmaintenancelistbyid("gpx_delivery_substatus",$id);
                 $controller = "Undelivered Reasons";
                 break;
+            CASE "expensetype" :
+                $model = new GenericModel($this->connection);
+                $result = $model->getmaintenancelistbyid("gpx_expense_type",$id);
+                $controller = "Expense Type";
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -105,6 +115,9 @@ class MaintenanceController extends GenericController
                 break;
             CASE "undelivered" :
                 $table = "gpx_delivery_substatus";                
+                break;
+            CASE "expensetype" :
+                $table = "gpx_expense_type";                
                 break;
             default : 
                 $table = "";

@@ -291,6 +291,15 @@ class GenericModel{
         return $result;
     }
 
+    //ALL EXPENSE TYPE
+    public function getallexpensetypes()
+    {
+        $query = $this->connection->prepare("SELECT * FROM gpx_expense_type");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //ALL DESTINATION LOCATION
     public function getalldestination()
     {
@@ -409,6 +418,18 @@ class GenericModel{
         SELECT gbd.*, GROUP_CONCAT(gdbn.boxnumber) as box_number FROM gpx_barcode_distribution gbd 
         JOIN gpx_barcode_distribution_number gdbn ON gbd.transaction_no = gdbn.transaction_no
         WHERE gbd.driver_id = :id");
+        $query->execute(array("id"=>$id,));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //ALL BOX NUMBER DISTRIBUTED TO DRIVER
+    public function getdistributedtoDriver($id)
+    {
+        $query = $this->connection->prepare("
+        SELECT gbd.*, GROUP_CONCAT(gdbn.boxnumber) as box_number FROM gpx_barcode_distribution gbd 
+        JOIN gpx_barcode_distribution_number gdbn ON gbd.transaction_no = gdbn.transaction_no
+        WHERE gbd.createdby = :id");
         $query->execute(array("id"=>$id,));
         $result = $query->fetchAll();
         return $result;

@@ -32,6 +32,11 @@
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
                     <span class="fa fa-fw fa-plus"></span> NEW UNDELIVERED STATUS</a>
             {% elseif 
+                breadcrumb.controller == "Expense Type" 
+                %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
+                    <span class="fa fa-fw fa-plus"></span> NEW EXPENSE TYPE</a>
+            {% elseif 
             breadcrumb.controller == "Account Type" 
             %}
             <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">

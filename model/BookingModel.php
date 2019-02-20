@@ -328,8 +328,8 @@ class BookingModel extends GenericModel
     //GET BOOKING IMAGES
     public function getimages($trans)
     {
-        $query = $this->connection->prepare("SELECT image 
-        FROM gpx_all_image WHERE transaction_no = :id AND module = 'booking'");
+        $query = $this->connection->prepare("SELECT gai.id as id, gai.* 
+        FROM gpx_all_image gai WHERE gai.transaction_no = :id AND gai.module = 'booking'");
         $query->execute(array("id" => $trans));
         $result = $query->fetchAll();
         return $result;
