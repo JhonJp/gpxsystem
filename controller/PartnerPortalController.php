@@ -38,7 +38,7 @@ class PartnerPortalController extends GenericController
                     "breadcrumb" => $this->breadcrumb,
                     "list" => $list,        
                     "columns" => $columns,  
-                    "module" => "PORTAL INTRANSIT INTERNATIONAL"              
+                    "module" => "INTRANSIT INTERNATIONAL"              
                 ));
                 break;
             case "unloads":
