@@ -435,6 +435,18 @@ class GenericModel{
         return $result;
     }
 
+    //ALL BOX NUMBER DISTRIBUTED TO DRIVER
+    public function getcountdisttodriver($id)
+    {
+        $query = $this->connection->prepare("
+        SELECT COUNT(gdbn.boxnumber) as box_number FROM gpx_barcode_distribution gbd 
+        JOIN gpx_barcode_distribution_number gdbn ON gbd.transaction_no = gdbn.transaction_no
+        WHERE gbd.createdby = :id");
+        $query->execute(array("id"=>$id,));
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
     //ALL BOX NUMBER DISTRIBUTED
     public function getcountbydriver($id)
     {

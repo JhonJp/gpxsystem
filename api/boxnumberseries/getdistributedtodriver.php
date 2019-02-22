@@ -13,13 +13,17 @@ $connection = $database->connect();;
 //CALL MODEL    
 $model = new GenericModel($connection);
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
+$counting = $model->getcountdisttodriver($id);
 $result = $model->getdistributedtoDriver($id);
-
 //OUTPUT
-if(isset($result)){
-    echo json_encode($result);
-}
-else{
+
+if($counting == 0){
     echo json_encode("No Data Found!");
+}else{
+    
+    if(isset($result)){
+        echo json_encode($result);
+    }
+
 }
 ?>

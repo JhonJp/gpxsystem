@@ -102,9 +102,9 @@
                 {% set difference = date(current).diff(date(unldate)) %}
                 {% set leftDays = difference.days %}
                 {% if leftDays == 1 or leftDays == 0 %}
-                   <span class="label label-warning">Less 1 day or 1 day</span>
+                   <span class="label label-warning">1</span>
                 {% else %}
-                <span class="label label-warning">{{ leftDays }} days</span>
+                <span class="label label-warning">{{ leftDays }}</span>
                 {% endif %}
             </td>
             {% elseif name == "loaded_date"%}

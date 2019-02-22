@@ -401,7 +401,7 @@ class ReportController extends GenericController
                     $model = new BoxAgingModel($this->connection);
                     $list = $model->getfilterbydate($datefrom, $dateto);
 
-                    $columns = array("unloaded_date","box_number","receiver","destination","last_status","age");
+                    $columns = array("unloaded_date","box_number","receiver","province","city","destination","last_status","age");
 
                     echo $this->twig->render('_generic_component/report/list_gen.html', array(
                         "logindetails" =>  $_SESSION['logindetails'],
@@ -414,7 +414,7 @@ class ReportController extends GenericController
                     $model = new BoxAgingModel($this->connection);
                     $list = $model->getlist();
 
-                    $columns = array("unloaded_date","box_number","receiver","destination","last_status","age");
+                    $columns = array("unloaded_date","box_number","receiver","province","city","destination","last_status","age");
 
                     echo $this->twig->render('_generic_component/report/list_gen.html', array(
                         "logindetails" =>  $_SESSION['logindetails'],

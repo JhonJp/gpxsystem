@@ -27,60 +27,69 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
             {% if logindetails[0].position|lower == 'partner' %}
-            <li class="active treeview">
-                <a href="#">
-                    <i class="fa fa-code-fork"></i>
-                    <span>Partner Portal</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
+            <li class="active">
+                <a href="index.php?controller=partnerportal&action=partnerdashboard">
+                    <i class="fa fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-archive"></i> Cargo Management</a>
                 <ul class="treeview-menu">
                     <li>
-                        <a href="index.php?controller=partnerportal&action=partnerdashboard">
-                            <i class="fa fa-angle-double-right"></i> Dashboard</a>
+                        <a href="index.php?controller=partnerportal&action=list&module=intransit">
+                            <i class="fa fa-angle-double-right"></i> In-Transit International</a>
                     </li>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=list&module=unloads">
+                            <i class="fa fa-angle-double-right"></i> Unloading</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=list&module=dist">
+                            <i class="fa fa-angle-double-right"></i> Distribution</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=list&module=deliver">
+                            <i class="fa fa-angle-double-right"></i> Delivery</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-user"></i> User Management</a>
+                <ul class="treeview-menu">
                     <li>
                         <a href="index.php?controller=partnerportal&action=list&module=tickets">
                             <i class="fa fa-angle-double-right"></i> Incidents / Tickets</a>
                     </li>
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-angle-double-right"></i> Cargo Management</a>
-                        <ul class="treeview-menu">
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=list&module=intransit">
-                                    <i class="fa fa-angle-double-right"></i> In-Transit International</a>
-                            </li>
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=list&module=unloads">
-                                    <i class="fa fa-angle-double-right"></i> Unloading</a>
-                            </li>
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=list&module=dist">
-                                    <i class="fa fa-angle-double-right"></i> Distribution</a>
-                            </li>
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=list&module=deliver">
-                                    <i class="fa fa-angle-double-right"></i> Delivery</a>
-                            </li>
-                        </ul>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=userrole">
+                            <i class="fa fa-angle-double-right"></i> Users and Roles</a>
                     </li>
-                    <li class="treeview">
-                        <a href="#"><i class="fa fa-angle-double-right"></i> User Management</a>
-                        <ul class="treeview-menu">
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=userrole">
-                                    <i class="fa fa-angle-double-right"></i> Users and Roles</a>
-                            </li>
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=edit">
-                                    <i class="fa fa-plus"></i> New Agent</a>
-                            </li>
-                            <li>
-                                <a href="index.php?controller=partnerportal&action=newrole">
-                                    <i class="fa fa-plus"></i> New Agent Role</a>
-                            </li>
-                        </ul>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=edit">
+                            <i class="fa fa-plus"></i> New Agent</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=partnerportal&action=newrole">
+                            <i class="fa fa-plus"></i> New Agent Role</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-bar-chart"></i>Reports</a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="index.php?controller=report&action=list&module=loadunlexcept&filter=default">
+                            <i class="fa fa-angle-double-right"></i> Load / Unload Exceptions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=report&action=list&module=boxaging&filter=default">
+                            <i class="fa fa-angle-double-right"></i> Box Aging
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-angle-double-right"></i> Advance manifest
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -333,7 +342,6 @@
                         Box Disposed Report</a></li>
                     <li><a href="index.php?controller=report&action=list&module=branchincentives&filter=default"><i class="fa fa-angle-double-right"></i>
                         Branch Incentives Report</a></li>
-
                     <li>
                         <a href="index.php?controller=report&action=list&module=loadunlexcept&filter=default">
                             <i class="fa fa-angle-double-right"></i> Load / Unload Exceptions

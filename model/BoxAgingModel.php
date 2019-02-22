@@ -15,6 +15,8 @@ class BoxAgingModel extends GenericModel
         gubox.box_number,
         CONCAT(gc.firstname,' ', gc.lastname) as receiver,
         gsd.name as destination,
+        pr.provDesc as province,
+        ct.citymunDesc as city,
         (SELECT gtnt.status FROM gpx_trackntrace gtnt
         WHERE gtnt.transaction_no = gubox.box_number AND gtnt.status != 'For Delivery'
         ORDER BY gtnt.id DESC LIMIT 1) as last_status
@@ -23,6 +25,8 @@ class BoxAgingModel extends GenericModel
         JOIN gpx_booking_consignee_box gbc ON gbc.box_number = gubox.box_number
         JOIN gpx_source_destination gsd ON gsd.id = gbc.destination_id
         JOIN gpx_customer gc ON gc.account_no = gbc.consignee
+        JOIN refprovince pr ON gc.province = pr.provCode
+        JOIN refcitymun ct ON gc.city = ct.citymunCode
         JOIN gpx_trackntrace gtnt ON gubox.box_number = gtnt.transaction_no
         WHERE gtnt.status = 'Unloaded'
         ORDER BY gu.id");
@@ -38,6 +42,8 @@ class BoxAgingModel extends GenericModel
         gubox.box_number,
         CONCAT(gc.firstname,' ', gc.lastname) as receiver,
         gsd.name as destination,
+        pr.provDesc as province,
+        ct.citymunDesc as city,
         (SELECT gtnt.status FROM gpx_trackntrace gtnt
         WHERE gtnt.transaction_no = gubox.box_number AND gtnt.status != 'For Delivery'
         ORDER BY gtnt.id DESC LIMIT 1) as last_status
@@ -46,6 +52,8 @@ class BoxAgingModel extends GenericModel
         JOIN gpx_booking_consignee_box gbc ON gbc.box_number = gubox.box_number
         JOIN gpx_source_destination gsd ON gsd.id = gbc.destination_id
         JOIN gpx_customer gc ON gc.account_no = gbc.consignee
+        JOIN refprovince pr ON gc.province = pr.provCode
+        JOIN refcitymun ct ON gc.city = ct.citymunCode
         JOIN gpx_trackntrace gtnt ON gubox.box_number = gtnt.transaction_no
         WHERE gtnt.status = 'Unloaded' AND gu.unload_date BETWEEN :datefrom AND :dateto
         OR gu.unload_date LIKE :like

@@ -22,11 +22,13 @@
                         <span class="label label-success">{{box}}</span>
                     {% endfor %}
                 {% elseif name == "date" or name == "unload_date" or
-                 name == "loaded_date" or name == "eta"
+                 name == "loaded_date"
                  %}
                     {{value[name]|date('d/M/Y')}}
                 {% elseif name == "arrival_time" %}
                 {{value[name]|date('d/M/Y h:m A')}}
+                {% elseif name == "eta" or name == "etd" %}
+                {{ value[name]|date('d/M/Y h:m A') }}
                 {% elseif name == "status" %}
                     {% set stat = 'label-warning' %}
                     {% if
@@ -40,7 +42,7 @@
                     {% endif %}
                         <span class="label {{stat}}">{{ value[name] }}</span>
                 {% else %}
-                    {{value[name]}}
+                    {{ value[name] }}
                 {% endif %}
             </td>
             {% endfor %}

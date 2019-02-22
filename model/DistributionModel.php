@@ -73,8 +73,8 @@ class DistributionModel extends GenericModel
                 if (count($check) == 0) {
                     $dist_type = $data['data'][$x]['type'];
                     $query = $this->connection->prepare("INSERT INTO gpx_distribution(
-                    id,distribution_type,mode_of_shipment,destination_name,truck_number,driver_name,remarks,eta,createddate,createdby,status)
-                    VALUES (:id,:distribution_type,:mode_of_shipment,:destination_name,:truck_number,:driver_name,:remarks,:eta,:createddate,:createdby,:status)");
+                    id,distribution_type,mode_of_shipment,destination_name,truck_number,driver_name,remarks,etd,eta,createddate,createdby,status)
+                    VALUES (:id,:distribution_type,:mode_of_shipment,:destination_name,:truck_number,:driver_name,:remarks,:etd,:eta,:createddate,:createdby,:status)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "distribution_type" => $data['data'][$x]['type'],
@@ -83,6 +83,7 @@ class DistributionModel extends GenericModel
                         "truck_number" => $data['data'][$x]['truck_no'],
                         "driver_name" => $data['data'][$x]['driver_name'],
                         "remarks" => $data['data'][$x]['remarks'],
+                        "etd" => $data['data'][$x]['etd'],
                         "eta" => $data['data'][$x]['eta'],
                         "createddate" => $data['data'][$x]['created_date'],
                         "createdby" => $data['data'][$x]['created_by'],

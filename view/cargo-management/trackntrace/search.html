@@ -62,13 +62,13 @@
                                                             </span>
                                                         </h5>
                                                         {% elseif result[0].status == "Loaded" or result[0].status == "In-Transit" %}
-                                                            <h5>Estimated Days of Voyage :
+                                                            <h5>Estimated Date of Voyage :
                                                                 <span class="label label-success">
                                                                     <b>{{result[0].dateandtime|date_modify("+45 days")|date("d-F-Y")}}</b>
                                                                 </span>
                                                             </h5>
                                                         {% elseif result[0].status == "Unloaded" or result[0].status == "In Transit" %}
-                                                            <h5>Estimated Date of Discharge :
+                                                            <h5>Estimated Date of Dispatch :
                                                                 <span class="label label-success">
                                                                     <b>{{result[0].dateandtime|date_modify("+15 days")|date("d-F-Y")}}</b>
                                                                 </span>

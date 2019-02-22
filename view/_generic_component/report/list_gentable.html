@@ -25,9 +25,9 @@
                 {% set difference = date(current).diff(date(unldate)) %}
                 {% set leftDays = difference.days %}
                 {% if leftDays == 1 or leftDays == 0 %}
-                   <span class="label label-warning">Less 1 day or 1 day</span>
+                   <span class="label label-warning">1</span>
                 {% else %}
-                <span class="label label-warning">{{ leftDays }} days</span>
+                <span class="label label-warning">{{ leftDays }}</span>
                 {% endif %}
             </td>
             {% elseif name == "with_descripancy" %}
@@ -35,9 +35,9 @@
                 {% if value['loaded_qty'] == value['unloaded_qty'] %}
                 <span class="label label-success">No descripancies</span>
                 {% elseif value['loaded_qty'] < value['unloaded_qty'] %}
-                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} extra </span>
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} </span>
                 {% elseif value['loaded_qty'] > value['unloaded_qty'] %}
-                    <span class="label label-danger">{{ value['unloaded_qty'] - value['loaded_qty'] }} descripancies</span>
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }}</span>
                 
                 {% endif %}
             </td>
