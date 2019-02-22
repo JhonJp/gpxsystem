@@ -14,6 +14,7 @@ class WarehouseAcceptanceModel extends GenericModel
         $query = $this->connection->prepare("SELECT gwa.id,
         gw.name  as warehouse_name, gwa.truck_no ,
         CONCAT(ged.firstname , ' ' , ged.lastname) as deliver_by ,
+        ged.id as driver_id,
         CONCAT(gea.firstname , ' ' , gea.lastname) as accepted_by ,
         gwa.createddate as accepted_date,
         COUNT(gwab.box_number) as qty,
@@ -98,6 +99,41 @@ class WarehouseAcceptanceModel extends GenericModel
     {
         $query = $this->connection->prepare("SELECT * FROM gpx_warehouse_acceptance WHERE id = :id");
         $query->execute(array("id" => $id));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getdetails($transaction_no)
+    {
+        $query = $this->connection->prepare("
+        SELECT gwa.*, gw.name as warehouse,
+        CONCAT(ge.firstname,' ',ge.lastname) as driver 
+        FROM gpx_warehouse_acceptance gwa
+        LEFT JOIN gpx_employee ge ON ge.id = gwa.delivered_by
+        LEFT JOIN gpx_warehouse gw ON gw.id = gwa.warehouse_id
+        WHERE gwa.id = :transaction_no");
+        $query->execute(
+            array(
+                "transaction_no" => $transaction_no,
+            )
+        );
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getboxnumber($transaction_no)
+    {
+        $query = $this->connection->prepare("
+        SELECT gwab.box_number as box_number
+        FROM gpx_warehouse_acceptance_box_number gwab
+        WHERE
+        warehouse_acceptance_id = :transaction_no
+        ");
+        $query->execute(
+            array(
+                "transaction_no" => $transaction_no,
+            )
+        );
         $result = $query->fetchAll();
         return $result;
     }

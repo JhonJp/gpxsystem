@@ -125,9 +125,9 @@
                 and value['status'] != "Booked"
                 and value['status'] != "Paid"
                 and breadcrumb.controller != 'unloading'
-                and breadcrumb.controller != 'warehouse_acceptance'
                 and breadcrumb.controller != 'booking'
                 and breadcrumb.controller != 'distribution'
+                and breadcrumb.controller != 'acceptance'
                 and breadcrumb.controller != 'incidentreport'
                 and breadcrumb.controller != 'report'
                 and breadcrumb.controller != 'partnerportal'
@@ -177,6 +177,9 @@
                     <span class="fa fa-eye"></span></a>
                 {% elseif breadcrumb.controller == 'reservation' %}
                 <a href="index.php?controller=reservation&action=view&reservation_no={{ value['reservation_no'] }}" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.controller == 'acceptance' %}
+                <a href="index.php?controller=acceptance&action=view&transaction_no={{ value['id'] }}" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>
                 {% endif %}
 

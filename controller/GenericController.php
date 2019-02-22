@@ -245,12 +245,6 @@ class GenericController{
                 $columns = array("unload_date","container_no","forwarder_name","time_start","time_end","arrival_time","qty","box_number");
                 $moduledescription = "List of all unloaded";
                 break;
-            case 'warehouse_acceptance':
-                $model = new WarehouseAcceptanceModel($this->connection);
-                $list = $model->getlist();         
-                $columns = array("accepted_date","warehouse_name","deliver_by","truck_no","accepted_by","qty","box_number");
-                $moduledescription = "List of all accepted box numbers per warehouse";
-				break;
         }
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
