@@ -40,12 +40,14 @@ class UnloadingController extends GenericController
         $model = new UnloadingModel($this->connection);
         $result = $model->getdetails($transaction_no); 
         $box_numbers = $model->getboxnumber($transaction_no);
+        $image = $model->getimages($transaction_no); 
 
         echo $this->twig->render('cargo-management/unloading/view.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,     
             "result" => $result,   
             "box_numbers" => $box_numbers,     
+            "images" => $image,     
         ));
     }
 

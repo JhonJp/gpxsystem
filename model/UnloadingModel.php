@@ -141,4 +141,14 @@ class UnloadingModel extends GenericModel
         return $result;
     }
 
+    //GET IMAGES
+    public function getimages($trans)
+    {
+        $query = $this->connection->prepare("SELECT gai.id as id, gai.* 
+        FROM gpx_unloading_boximage gai WHERE gai.transaction_no = :id");
+        $query->execute(array("id" => $trans));
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 }

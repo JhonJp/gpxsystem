@@ -27,6 +27,8 @@
                     {{value[name]|date('d/M/Y')}}
                 {% elseif name == "arrival_time" %}
                 {{value[name]|date('d/M/Y h:m A')}}
+                {% elseif name == "time_start" or name == "time_end" %}
+                {{value[name]|date('h:i A')}}
                 {% elseif name == "eta" or name == "etd" %}
                 {{ value[name]|date('d/M/Y h:m A') }}
                 {% elseif name == "status" %}

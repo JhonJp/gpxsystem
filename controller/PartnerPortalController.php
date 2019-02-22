@@ -44,7 +44,7 @@ class PartnerPortalController extends GenericController
             case "unloads":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getUnloads();       
-                $columns = array("unload_date","time_start","time_end","container_number","arrival_time","qty","driver_and_plate_no",);
+                $columns = array("arrival_time","container_number","unload_date","time_start","time_end","qty","driver_and_plate_no",);
                 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
