@@ -22,5 +22,10 @@ class NameController extends GenericController
        
     }
 
+    public function view()
+    {
+       
+    }
+
 }
 

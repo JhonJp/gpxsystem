@@ -233,27 +233,10 @@ class GenericController{
     {   
         $moduledescription = "";
         switch($_GET['controller']){
-            case 'loading':         
-                $model = new LoadingModel($this->connection);
-                $list = $model->getlist();  
-                $columns = array("loaded_date","shipping_line","container_no","etd","eta","qty","box_number","loaders_name","branch");
-                $moduledescription = "List of all loaded in container";
-                break;   
-            case 'unloading':
-                $model = new UnloadingModel($this->connection);
-                $list = $model->getlist();         
-                $columns = array("unload_date","container_no","forwarder_name","time_start","time_end","arrival_time","qty","box_number");
-                $moduledescription = "List of all unloaded";
+            default:
+                
                 break;
-        }
-        echo $this->twig->render('_generic_component/list.html', array(
-            "logindetails" =>  $_SESSION['logindetails'],
-            "breadcrumb" => $this->breadcrumb,
-            "list" => $list,            
-            "columns" => $columns,           
-            "url" => $_SERVER['REQUEST_URI'],
-            "moduledescription" => $moduledescription                                            
-        ));        
+        }        
     }
 
 }

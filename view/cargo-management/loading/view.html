@@ -1,0 +1,116 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body form-horizontal">
+                                    <div class="col-lg-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Transaction #</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].id }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Loaded Date</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].loaded_date|date("d/M/Y h:i A") }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Shipping Name</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].shipping_name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Container #</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].container_no }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">ETA </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].eta|date("d/M/Y h:i A") }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">ETD </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ result[0].etd|date("d/M/Y h:i A") }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {# <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Total</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" value="{{ value }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div> #}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Box Number</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            {% for key,value in box_numbers %}
+                                            <tr>
+                                                <td>{{ key + 1 }}</td>
+                                                <td><b>{{ value['box_number'] }}</b></td>
+                                                <td>
+                                                    <a title="Track" href="index.php?controller=trackntrace&action=search&boxnumber={{ value['box_number'] }}"
+                                                    class="btn btn-xs bg-navy">
+                                                    <span class="fa fa-location-arrow"></span></a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+<!-- /.row -->
+</section>
+</div>
+
+{% endblock content %}

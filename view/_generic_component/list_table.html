@@ -85,7 +85,7 @@
                 <!-- {{ value[name]|date('d/M/Y h:i A') }} -->
                 {{ value[name]|date('d/M/Y h:i A') }}
             </td>
-            {% elseif name == "unloaded_date" 
+            {% elseif name == "unloaded_date" or name == "unload_date" 
             or name == "date_from" or name == "date_to" 
             or name == "disbursement_date"
             or name == "liquidation_date"
@@ -94,6 +94,10 @@
             or name == "due_date" %}
             <td>
                 {{ value[name]|date('d/M/Y') }}
+            </td>
+            {% elseif name == "time_start" or name == "time_end" %}
+            <td>
+                {{ value[name]|date('h:i A') }}
             </td>
             {% elseif name == "age"%}
             <td>
@@ -180,6 +184,12 @@
                     <span class="fa fa-eye"></span></a>
                 {% elseif breadcrumb.controller == 'acceptance' %}
                 <a href="index.php?controller=acceptance&action=view&transaction_no={{ value['id'] }}" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.controller == 'loading' %}
+                <a href="index.php?controller=loading&action=view&transaction_no={{ value['id'] }}" class="btn btn-xs bg-green">
+                    <span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.controller == 'unloading' %}
+                <a href="index.php?controller=unloading&action=view&transaction_no={{ value['id'] }}" class="btn btn-xs bg-green">
                     <span class="fa fa-eye"></span></a>
                 {% endif %}
 

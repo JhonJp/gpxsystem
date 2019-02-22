@@ -139,4 +139,36 @@ class LoadingModel extends GenericModel
 
     }
 
+    public function getdetails($transaction_no)
+    {
+        $query = $this->connection->prepare("
+        SELECT gl.*
+        FROM gpx_loading gl
+        WHERE gl.id = :transaction_no");
+        $query->execute(
+            array(
+                "transaction_no" => $transaction_no,
+            )
+        );
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getboxnumber($transaction_no)
+    {
+        $query = $this->connection->prepare("
+        SELECT gwab.box_number as box_number
+        FROM gpx_loading_box_number gwab
+        WHERE
+        loading_id = :transaction_no
+        ");
+        $query->execute(
+            array(
+                "transaction_no" => $transaction_no,
+            )
+        );
+        $result = $query->fetchAll();
+        return $result;
+    }
+
 }
