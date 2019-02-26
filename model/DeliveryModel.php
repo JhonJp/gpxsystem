@@ -209,10 +209,21 @@ class DeliveryModel extends GenericModel
         SELECT gd.*,
         GROUP_CONCAT(gdbn.box_number) as box_number
         FROM gpx_delivery gd
-        LEFT JOIN gpx_delivery_box_number ON gd.id = gdbn.delivery_id
+        LEFT JOIN gpx_delivery_box_number gdbn ON gd.id = gdbn.delivery_id
         WHERE gdbn.status = '2'");
         $query->execute();
         $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function countundelivered(){
+        $query = $this->connection->prepare("
+        SELECT
+        COUNT(gdbn.box_number)
+        FROM gpx_delivery_box_number gdbn
+        WHERE gdbn.status = '2'");
+        $query->execute();
+        $result = $query->fetchColumn();
         return $result;
     }
 

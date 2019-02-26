@@ -12,10 +12,13 @@ $connection = $database->connect();
 
 //CALL MODEL    
 $model = new DeliveryModel($connection);
-$id = isset($_GET['stat']) ? $_GET['stat'] : 0;
-$result = $model->getdeliveries($id);
+$counting = $model->countundelivered();
+$result = $model->getundelivered();
 
 //OUTPUT
-echo json_encode($result);
-
+if ($counting == 0){
+    echo "No Data Found!";
+}else{
+    echo json_encode($result);
+}
 ?>
