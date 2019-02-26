@@ -146,7 +146,10 @@ class GenericController{
                 break;  
             case "newrole":
                 $this->newrole();
-                break;   
+                break; 
+            case "updDist":
+                $this->saveDist();
+                break;  
             case "sr":
                 $this->saverole();
                 break;    

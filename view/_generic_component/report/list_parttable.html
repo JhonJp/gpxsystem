@@ -5,9 +5,7 @@
             {% for name in columns %}
             <th>{{ name|upper|replace({"_" : " "}) }}</th>
             {% endfor %}
-            {% if module|lower != 'intransit international' %}
             <th>ACTION</th>
-            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -48,11 +46,21 @@
                 {% endif %}
             </td>
             {% endfor %}
-            {% if module|lower != 'intransit international' %}
             <td>
-                {% if module|lower == "portal distribution"
-                 or module|lower == "portal unloaded"
-                  or module|lower == "portal delivery" %}
+                {% if module|lower == "portal delivery" %}
+                <a href="index.php?controller=partnerportal&action=view&module=deliver&id={{ value['id'] }}" title="View"
+                class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.action == 'list' and module|lower == "portal distribution" %}
+                <a href="index.php?controller=partnerportal&action=view&module=dist&id={{ value['id'] }}" title="View"
+                class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
+                <a href="index.php?controller=partnerportal&action=edit&mode=dist&id={{ value['id'] }}" title="Edit"
+                class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+                {% elseif breadcrumb.action == 'list' and module|lower == "intransit international" %}
+                <a href="index.php?controller=partnerportal&action=view&module=intransit&id={{ value['id'] }}" title="View"
+                class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
+                {% elseif breadcrumb.action == 'list' and module|lower == "portal unloaded" %}
+                <a href="index.php?controller=partnerportal&action=view&module=unloads&id={{ value['id'] }}" title="View"
+                class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
                 {% elseif breadcrumb.action == 'userrole' %}
                 <a href="index.php?controller={{ breadcrumb.controller }}&action=newrole&id={{ value['id'] }}" title="Edit"
                 class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
@@ -69,8 +77,7 @@
                         <span class="label label-danger">{{ value[name] }}</span>
                     {% endif %}
                 {% endif %}
-            </td> 
-            {% endif %}            
+            </td>          
         </tr>
         {% endfor %}
     </tbody>

@@ -57,7 +57,7 @@ class PartnerPortalModel extends GenericModel
   public function getintransit()
   {        
       $query = $this->connection->prepare("
-      SELECT gl.loaded_date as loaded_date,
+      SELECT gl.*, gl.loaded_date as loaded_date,
       gl.container_no as container_no,
       gl.eta as eta
       FROM gpx_loading gl
@@ -111,6 +111,7 @@ class PartnerPortalModel extends GenericModel
     public function getDeliveries()
     {        
         $query = $this->connection->prepare("SELECT 
+        gd.id as id,
         CONCAT(gc1.firstname, ' ',gc1.lastname) as customer,        
         GROUP_CONCAT(gdbn.box_number) as box_number,
         CONCAT(gc2.firstname, ' ',gc2.lastname)  as receiver,
@@ -201,6 +202,21 @@ class PartnerPortalModel extends GenericModel
         return $result;
     }
 
+    public function getPartnerDrivers()
+    {
+        $query = $this->connection->prepare("SELECT ge.* , 
+        CONCAT(ge.firstname, ' ', ge.lastname) as name  , gb.name as branch 
+        FROM gpx_employee ge 
+        LEFT JOIN gpx_branch gb ON ge.branch = gb.id
+        LEFT JOIN gpx_users gu ON ge.id = gu.employee_id
+        LEFT JOIN gpx_role rl ON gu.role_id = rl.id
+        WHERE gu.role_id = '6'
+        ORDER BY ge.firstname");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
     //LIST ROLE PARTNER
     public function getPartnerRoles()
     {        
@@ -259,6 +275,188 @@ class PartnerPortalModel extends GenericModel
         return $result;     
     }
   
+
+    //GET DATA BY LOADING ID
+    public function getdetails($type, $id)
+    {
+        switch($type){
+            case "intransit":
+                $query = $this->connection->prepare("
+                SELECT gl.*
+                FROM gpx_loading gl
+                WHERE gl.id = :transaction_no");
+                $query->execute(
+                    array(
+                        "transaction_no" => $id,
+                    )
+                );
+            break;
+            case "dist":
+                $query = $this->connection->prepare("SELECT gd.* , CONCAT(ge.firstname, ' ', ge.lastname) as createdby FROM gpx_distribution gd 
+                LEFT JOIN gpx_employee ge ON gd.createdby = ge.id
+                WHERE gd.id = :id");
+                $query->execute(array("id"=>$id));
+            break;
+            case "deliver":
+                $query = $this->connection->prepare("
+                SELECT gd.*,
+                CONCAT(gc.firstname,' ', gc.lastname) as customer,
+                CONCAT(ge.firstname,' ', ge.lastname) as driver_name
+                FROM gpx_delivery gd
+                LEFT JOIN gpx_customer gc ON gc.account_no = gd.customer
+                LEFT JOIN gpx_delivery_box_number gdbn ON gdbn.delivery_id = gd.id
+                LEFT JOIN gpx_employee ge ON gd.createdby = ge.id
+                WHERE gd.id = :id");
+                $query->execute(array("id"=>$id));
+            break;
+            case "unloads":
+                $query = $this->connection->prepare("
+                SELECT gu.*
+                FROM gpx_unloading gu
+                WHERE gu.id = :transaction_no");
+                $query->execute(
+                    array(
+                        "transaction_no" => $id,
+                    )
+                );
+            break;
+            default:
+                $query = $this->connection->prepare("
+                SELECT gl.*
+                FROM gpx_loading gl
+                WHERE gl.id = :transaction_no");
+                $query->execute(
+                    array(
+                        "transaction_no" => $id,
+                    )
+                );
+            break;
+        }
+        
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getboxnumber($type, $id)
+    {
+        switch($type){
+            case "intransit":
+                $query = $this->connection->prepare("
+                SELECT gwab.box_number as box_number
+                FROM gpx_loading_box_number gwab
+                WHERE
+                loading_id = :transaction_no
+                ");
+                $query->execute(array("transaction_no" => $id));
+            break;
+            case "dist":
+                $query = $this->connection->prepare("SELECT gb.name as boxtype , gdbn.box_number 
+                FROM gpx_distribution_box_number gdbn
+                LEFT JOIN gpx_boxtype gb ON gb.id = gdbn.boxtype_id
+                WHERE gdbn.distibution_id = :id");
+                $query->execute(array("id"=>$id));
+            break;
+            case "deliver":
+                $query = $this->connection->prepare("
+                SELECT gdbn.box_number as box_number,pr.provDesc as province,
+                ct.citymunDesc as city,
+                br.brgyDesc as barangay,
+                CONCAT(gc.firstname,' ',gc.lastname) as receiver
+                FROM gpx_delivery_box_number gdbn
+                LEFT JOIN gpx_customer gc ON gc.account_no = gdbn.receiver
+                LEFT JOIN refprovince pr ON pr.provCode = gc.province
+                LEFT JOIN refcitymun ct ON ct.citymunCode = gc.city
+                LEFT JOIN refbrgy br ON br.brgyCode = gc.barangay
+                WHERE gdbn.delivery_id = :id");
+                $query->execute(array("id"=>$id));
+            break;
+            case "unloads":
+                $query = $this->connection->prepare("
+                SELECT gwab.box_number as box_number
+                FROM gpx_unloading_box_number gwab
+                WHERE
+                unloading_id = :transaction_no
+                ");
+                $query->execute(
+                    array(
+                        "transaction_no" => $id,
+                    )
+                );
+            break;
+
+            default:
+                $query = $this->connection->prepare("
+                SELECT gwab.box_number as box_number
+                FROM gpx_loading_box_number gwab
+                WHERE
+                loading_id = :transaction_no
+                ");
+                $query->execute(
+                    array(
+                        "transaction_no" => $id,
+                    )
+                );
+            break;
+        }
+
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //GET IMAGES
+    public function getimages($type, $id)
+    {   
+        switch($type){
+            case "intransit":break;
+            case "unloads":
+                $query = $this->connection->prepare("SELECT gai.id as id, gai.* 
+                FROM gpx_unloading_boximage gai WHERE gai.transaction_no = :id");
+                $query->execute(array("id" => $id));
+            break;
+            case "dist":
+                $query = $this->connection->prepare("SELECT image 
+                FROM gpx_all_image WHERE transaction_no = :id AND module = 'distribution'");
+                $query->execute(array("id" => $id));
+            break;
+            case "deliver":
+                $query = $this->connection->prepare("SELECT image 
+                FROM gpx_all_image WHERE transaction_no = :id AND module = 'delivery'");
+                $query->execute(array("id" => $id));
+            break;
+           default:break;
+        }
+        
+        $result = $query->fetchAll();
+        return $result;
+    }
     
+    //UPDATE DISTRIBUTION PARTNER
+    public function updateDist($id,$data){
+        $query = $this->connection->prepare("
+        UPDATE gpx_distribution 
+        SET 
+        distribution_type=:type,
+        mode_of_shipment=:mode,
+        destination_name=:destname,
+        truck_number=:truck,
+        driver_name=:driver,
+        remarks=:remarks,
+        etd=:etd,
+        eta=:eta
+        WHERE id = :id");
+        $result = $query->execute(array(
+            "id" => $id,
+            "type"=> $data['distribution_type'],
+            "mode"=> $data['mode_of_shipment'],
+            "destname"=> $data['destination_name'],
+            "truck"=> $data['truck_number'],
+            "driver"=> $data['driver_name'],
+            "remarks"=> $data['remarks'],
+            "etd"=> $data['etd'],
+            "eta"=> $data['eta'],
+        ));    
+        $this->connection = null; 
+        return $result; 
+    }
 }
 ?>

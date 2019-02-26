@@ -89,6 +89,7 @@
                   <th>Loaded Date</th>
                   <th>Container</th>
                   <th>ETA</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -98,6 +99,11 @@
                       <td>{{data[i].loaded_date|date("d/M/Y")}}</td>
                       <td>{{data[i].container_no}}</td>
                       <td>{{data[i].eta|date("d/M/Y")}}</td>
+                      <td>
+                          <a href="index.php?controller=partnerportal&action=view&module=intransit&id={{ data[i].id }}" 
+                          title="View"
+                          class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
+                      </td>
                     </tr>
                     {% endfor %}
                 </tbody>

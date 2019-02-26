@@ -29,7 +29,6 @@ class DeliveryModel extends GenericModel
         LEFT JOIN gpx_customer gc1 ON gc1.account_no = gd.customer
         LEFT JOIN gpx_employee gemp ON gemp.id = gd.createdby
         LEFT JOIN gpx_customer gc2 ON gc2.account_no = gdbn.receiver
-
         GROUP BY
         gdbn.receiver,
         gdbn.origin ,
@@ -200,6 +199,18 @@ class DeliveryModel extends GenericModel
 
     public function getproof(){
         $query = $this->connection->prepare("SELECT * FROM gpx_delivery_image");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    public function getundelivered(){
+        $query = $this->connection->prepare("
+        SELECT gd.*,
+        GROUP_CONCAT(gdbn.box_number) as box_number
+        FROM gpx_delivery gd
+        LEFT JOIN gpx_delivery_box_number ON gd.id = gdbn.delivery_id
+        WHERE gdbn.status = '2'");
         $query->execute();
         $result = $query->fetchAll();
         return $result;

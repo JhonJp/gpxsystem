@@ -24,7 +24,8 @@ class PartnerPortalController extends GenericController
         ));
     }
 
-    public function list(){
+    public function list()
+    {
         $list = null;
         $module = isset($_GET['module']) ? $_GET['module'] : "";
         switch($module){
@@ -57,7 +58,7 @@ class PartnerPortalController extends GenericController
             case "deliver":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getDeliveries();
-                $columns = array("date","destination","customer","receiver","box_number","driver_name","received_by","status","remarks");
+                $columns = array("date","destination","customer","receiver","box_number","driver_name","received_by","status");
 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
@@ -83,7 +84,7 @@ class PartnerPortalController extends GenericController
             case "dist":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getdistlocal();         
-                $columns = array("date","type","mode_of_shipment","destination","truck_number","driver_name","remarks","qty","etd","eta");
+                $columns = array("date","type","mode_of_shipment","destination","truck_number","driver_name","qty","etd","eta");
                 $moduledescription = "PORTAL DISTRIBUTION";
         
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
@@ -130,21 +131,56 @@ class PartnerPortalController extends GenericController
 
     public function edit()
     {        
+        $module = isset($_GET['mode']) ? $_GET['mode'] : null;
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         $result = null;     
-        $branch = null; 
+        $branch = null;
+        $drivers = null; 
         $part = new PartnerPortalModel($this->connection); 
-        $branch = $part->getallbranchpartner($id);   
-        if (isset($id)) {
-            $model = new EmployeeModel($this->connection);
-            $result = $model->getemployeebyid($id);
+
+        switch($module){
+            case "newemp":
+                $branch = $part->getallbranchpartner($id);   
+                if (isset($id)) {
+                    $model = new EmployeeModel($this->connection);
+                    $result = $model->getemployeebyid($id);
+                }
+                echo $this->twig->render('partner_portal/newemployee.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,
+                    "allbranch" => $branch,
+                    "result" => $result
+                ));
+            break;
+            case "dist":
+                $drivers = $part->getPartnerDrivers(); 
+                $result = $part->getdetails($module,$id); 
+                $box_numbers = $part->getboxnumber($module,$id);
+                $image = $part->getimages($module,$id); 
+                echo $this->twig->render('partner_portal/edit/editdist.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,     
+                    "images" => $image,     
+                    "drivers" => $drivers,     
+                ));
+            break;
+            default:
+                $branch = $part->getallbranchpartner($id);   
+                    if (isset($id)) {
+                        $model = new EmployeeModel($this->connection);
+                        $result = $model->getemployeebyid($id);
+                    }
+                    echo $this->twig->render('partner_portal/newemployee.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "allbranch" => $branch,
+                        "result" => $result
+                    ));
+            break;
+
         }
-        echo $this->twig->render('partner_portal/newemployee.html', array(
-            "logindetails" =>  $_SESSION['logindetails'],
-            "breadcrumb" => $this->breadcrumb,
-            "allbranch" => $branch,
-            "result" => $result
-        ));
     }
 
     public function save()
@@ -320,6 +356,93 @@ class PartnerPortalController extends GenericController
             "alltransactionsno" => $this->alltransactionsno,
             "result" => $result
         ));
+    }
+
+    public function view()
+    {
+        $image = "";
+        $module = isset($_GET['module']) ? $_GET['module'] : "";
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $model = new PartnerPortalModel($this->connection);
+        $result = $model->getdetails($module,$id); 
+        $box_numbers = $model->getboxnumber($module,$id);
+        switch($module){
+            case "intransit":
+                echo $this->twig->render('partner_portal/view/viewintransit.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,    
+                ));
+            break;
+            case "unloads":
+                $image = $model->getimages($module,$id); 
+                echo $this->twig->render('partner_portal/view/viewunload.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,     
+                    "images" => $image,     
+                ));
+            break;
+            case "deliver":
+                $image = $model->getimages($module,$id); 
+                echo $this->twig->render('partner_portal/view/viewdelivery.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,     
+                    "images" => $image,     
+                ));
+            break;
+            case "dist":
+                $image = $model->getimages($module,$id); 
+                echo $this->twig->render('partner_portal/view/viewdist.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,     
+                    "images" => $image,     
+                ));
+            break;
+            default:
+                echo $this->twig->render('partner_portal/view/viewintransit.html', array(
+                    "logindetails" =>  $_SESSION['logindetails'],
+                    "breadcrumb" => $this->breadcrumb,     
+                    "result" => $result,   
+                    "box_numbers" => $box_numbers,    
+                ));
+            break;
+            
+        }
+
+
+    }
+
+    public function saveDist()
+    {
+        date_default_timezone_set("Asia/Singapore");
+        $id = isset($_POST['id']) ? $_POST['id'] : "";
+        $daterange = explode('-',$_POST['eta_etd']);
+        $datefirst = date('Y-m-d',strtotime($daterange[0]));
+        $datesec = date('Y-m-d',strtotime($daterange[1]));
+        $data = array(
+            "distribution_type" => (isset($_POST['distribution_type']) ? $_POST['distribution_type'] : ""),
+            "destination_name" => (isset($_POST['destination_name']) ? $_POST['destination_name'] : ""),
+            "driver_name" => (isset($_POST['driver_name']) ? $_POST['driver_name'] : ""),
+            "truck_number" => (isset($_POST['truck_number']) ? $_POST['truck_number'] : ""),
+            "mode_of_shipment" => (isset($_POST['mode_of_shipment']) ? $_POST['mode_of_shipment'] : ""),
+            "etd" => $datesec." ".date("h:i:sa"),
+            "eta" => $datefirst." ".date("h:i:sa"),
+            "remarks" => (isset($_POST['remarks']) ? $_POST['remarks'] : ""),
+        );
+
+        if($id <> ""){
+            $model = new PartnerPortalModel($this->connection);
+            $result = $model->updateDist($id,$data);
+        }
+        if($result == 1)
+            header("Location: index.php?controller=partnerportal&action=list&module=dist");
     }
 
 

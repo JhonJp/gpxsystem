@@ -136,6 +136,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {% if logindetails[0].position|lower != 'partner' %}
                             <div class="col-md-12">
                                 <!-- Chat box -->
                                 <div class="box box-danger">
@@ -174,6 +175,7 @@
                                 </div>
                                 <!-- /.box (chat box) -->
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

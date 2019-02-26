@@ -207,7 +207,8 @@ class ReportController extends GenericController
         }
     }
 
-    public function filterbydate($filter, $mode){
+    public function filterbydate($filter, $mode)
+    {
 
         if(($filter == "default") && ($mode == "saledate")){
             $model = new ReportModel($this->connection);
@@ -301,7 +302,8 @@ class ReportController extends GenericController
 
 
     //GENERIC FILTER BY DATE REPORTS
-    public function filterdate(){
+    public function filterdate()
+    {
         $mode = isset($_POST['datamode']) ? $_POST['datamode'] : "";
         $daterange = explode('-',$_POST['daterange']);
         $datefirst = date('Y-m-d',strtotime($daterange[0]));
@@ -336,7 +338,8 @@ class ReportController extends GenericController
     }
 
     //GENERIC FILTERS MODULE REPORTS
-    public function genericfilter($module, $filterby, $datefrom, $dateto){
+    public function genericfilter($module, $filterby, $datefrom, $dateto)
+    {
         switch($module){
             case "boxpurchase":
                 if ($filterby == "bydaterange"){
@@ -635,6 +638,7 @@ class ReportController extends GenericController
                 break;
         }
     }
+    
 
 }
 

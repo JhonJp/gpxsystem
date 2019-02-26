@@ -458,6 +458,16 @@ class GenericModel{
         return $result;
     }
 
+    public function getcountdirects()
+    {
+        $query = $this->connection->prepare("
+        SELECT COUNT(gbd.distribution_type) FROM gpx_distribution gbd 
+        WHERE gbd.distribution_type = 'Direct'");
+        $query->execute();
+        $result = $query->fetchColumn();
+        return $result;
+    }
+
     //ALL BOX RATES
     public function getboxrates()
     {
@@ -579,6 +589,22 @@ class GenericModel{
         FROM gpx_distribution gd
         LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
         WHERE gd.distribution_type = 'GP - Branch'
+        GROUP BY gd.id 
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //GET DISTRIBUTION //DIRECT
+    public function getdistributiondirect()
+    {
+        $query = $this->connection->prepare("SELECT gd.* ,gdbn.boxtype_id , COUNT(gdbn.box_number) as qty ,
+        GROUP_CONCAT(gdbn.box_number) as box_number,
+        GROUP_CONCAT(gdbn.boxtype_id) as boxtype_id
+        FROM gpx_distribution gd
+        LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
+        WHERE gd.distribution_type = 'Direct'
         GROUP BY gd.id 
         ");
         $query->execute();

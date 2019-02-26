@@ -29,6 +29,7 @@ class BoxAgingModel extends GenericModel
         JOIN refcitymun ct ON gc.city = ct.citymunCode
         JOIN gpx_trackntrace gtnt ON gubox.box_number = gtnt.transaction_no
         WHERE gtnt.status = 'Unloaded'
+        GROUP BY gubox.box_number
         ORDER BY gu.id");
         $query->execute();
         $result = $query->fetchAll();

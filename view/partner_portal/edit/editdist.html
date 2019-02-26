@@ -1,0 +1,136 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+    {{ include("_generic_component/list_breadcrumb.html") }}
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="box box-danger">
+                {{ include("_generic_component/list_header.html") }}
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <div class="box-title">
+                                        <h5>Distribution Details</h5>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <form action="index.php?controller=partnerportal&action=updDist" method="POST">
+                                <div class="box-body form-horizontal">
+                                    <div class="col-lg-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Type</label>
+                                                <div class="col-md-9">
+                                                    <input type="hidden" name="id" class="form-control" value="{{ result[0].id }}" >
+                                                    <input type="text" name="distribution_type" class="form-control" value="{{ result[0].distribution_type }}" readonly >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Destination</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" name="destination_name" class="form-control" value="{{ result[0].destination_name }}" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Driver name</label>
+                                                <div class="col-md-9">
+                                                    {# <input type="text" class="form-control" value="{{ result[0].driver_name }}" > #}
+                                                    <select class="form-control select2" name="driver_name" style="width: 100%;">
+                                                        <option selected="selected" value="{{ result[0].driver_name }}">{{ result[0].driver_name }}</option>
+                                                        {% for key,value in drivers %}
+                                                        <option value="{{ value['name'] }}">{{ value['name'] }}</option>
+                                                        {% endfor %}
+                                                      </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Truck #</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" name="truck_number" class="form-control" value="{{ result[0].truck_number }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Mode of Shipment</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control select2" name="mode_of_shipment" style="width: 100%;">
+                                                        <option selected="selected" value="{{ result[0].mode_of_shipment }}">{{ result[0].mode_of_shipment }}</option>
+                                                        <option value="Via Sea">Via Sea</option>
+                                                        <option value="Via Air">Via Air</option>
+                                                        <option value="Via Land">Via Land</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">ETD - ETA date </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control pull-right" id="reservationtime" name="eta_etd"
+                                                     value="{{ result[0].etd }} \- {{ result[0].eta }}"> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Remarks</label>
+                                                <div class="col-md-9">
+                                                    <textarea name="remarks" class="form-control" style="resize:none;">{{ result[0].remarks }}</textarea>   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Box Type</th>
+                                                <th>Box Number</th>
+                                            </tr>
+                                            {% for key,value in box_numbers %}
+                                            <tr>
+                                                <td>{{ key + 1 }}</td>
+                                                <td>{{ value['boxtype'] }}</td>
+                                                <td><b>{{ value['box_number'] }}</b></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                                {# box footer #}
+                                <div class="box-footer">
+                                    <div class="pull-right">
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-block btn-primary">
+                                                <span class="fa fa-fw fa-save"></span>Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+<!-- /.row -->
+
+</section>
+</div>
+{% endblock content %}
