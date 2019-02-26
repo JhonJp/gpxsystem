@@ -16,6 +16,7 @@ class PartnerPortalController extends GenericController
         $status = "1";
         echo $this->twig->render('/partner_portal/dashboard.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
+            "breadcrumb" => $this->breadcrumb,
             "deliveries" => $index->countdeliveries(),
             "unloaded" => $index->countUnloaded(),
             "customer" => $index->countCustomers('customer'),
