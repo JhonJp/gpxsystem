@@ -54,8 +54,8 @@ class DeliveryModel extends GenericModel
                 if (count($check) == 0) {
 
                     $query = $this->connection->prepare("INSERT INTO gpx_delivery(
-                    id,transaction_no,createddate,createdby,customer,receivedby,relationship,remarks,signature)
-                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,:remarks,:signature)");
+                    id,transaction_no,createddate,createdby,customer,receivedby,relationship,remarks,signature,mainstatus)
+                    VALUES (:id,:transaction_no,:createddate,:createdby,:customer,:receivedby,:relationship,:remarks,:signature,:mainstatus)");
                     $result = $query->execute(array(
                         "id" => $data['data'][$x]['id'],
                         "transaction_no" => $data['data'][$x]['transaction_no'],
@@ -66,6 +66,7 @@ class DeliveryModel extends GenericModel
                         "relationship" => $data['data'][$x]['relationship'],
                         "remarks" => $data['data'][$x]['remarks'],
                         "signature" => $data['data'][$x]['signature'],
+                        "mainstatus" => $data['data'][$x]['mainstatus'],
                     ));
 
                     $countboxnumber = count($data['data'][$x]['delivery_box']);
@@ -184,7 +185,7 @@ class DeliveryModel extends GenericModel
 
     public function getdeliveries($id){
         $query = $this->connection->prepare("SELECT * FROM gpx_delivery
-        WHERE createdby = :id");
+        WHERE createdby = :id AND ");
         $query->execute(array("id" => $id));
         $result = $query->fetchAll();
         return $result;
@@ -206,11 +207,10 @@ class DeliveryModel extends GenericModel
 
     public function getundelivered(){
         $query = $this->connection->prepare("
-        SELECT gd.*,
-        GROUP_CONCAT(gdbn.box_number) as box_number
-        FROM gpx_delivery gd
-        LEFT JOIN gpx_delivery_box_number gdbn ON gd.id = gdbn.delivery_id
-        WHERE gdbn.status = '2'");
+        SELECT gd.*,GROUP_CONCAT(gdbn.box_number) as box_number
+        FROM gpx_delivery_box_number gdbn
+        LEFT JOIN gpx_delivery gd ON gd.id = gdbn.delivery_id
+        WHERE gd.mainstatus = '2' AND gdbn.status = '2'");
         $query->execute();
         $result = $query->fetchAll();
         return $result;
@@ -219,9 +219,9 @@ class DeliveryModel extends GenericModel
     public function countundelivered(){
         $query = $this->connection->prepare("
         SELECT
-        COUNT(gdbn.box_number)
-        FROM gpx_delivery_box_number gdbn
-        WHERE gdbn.status = '2'");
+        COUNT(gdbn.id)
+        FROM gpx_delivery gdbn
+        WHERE gdbn.mainstatus = '2'");
         $query->execute();
         $result = $query->fetchColumn();
         return $result;
