@@ -91,7 +91,7 @@ class PartnerPortalModel extends GenericModel
     }
 
   //GET UNLOADING DATA
-  public function getUnloads()
+  public function getUnloads($id)
     {
         $query = $this->connection->prepare("SELECT gu.*,gu.container_no as container_number ,
         COUNT(gubn.box_number) as qty,
@@ -99,9 +99,10 @@ class PartnerPortalModel extends GenericModel
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
         FROM gpx_unloading gu 
         LEFT JOIN gpx_unloading_box_number gubn ON gu.id = gubn.unloading_id
+        WHERE gu.createdby = :id
         GROUP BY gu.id
         ");
-        $query->execute();
+        $query->execute(array("id"=>$id));
         $result = $query->fetchAll();
         $this->connection = null;
         return $result;
@@ -129,7 +130,6 @@ class PartnerPortalModel extends GenericModel
         LEFT JOIN gpx_customer gc1 ON gc1.account_no = gd.customer
         LEFT JOIN gpx_employee gemp ON gemp.id = gd.createdby
         LEFT JOIN gpx_customer gc2 ON gc2.account_no = gdbn.receiver
-
         GROUP BY
         gdbn.receiver,
         gdbn.origin ,
@@ -144,18 +144,18 @@ class PartnerPortalModel extends GenericModel
     }
 
     //get distribution local
-    public function getdistlocal()
+    public function getdistlocal($id)
     {
-        $query = $this->connection->prepare("SELECT gd.*, gd.createddate as date, gd.distribution_type as type,
+        $query = $this->connection->prepare("SELECT gd.*,gd.id as transaction_no, gd.createddate as date, gd.distribution_type as type,
         gd.destination_name as destination
         , COUNT(gdbn.box_number) as qty ,
         GROUP_CONCAT(gdbn.box_number) as box_number
         FROM gpx_distribution gd
         LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
-        WHERE gd.id LIKE '%PARTD-%'
+        WHERE gd.id LIKE '%PARTD-%' AND gd.createdby = :id
         GROUP BY gd.id
         ");
-        $query->execute();
+        $query->execute(array("id"=>$id));
         $result = $query->fetchAll();
         $this->connection = null;
         return $result;

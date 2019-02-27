@@ -40,6 +40,7 @@
             or value[name] == "Booked" %}
             {% set status = 'label-success' %}
             {% elseif value[name] == "Cancelled" %}
+            {% elseif value[name] == "Undelivered" %}
             {% set status = 'label-danger' %}
             {% elseif value[name] == "In Progress" %}
             {% set status = 'label-info' %}

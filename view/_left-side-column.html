@@ -26,7 +26,8 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            {% if logindetails[0].position|lower == 'partner' %}
+            
+            {% if logindetails[0].role_id == '5' %}
             <li class="active">
                 <a href="index.php?controller=partnerportal&action=partnerdashboard">
                     <i class="fa fa-dashboard"></i> Dashboard</a>

@@ -130,7 +130,7 @@ class DistributionModel extends GenericModel
                            //////////TRACK N TRACE LOGS/////////
                             $logs = array(
                                 "transaction_no" => $data['data'][$x]['distribution_box'][$y]['boxnumber'],
-                                "status" => "In Transit",
+                                "status" => "In Transit Local",
                                 "dateandtime" => $data['data'][$x]['created_date'],
                                 "activity" => "In Transit ".$data['data'][$x]['mode_of_shipment'],
                                 "location" => $this->getlocationemployeebyid($data['data'][$x]['created_by']),

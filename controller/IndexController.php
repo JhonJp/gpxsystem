@@ -40,11 +40,18 @@ class IndexController extends GenericController
             if(isset($result[0]['id'])){                
                 $_SESSION['login'] = true;     
                 $_SESSION['logindetails'] = $result;
-                if($result[0]['position'] == 'Partner'){
+                if($result[0]['role_id'] == '5'){
                     header("Location:index.php?controller=partnerportal&action=partnerdashboard");
-                }else if($result[0]['position'] == 'Admin'){ 
-                    header("Location:index.php?controller=index&action=dashboard");
-                }else{
+                }else if($result[0]['role_id'] == '6'){ 
+                    echo $this->twig->render('login.html', array(
+                        "error" => true
+                    ));
+                }else if($result[0]['role_id'] == '2'){ 
+                    echo $this->twig->render('login.html', array(
+                        "error" => true
+                    ));
+                }
+                else{
                     header("Location:index.php?controller=index&action=dashboard");
                 }
             }

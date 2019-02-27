@@ -10,7 +10,19 @@
     <!-- Content Wrapper. Contains page content -->
     {% block content %} 
     
-    {% endblock %}    
+    {% endblock %}  
+    
+    
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+  <div class="row">
+      <div class="col-md-12">
+          <span class="closer">X</span>
+          <img class="modal-contenter" id="img01" style="max-height:550px;margin-top:50px;max-width:400px;">
+      </div>
+  </div>
+  <div id="caption"></div>
+</div>
     
     <!-- /.content-wrapper -->
     <div class="modal fade" id="modal-delete">
@@ -49,15 +61,5 @@
     </footer>
   </div>
   <!-- ./wrapper -->
-  <!-- The Modal -->
-<div id="myModal" class="modal">
-    <div class="row">
-        <div class="col-md-12">
-            <span class="closer">X</span>
-            <img class="modal-contenter" id="img01" style="max-height:550px;margin-top:50px;max-width:400px;">
-        </div>
-    </div>
-<div id="caption"></div>
-</div>
 
   {{ include("_footer-script.html") }}

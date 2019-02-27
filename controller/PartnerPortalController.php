@@ -45,7 +45,7 @@ class PartnerPortalController extends GenericController
                 break;
             case "unloads":
                 $model = new PartnerPortalModel($this->connection);
-                $list = $model->getUnloads();       
+                $list = $model->getUnloads($_SESSION['logindetails'][0]['id']);       
                 $columns = array("arrival_time","container_number","unload_date","time_start","time_end","qty","driver_and_plate_no",);
                 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
@@ -84,8 +84,8 @@ class PartnerPortalController extends GenericController
                 break;
             case "dist":
                 $model = new PartnerPortalModel($this->connection);
-                $list = $model->getdistlocal();         
-                $columns = array("date","type","mode_of_shipment","destination","truck_number","driver_name","qty","etd","eta");
+                $list = $model->getdistlocal($_SESSION['logindetails'][0]['id']);         
+                $columns = array("date","transaction_no","type","mode_of_shipment","destination","truck_number","driver_name","qty","etd","eta");
                 $moduledescription = "PORTAL DISTRIBUTION";
         
                 echo $this->twig->render('_generic_component/report/list_part.html', array(

@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         {% for key,value in list %}
-        {% if value["last_status"] == "Delivered" %}
+        {% if value["last_status"]|lower == "delivered" or value["last_status"]|lower == "for delivery" %}
         {% else %}
         <tr>
             <td>{{ key + 1 }}</td>
@@ -25,9 +25,9 @@
                 {% set difference = date(current).diff(date(unldate)) %}
                 {% set leftDays = difference.days %}
                 {% if leftDays == 1 or leftDays == 0 %}
-                   <span class="label label-warning">1</span>
+                   <span class="label label-danger">1</span>
                 {% else %}
-                <span class="label label-warning">{{ leftDays }}</span>
+                <span class="label label-danger">{{ leftDays }}</span>
                 {% endif %}
             </td>
             {% elseif name == "with_descripancy" %}

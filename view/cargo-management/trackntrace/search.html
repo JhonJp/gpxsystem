@@ -34,7 +34,11 @@
                                                     <h5>Box # : <span class="label label-success"><b> {{transaction_no }}</b></span></h5>
                                                 </div>
                                                 <div class="col-md-12">
+                                                {% if result[0].status|lower == 'undelivered' %}
+                                                    <h5>Current Status : <span class="label label-danger"><b>{{result[0].status}}</b></span></h5>
+                                                {% else %}
                                                     <h5>Current Status : <span class="label label-success"><b>{{result[0].status}}</b></span></h5>
+                                                {% endif %}
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -55,7 +59,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="col-md-12">
-                                                        {% if result[0].status == "Delivered"%}
+                                                        {% if result[0].status == "Delivered" or result[0].status == "Undelivered" %}
                                                         <h5>Actual Delivery Date :
                                                             <span class="label label-success">
                                                                 <b>{{result[0].dateandtime|date("d/M/Y")}}</b>
@@ -136,7 +140,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            {% if logindetails[0].position|lower != 'partner' %}
+                            {% if 'partner' in logindetails[0].position|lower %}
+                            {% else %}
                             <div class="col-md-12">
                                 <!-- Chat box -->
                                 <div class="box box-danger">

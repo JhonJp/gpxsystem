@@ -34,6 +34,9 @@
                     {% if
                         value['status'] == "Completed" %}
                     {% set stat = 'label-success' %}
+                    {% elseif
+                        value['status'] == "Undelivered" %}
+                    {% set stat = 'label-danger' %}
                     {% elseif value['status'] == "Cancelled" %}
                     {% set stat = 'label-danger' %}
                     {% elseif value['status'] == "In Progress"

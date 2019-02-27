@@ -89,16 +89,25 @@ class DeliveryModel extends GenericModel
 
                         $timestamp = strtotime($data['data'][$x]['createddate']);
                         $newformatdate = date('d/M/Y', $timestamp);
+                        
+                        $boxstat = $data['data'][$x]['delivery_box'][$y]['status'];
+                        $fin_status = null;
+
+                        if ($boxstat == 1){
+                            $fin_status = "Delivered";
+                        }else{
+                            $fin_status = "Undelivered";
+                        }
 
                         ///////TRACK AND TRACE////////
                         $logs = array(
                             "transaction_no" => $data['data'][$x]['delivery_box'][$y]['box_number'],
-                            "status" => "Delivered",
+                            "status" => $fin_status,
                             "dateandtime" => $data['data'][$x]['createddate'],
                             "activity" => "Delivered",
                             "location" => $this->getcustomeraddresss($data['data'][$x]['delivery_box'][0]['receiver']),
                             "qty" => $countboxnumber,
-                            "details" =>"Box has been delivered on ".$newformatdate.". Remarks: ".$data['data'][$x]['remarks']
+                            "details" =>"Box remarks: ".$data['data'][$x]['remarks']
                             
                         );
                         $this->savetrackntrace($logs);
@@ -185,7 +194,7 @@ class DeliveryModel extends GenericModel
 
     public function getdeliveries($id){
         $query = $this->connection->prepare("SELECT * FROM gpx_delivery
-        WHERE createdby = :id AND ");
+        WHERE createdby = :id AND mainstatus = '1'");
         $query->execute(array("id" => $id));
         $result = $query->fetchAll();
         return $result;
