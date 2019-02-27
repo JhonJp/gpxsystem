@@ -73,8 +73,9 @@ class GenericModel{
     public function getallsalesdriver(){                
         $query = $this->connection->prepare("SELECT ge.* , 
         CONCAT(firstname,' ',lastname) as name FROM gpx_employee ge
-        JOIN gpx_users gu ON ge.id = gu.employee_id 
-        WHERE gu.role_id = 2 ORDER BY ge.firstname");
+        JOIN gpx_users gu ON ge.id = gu.employee_id
+        LEFT JOIN gpx_branch gb ON gb.id = ge.branch 
+        WHERE gu.role_id = 2 AND gb.type LIKE '%GP%' ORDER BY ge.firstname");
         $query->execute();
         $result = $query->fetchAll();
         return $result;
@@ -149,7 +150,7 @@ class GenericModel{
     public function getallboxtype()
     {
         $query = $this->connection->prepare("SELECT id, CONCAT(name,' (' ,size_length,' x ',size_width, ' x ',size_height,')')  as name
-        ,depositprice FROM gpx_boxtype ORDER BY name");
+        ,depositprice FROM gpx_boxtype WHERE nsb = 0 ORDER BY name");
         $query->execute();
         $result = $query->fetchAll();
         return $result;
