@@ -120,6 +120,19 @@ class GenericModel{
         $result = $query->fetchAll();
         return $result;
     }
+
+    //ALL CONSIGNMENT (By Type)
+    public function getallconsignment()
+    {
+        $query = $this->connection->prepare("SELECT * , 
+        CONCAT(firstname,' ',lastname) as name FROM gpx_customer 
+        WHERE type = :type ORDER BY firstname");
+        $query->execute(array(
+            "type" => $this->customertype
+        ));
+        $result = $query->fetchAll();
+        return $result;
+    }
 	
 	//ALL CUSTOMER
     public function getallcustomers()

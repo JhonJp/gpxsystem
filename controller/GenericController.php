@@ -174,6 +174,10 @@ class GenericController{
         $model = new GenericModel($this->connection);
         $model->customertype = "receiver";
         $this->allconsignee = $model->getallcustomerbytype();
+
+        $model = new GenericModel($this->connection);
+        $model->customertype = "consignment";
+        $this->allconsignment = $model->getallconsignment();
         
         $model = new GenericModel($this->connection);
         $this->allsalesdriver = $model->getallsalesdriver();
