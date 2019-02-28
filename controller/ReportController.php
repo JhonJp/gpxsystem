@@ -52,7 +52,10 @@ class ReportController extends GenericController
             $this->genericfilter($module, $filter,"","");
         }
         else if($module == 'packinglist'){
-        $this->genericfilter($module, $filter,"","");
+            $this->genericfilter($module, $filter,"","");
+        }
+        else if($module == 'advancemanifest'){
+            $this->genericfilter($module, $filter,"","");
         }
         else if($module == 'loadunlexcept'){
             $this->genericfilter($module, $filter,"","");
@@ -507,6 +510,25 @@ class ReportController extends GenericController
                     ));
                 }
                 break;
+
+            case "advancemanifest":
+                if ($filterby == "default"){
+                    $model = new ReportModel($this->connection);
+                    $list = $model->getadvancemanifest();     
+                    $columns = array("BOX_NO","Box_Size","CONS_ADD1","CONS_ADD2",
+                    "CONS_ADD3","CONS_ADD4","CONS_NAME","CONS_PHONE","CONT_NO","Departure Date","Manifest:Expected Delivery Date","Customers__Address 1",
+                "Customers__Address 2","Customers__Address 3","Customers__District","Customers__First Name","Customers__LastName","Customers__Phone 1",
+            "Customers__Phone 2","Customers__Zone","Transaction Ref","Storage","COMMENTS","FOLLOWUP LOG","Box Due Amount");
+                    echo $this->twig->render('_generic_component/report/advance/list_gen.html', array(
+                        "logindetails" =>  $_SESSION['logindetails'],
+                        "breadcrumb" => $this->breadcrumb,
+                        "list" => $list,            
+                        "columns" => $columns,   
+                        "module" => "ADVANCE MANIFEST",                                   
+                    ));
+                }
+                break;
+
             case "reserve":
                 if ($filterby == "bydaterange"){
                     $model = new ReportModel($this->connection);

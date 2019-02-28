@@ -16,11 +16,11 @@ class RemittanceModel extends GenericModel
         gc.account_chart , CONCAT(ge.firstname,' ',ge.lastname) as remitted_by ,
         CONCAT(ge1.firstname,' ',ge1.lastname) as verified_by
         FROM gpx_remittance gr
-        JOIN gpx_branch gb ON gr.branch_source = gb.id
-        JOIN gpx_chartaccounts gc ON gc.id = gr.chart_accounts
-        JOIN gpx_employee ge ON ge.id = gr.remitted_by
-        JOIN gpx_employee ge1 ON ge1.id = gr.verified_by
-        ORDER BY createddate DESC
+        LEFT JOIN gpx_branch gb ON gr.branch_source = gb.id
+        LEFT JOIN gpx_chartaccounts gc ON gc.id = gr.chart_accounts
+        LEFT JOIN gpx_employee ge ON ge.id = gr.remitted_by
+        LEFT JOIN gpx_employee ge1 ON ge1.id = gr.verified_by
+        ORDER BY gr.createddate DESC
         ");
         $query->execute();
         $result = $query->fetchAll();

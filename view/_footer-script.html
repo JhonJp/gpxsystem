@@ -80,6 +80,18 @@
                 'csv', 'excel', 'pdf', 'print'
             ],
         })
+        $('#advancemanifest').DataTable({
+            'paging'      : false,
+            'lengthChange': false,
+            'searching'   : true,
+            'ordering'    : false,
+            'info'        : true,
+            'autoWidth'   : true,
+            dom: 'Bfrtip',
+            buttons: [
+                'excel','csv',
+            ],
+        })
           
     })
 </script>

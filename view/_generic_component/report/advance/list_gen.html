@@ -1,0 +1,43 @@
+{% extends "./_layout.html" %} {% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      {{module}}
+    </h1>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="box box-danger">
+        <div class="box-header with-border">
+          <div class="box-title">
+            {% if ((module|lower|replace({" " : ""})) == "advancemanifest") %}
+            <h4>Download advance manifest with file format below.</h4>
+            {% else %}
+            <h4><b>LIST</b></h4>
+            {% endif %}
+          </div>
+          {% if ((module|lower|replace({" " : ""})) == "loadingunloadingexception") %}
+          {% elseif ((module|lower|replace({" " : ""})) == "advancemanifest") %}
+          {% elseif ((module|lower|replace({" " : ""})) != "branchincentivesreport") %}
+          <div class="box-tools pull-right">
+            <!-- Date and time range -->
+              <div class="btn-group">
+                  <a href="#" class="btn btn-block btn-primary" data-toggle="modal" data-target="#bydate">
+                    <span class="fa fa-angle-double-right"></span> FILTER BY DATE
+                  </a>
+              </div>
+            <!-- /.form group -->
+          </div>
+          {% endif %}
+        </div>
+        {# {{}} #}
+        <div class="box-body">
+          {{ include("_generic_component/report/advance/list_gentable.html") }}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+{% endblock content %}

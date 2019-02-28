@@ -13,7 +13,7 @@ class ExpenseController extends GenericController
     {   
         $model = new ExpenseModel($this->connection);
         $list = $model->getlist();        
-        $columns = array("employee_name","amount","account_chart","due_date","approved_by","status");
+        $columns = array("employee_name","amount","description","due_date","approved_by","status");
         echo $this->twig->render('_generic_component/list.html', array(
             "logindetails" =>  $_SESSION['logindetails'],
             "breadcrumb" => $this->breadcrumb,

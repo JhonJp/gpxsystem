@@ -403,6 +403,37 @@ class ReportModel extends GenericModel
         return $result;
     }
 
+    //LIST ADVANCE MANIFEST
+    public function getadvancemanifest()
+    {
+        $query = $this->connection->prepare("
+        SELECT 
+        glbn.box_number as BOX_NO,
+        gbn.boxtype as Box_Size,
+        brgy.brgyDesc as CONS_ADD1,
+        ct.citymunDesc as CONS_ADD2,
+        prov.provDesc as CONS_ADD3,
+        gsr.name as CONS_ADD4,
+        CONCAT(gc.firstname,' ',gc.lastname) as CONS_NAME,
+        gc.mobile as CONS_PHONE,
+        gl.container_no as CONT_NO,
+        CONCAT(gc.firstname,' ',gc.lastname) as Customers__LastName
+        FROM gpx_loading gl 
+        LEFT JOIN gpx_loading_box_number glbn ON glbn.loading_id = gl.id
+        LEFT JOIN gpx_booking_consignee_box gbn ON gbn.box_number = glbn.box_number 
+        LEFT JOIN gpx_customer gc ON gc.account_no = gbn.consignee 
+        LEFT JOIN refbrgy brgy ON brgy.brgyCode = gc.barangay
+        LEFT JOIN refcitymun ct ON ct.citymunCode = gc.city
+        LEFT JOIN refprovince prov ON prov.provCode = gc.province
+        LEFT JOIN gpx_source_destination gsr ON gsr.id = gbn.destination_id
+        LEFT JOIN gpx_booking gb ON gb.transaction_no = gbn.transaction_no
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
     //LIST BOOKING BY DATE RANGE
     public function getbookedbydate($datefrom, $dateto)
     {

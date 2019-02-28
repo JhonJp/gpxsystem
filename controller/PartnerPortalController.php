@@ -111,7 +111,6 @@ class PartnerPortalController extends GenericController
                     $model = new TicketModel($this->connection);
                     $result = $model->getticketbyid($id);    
                 }
-
                 echo $this->twig->render('partner_portal/newticket.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
                     "breadcrumb" => $this->breadcrumb,

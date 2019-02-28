@@ -1,0 +1,56 @@
+<table id="advancemanifest" class="table table-bordered table-responsive table-striped" style="display:none;">
+    <thead>
+        <tr>
+            {% for name in columns %}
+            <th>{{ name|replace({"__" : "::"})}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,value in list %}
+        {% if value["last_status"]|lower == "delivered" or value["last_status"]|lower == "for delivery" %}
+        {% else %}
+        <tr>
+            {% for name in columns %} 
+            {% if name == "age"%}
+            <td>
+                {% set current = "now" %}
+                {% set unldate = value["unload_date"] %}
+                {% set difference = date(current).diff(date(unldate)) %}
+                {% set leftDays = difference.days %}
+                {% if leftDays == 1 or leftDays == 0 %}
+                   <span class="label label-danger">1</span>
+                {% else %}
+                <span class="label label-danger">{{ leftDays }}</span>
+                {% endif %}
+            </td>
+            {% elseif name == "with_descripancy" %}
+            <td>
+                {% if value['loaded_qty'] == value['unloaded_qty'] %}
+                <span class="label label-success">No descripancies</span>
+                {% elseif value['loaded_qty'] < value['unloaded_qty'] %}
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }} </span>
+                {% elseif value['loaded_qty'] > value['unloaded_qty'] %}
+                    <span class="label label-danger">{{ value['loaded_qty'] - value['unloaded_qty'] }}</span>
+                
+                {% endif %}
+            </td>
+            {% else %}
+            <td>
+                {% if name == "date"
+                or name == "unloaded_date" %}
+                    {{value[name]|date("d/M/Y")}}
+                {% elseif name == "loaded_qty" or name == "unloaded_qty" %}
+                    {{ value[name] }} qty(s)
+                {% else %}
+                    {{ value[name] }}
+                {% endif %}
+            </td>
+            {% endif %}  
+            {% endfor %}                
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+    
+</table>

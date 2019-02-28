@@ -13,6 +13,7 @@
             <h4><b>LIST</b></h4>
           </div>
           {% if ((module|lower|replace({" " : ""})) == "loadingunloadingexception") %}
+          {% elseif ((module|lower|replace({" " : ""})) == "advancemanifest") %}
           {% elseif ((module|lower|replace({" " : ""})) != "branchincentivesreport") %}
           <div class="box-tools pull-right">
             <!-- Date and time range -->
