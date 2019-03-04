@@ -12,7 +12,7 @@ class GenericModel{
     //LOGIN FUNCTION
     public function login($username, $password)
     {       
-        $query = $this->connection->prepare("SELECT * FROM gpx_users gu JOIN gpx_employee ge ON gu.employee_id = ge.id 
+        $query = $this->connection->prepare("SELECT gu.*,ge.*,ge.image as image FROM gpx_users gu JOIN gpx_employee ge ON gu.employee_id = ge.id 
                                             WHERE username = :username AND password = :password");
         $query->execute(array(
             "username" => $username,            

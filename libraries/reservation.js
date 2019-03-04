@@ -36,7 +36,7 @@ $(document).ready(function () {
             document.getElementById("notification").style.display = "block";
             setInterval(function () {
                 document.getElementById("notification").style.display = "none";
-            }, 3000);
+            }, 500);
 
         }
     });
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 $("#notificationtype").addClass("alert-success");
                 setInterval(function () {
                     window.location.href = 'index.php?controller=reservation&action=list';
-                }, 3000);        
+                }, 500);        
             },
             error: function (request) {
                 $("#header").html(`<i class="icon fa fa-danger"></i> Error`);
@@ -92,7 +92,7 @@ $(document).ready(function () {
                 document.getElementById("notification").style.display = "block";
                 setInterval(function () {
                     document.getElementById("notification").style.display = "none";
-                }, 3000);
+                }, 500);
             }
         });
         

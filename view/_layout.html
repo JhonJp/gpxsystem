@@ -51,6 +51,26 @@
             </div>
         </form>
     </div>
+
+    <div class="modal fade" id="modal-img">
+        <form action="index.php?controller=employee&action=saveimg" method="POST" class="modal-dialog" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-body form-horizontal">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4>Please upload profile picture.</h4>
+                        <small class=" text-danger"><i>Warning: You will be logged out once confirmed to update your data.</i></small>
+                        <input type="file" name="fileToUpload" id="fileToUpload">
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" name="submitimg" class="btn btn-warning"> Confirm</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!--Footer-->
     <footer class="main-footer">
       <div class="pull-right hidden-xs">

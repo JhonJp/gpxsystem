@@ -40,7 +40,7 @@ $(document).ready(function () {
 
                 setInterval(function () {
                     window.location.href = 'index.php?controller='+ customertype +'&action=list';
-                }, 2000);
+                }, 500);
                 
             },
             error: function (error) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
     
                     setInterval(function () {
                         window.location.href = 'index.php?controller='+ customertype +'&action=list';
-                    }, 2000);
+                    }, 500);
                 },
                 error: function (error) {
                    console.log("ERROR");

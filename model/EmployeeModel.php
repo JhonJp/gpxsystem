@@ -31,11 +31,21 @@ class EmployeeModel extends GenericModel
         return $result;
     }
 
+    public function updateImageOnly($img, $id)
+    {
+        $query = $this->connection->prepare("UPDATE gpx_employee SET image = :img WHERE id = :id");
+        $query->execute(
+            array(
+                "id" => $id,
+                "img" => $img
+            ));
+        return $result;
+    }
+
 
     public function update($data,$id){
         print_r($data);
         //INSERT
-       
         $query = $this->connection->prepare("UPDATE gpx_employee SET  
         firstname = :firstname,
         lastname = :lastname,
@@ -69,8 +79,7 @@ class EmployeeModel extends GenericModel
         company2 = :company2,
         position2 = :position2,
         date_from2 = :date_from2,
-        date_to2 = :date_to2
-
+        date_to2 = :date_to2,
         WHERE id = :id");
         
         $result = $query->execute(array(

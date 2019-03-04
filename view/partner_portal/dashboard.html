@@ -94,6 +94,10 @@
                           <a href="index.php?controller=partnerportal&action=view&module=intransit&id={{ data[i].id }}" 
                           title="View"
                           class="btn btn-xs btn-success"><span class="fa fa-eye"></span></a>
+
+                          <a href="index.php?controller=report&action=list&module=advancemanifest&filter=container&name={{ data[i].container_no }}" 
+                          title="Print data"
+                          class="btn btn-xs btn-warning">Export manifest <span class="fa fa-file"></span></a>
                       </td>
                     </tr>
                     {% endfor %}

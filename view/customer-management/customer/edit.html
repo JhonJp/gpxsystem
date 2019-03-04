@@ -102,40 +102,56 @@
                                             with {'label': 'Email' , 'id' : 'email',
                                             'value' : result[0].email , 'required' : false} %}
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Address</label>
-                                                <div class="col-md-9 form-inline">
+                                        <div class="box no-border">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Full Address</label>
+                                                        <div class="col-md-9 form-inline">
+                                                            {% if breadcrumb.controller == 'receiver' %}
+                                                            <select class="form-control select2" name="destination_id" style="width: 100%;">
+                                                                {% if result[0].destination_id != '' %}
+                                                                <option selected="selected" value="{{ result[0].destination_id }}">{{ result[0].destination_id }}</option>
+                                                                {% else %}
+                                                                <option selected="selected">Select Destination</option>
+                                                                {% endif %}
+                                                                <option value="Luzon 1">Luzon 1</option>
+                                                                <option value="Luzon 2">Luzon 2</option>
+                                                                <option value="Luzon 3">Luzon 3</option>
+                                                                <option value="Metro Manila">Metro Manila</option>
+                                                                <option value="Visayas">Visayas</option>
+                                                                <option value="Mindanao">Mindanao</option>
+                                                            </select>    
+                                                        
+                                                            {% include '_generic_component/select.html'
+                                                            with {'label': 'Province' , 'data' : allprovince, 'id' :
+                                                            'province' } %}
 
-                                                    {% if breadcrumb.controller == 'receiver' %}
-
-                                                    {% include '_generic_component/select.html'
-                                                    with {'label': 'Province' , 'data' : allprovince, 'id' :
-                                                    'province' } %}
-
-                                                    {% include '_generic_component/select.html'
-                                                    with {'label': 'City' , 'data' : allcity, 'id' :
-                                                    'city' } %}
-
-                                                    {% include '_generic_component/select.html'
-                                                    with {'label': 'Barangay' , 'data' : allbarangay, 'id' :
-                                                    'barangay' } %}
-
-                                                    <input type="text" name="postal_code" class="form-control" style="width: 49%"
-                                                        placeholder="Postal Code" />
-                                                    <input type="text" name="house_number_street" class="form-control"
-                                                        style="width: 100%" placeholder="House # Street " />
-
-                                                    {% else %}
-                                                    <input type="text" name="house_number_street" class="form-control col-md-4"
-                                                        style="width:100%;" placeholder="House # Street" value="{{ result[0].house_number_street }}" required>
-                                                    <input type="text" name="barangay" class="form-control col-md-2"
-                                                        style="width:50%;" placeholder="Barangay or Village" value="{{ result[0].barangay }}" required>
-                                                    <input type="text" name="city" class="form-control col-md-2" style="width:50%;"
-                                                        placeholder="City" value="{{ result[0].city }}" required>
-                                                    {% endif %}
+                                                            {% include '_generic_component/select.html'
+                                                            with {'label': 'City' , 'data' : allcity, 'id' :
+                                                            'city' } %}
+        
+                                                            {% include '_generic_component/select.html'
+                                                            with {'label': 'Barangay' , 'data' : allbarangay, 'id' :
+                                                            'barangay' } %}
+        
+                                                            <input type="text" name="postal_code" class="form-control" style="width: 49%"
+                                                                placeholder="Postal Code" />
+                                                            <input type="text" name="house_number_street" class="form-control"
+                                                                style="width: 100%" placeholder="House # Street " />
+        
+                                                            {% else %}
+                                                            <input type="text" name="house_number_street" class="form-control col-md-4"
+                                                                style="width:100%;" placeholder="House # Street" value="{{ result[0].house_number_street }}" required>
+                                                            <input type="text" name="barangay" class="form-control col-md-2"
+                                                                style="width:50%;" placeholder="Barangay or Village" value="{{ result[0].barangay }}" required>
+                                                            <input type="text" name="city" class="form-control col-md-2" style="width:50%;"
+                                                                placeholder="City" value="{{ result[0].city }}" required>
+                                                            {% endif %}
+                                                        </div>
+                                                        <input name="account_no" id="account_no" type="hidden" value="{{ result[0].account_no }}">
+                                                    </div>
                                                 </div>
-                                                <input name="account_no" id="account_no" type="hidden" value="{{ result[0].account_no }}">
                                             </div>
                                         </div>
                                     </div>

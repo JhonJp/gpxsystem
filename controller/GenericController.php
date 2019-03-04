@@ -155,6 +155,9 @@ class GenericController{
                 break;    
             case "userrole":
                 $this->listusr();
+                break; 
+            case "saveimg":
+                $this->saveimg();
                 break;                 
             default:
                 $this->list();

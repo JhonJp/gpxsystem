@@ -144,7 +144,8 @@ class CustomerModel extends GenericModel
         SET firstname = :firstname,lastname = :lastname,middlename = :middlename,mobile = :mobile,
         phone = :phone,email = :email,
         gender = :gender,birthdate = :birthdate,house_number_street = :house_number_street,
-        postal_code = :postal_code,barangay = :barangay,city = :city ,province = :province
+        postal_code = :postal_code,barangay = :barangay,city = :city ,province = :province,
+        destination_id = :destination_id
         WHERE id = :id
         ");
         $result = $query->execute(array(
@@ -162,6 +163,7 @@ class CustomerModel extends GenericModel
             "barangay" => $data['barangay'],
             "city" => $data['city'],
             "province" => $data['province'],
+            "destination_id" => $data['destination_id'],
         ));
 
         return $result;
