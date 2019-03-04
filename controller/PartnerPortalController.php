@@ -33,7 +33,6 @@ class PartnerPortalController extends GenericController
             case "intransit":
                 $model = new PartnerPortalModel($this->connection);
                 $list = $model->getintransit();
-
                 $columns = array("loaded_date","container_no","eta");
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
                     "logindetails" =>  $_SESSION['logindetails'],
@@ -44,8 +43,13 @@ class PartnerPortalController extends GenericController
                 ));
                 break;
             case "unloads":
+                $list = null;
                 $model = new PartnerPortalModel($this->connection);
-                $list = $model->getUnloads($_SESSION['logindetails'][0]['id']);       
+                if ($_SESSION['logindetails'][0]['position'] == "Admin" ){
+                    $list = $model->getUnloadsAdmin();
+                }else{
+                    $list = $model->getUnloads($_SESSION['logindetails'][0]['id']); 
+                }      
                 $columns = array("arrival_time","container_number","unload_date","time_start","time_end","qty","driver_and_plate_no",);
                 
                 echo $this->twig->render('_generic_component/report/list_part.html', array(
@@ -83,8 +87,13 @@ class PartnerPortalController extends GenericController
                     ));
                 break;
             case "dist":
+                $list = null;
                 $model = new PartnerPortalModel($this->connection);
-                $list = $model->getdistlocal($_SESSION['logindetails'][0]['id']);         
+                if ($_SESSION['logindetails'][0]['position'] == "Admin" ){
+                    $list = $model->getdistlocaladmin();
+                }else{
+                    $list = $model->getdistlocal($_SESSION['logindetails'][0]['id']);   
+                } 
                 $columns = array("date","transaction_no","type","mode_of_shipment","destination","truck_number","driver_name","qty","etd","eta");
                 $moduledescription = "PORTAL DISTRIBUTION";
         

@@ -147,12 +147,12 @@
                                         {% endif %}
                                         {% if i is divisible by(3) %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" onclick="printImg(this)" id="barcodeimg" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% else %}
                                         <div class="col-sm-4">
-                                            <img class="img-responsive" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
+                                            <img class="img-responsive" onclick="printImg(this)" id="barcodeimg" src='https://barcode.tec-it.com/barcode.ashx?data={{"now"|date("y")}}{{zeros}}{{i}}&code=Code128&dpi=96&dataseparator='
                                                 alt='Barcode Generator TEC-IT'/>
                                         </div>
                                         {% endif %}
@@ -184,3 +184,12 @@
         {% endfor %}
     </tbody>
 </table>
+
+<script type="text/javascript">
+    var modalImg = document.getElementById("barcodeimg");
+    function printImg(img) {
+      modalImg.src = img.src;
+      pwin = window.open(img.src,"_blank");
+      pwin.onload = function () {window.print();}
+    }
+</script>

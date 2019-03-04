@@ -90,6 +90,23 @@ class PartnerPortalModel extends GenericModel
         return $result;
     }
 
+    //GET UNLOADING DATA ADMIN
+  public function getUnloadsAdmin()
+  {
+      $query = $this->connection->prepare("SELECT gu.*,gu.container_no as container_number ,
+      COUNT(gubn.box_number) as qty,
+      CONCAT(gu.driver_name,' / ',gu.plate_no) as driver_and_plate_no,
+      (SELECT GROUP_CONCAT(a.box_number) FROM gpx_unloading_box_number a WHERE a.unloading_id = gu.id) as box_number
+      FROM gpx_unloading gu 
+      LEFT JOIN gpx_unloading_box_number gubn ON gu.id = gubn.unloading_id
+      GROUP BY gu.id
+      ");
+      $query->execute();
+      $result = $query->fetchAll();
+      $this->connection = null;
+      return $result;
+  }
+
   //GET UNLOADING DATA
   public function getUnloads($id)
     {
@@ -156,6 +173,23 @@ class PartnerPortalModel extends GenericModel
         GROUP BY gd.id
         ");
         $query->execute(array("id"=>$id));
+        $result = $query->fetchAll();
+        $this->connection = null;
+        return $result;
+    }
+
+    //get distribution local admin
+    public function getdistlocaladmin()
+    {
+        $query = $this->connection->prepare("SELECT gd.*,gd.id as transaction_no, gd.createddate as date, gd.distribution_type as type,
+        gd.destination_name as destination
+        , COUNT(gdbn.box_number) as qty ,
+        GROUP_CONCAT(gdbn.box_number) as box_number
+        FROM gpx_distribution gd
+        LEFT JOIN gpx_distribution_box_number gdbn ON gd.id = gdbn.distibution_id
+        GROUP BY gd.id
+        ");
+        $query->execute();
         $result = $query->fetchAll();
         $this->connection = null;
         return $result;
