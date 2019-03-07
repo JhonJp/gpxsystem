@@ -12,18 +12,6 @@
                 <small>{{ logindetails[0].position }}</small>
             </div>
         </div>
-        <!-- search form -->
-        {# <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form> #}
-        <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
@@ -102,6 +90,20 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            
+            <!-- CARGO MANAGEMENT -->
+            {% if logindetails[0].barcode_series == '1'
+            or logindetails[0].reservation == '1'
+            or logindetails[0].booking == '1'
+            or logindetails[0].warehouse_acceptance == '1'
+            or logindetails[0].loading == '1'
+            or logindetails[0].in_transit == '1'
+            or logindetails[0].unloading == '1'
+            or logindetails[0].delivery == '1'
+            or logindetails[0].warehouse_inventory == '1'
+            or logindetails[0].box_releasing == '1'
+            or logindetails[0].barcode_releasing == '1'
+            or logindetails[0].trackntrace == '1' %}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-archive"></i>
@@ -111,60 +113,86 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    {% if logindetails[0].barcode_series == '1' %}
                     <li>
                         <a href="index.php?controller=barcodeseries&action=list">
                             <i class="fa fa-angle-double-right"></i> Barcode Series</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].reservation == '1' %}
                     <li>
                         <a href="index.php?controller=reservation&action=list">
                             <i class="fa fa-angle-double-right"></i> Reservation</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].booking == '1' %}
                     <li>
                         <a href="index.php?controller=booking&action=list">
                             <i class="fa fa-angle-double-right"></i> Booking</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].warehouse_acceptance == '1' %}
                     <li>
                         <a href="index.php?controller=acceptance&action=list">
                             <i class="fa fa-angle-double-right"></i> Warehouse Acceptance</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].loading == '1' %}
                     <li>
                         <a href="index.php?controller=loading&action=list">
                             <i class="fa fa-angle-double-right"></i> Loading</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].in_transit == '1' %}
                     <li>
                         <a href="index.php?controller=intransit&action=list">
                             <i class="fa fa-angle-double-right"></i> In-Transit</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].unloading == '1' %}
                     <li>
                         <a href="index.php?controller=unloading&action=list">
                             <i class="fa fa-angle-double-right"></i> Unloading</a>
                     </li> 
+                    {% endif %}
+                    {% if logindetails[0].delivery == '1' %}
                     <li>
                         <a href="index.php?controller=delivery&action=list">
                             <i class="fa fa-angle-double-right"></i> Delivery</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].warehouse_inventory == '1' %}
                     <li>
                         <a href="index.php?controller=inventory&action=list">
                             <i class="fa fa-angle-double-right"></i> Warehouse Inventory</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].box_releasing == '1' %}
                     <li>
                         <a href="index.php?controller=distribution&action=list">
                             <i class="fa fa-angle-double-right"></i> Box Releasing</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].barcode_releasing == '1' %}
                     <li>
                         <a href="index.php?controller=barcodeseries&action=viewbarcodedist">
                             <i class="fa fa-angle-double-right"></i> Barcode Releasing</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].trackntrace == '1' %}
                     <li>
                         <a href="index.php?controller=trackntrace&action=search">
                             <i class="fa fa-angle-double-right"></i> Track N Trace</a>
                     </li>
-                    <li>
-                        <a href="index.php?controller=incidentreport&action=list">
-                            <i class="fa fa-angle-double-right"></i> Incident Report</a>
-                    </li>
+                    {% endif %}
                 </ul>
             </li>
+            {% endif %}
+            
+            <!-- CUSTOMER MANAGEMENT -->
+            {% if logindetails[0].customer == '1'
+            or logindetails[0].receiver == '1'
+            or logindetails[0].consignments == '1' %}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-users"></i>
@@ -174,20 +202,32 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    {% if logindetails[0].customer == '1' %}
                     <li>
                         <a href="index.php?controller=customer&action=list">
                             <i class="fa fa-angle-double-right"></i> Customer</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].receiver == '1' %}
                     <li>
                         <a href="index.php?controller=receiver&action=list">
                             <i class="fa fa-angle-double-right"></i> Receiver</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].consignments == '1' %}
                     <li>
                         <a href="index.php?controller=consignment&action=list">
                             <i class="fa fa-angle-double-right"></i> Consignments</a>
                     </li>
+                    {% endif %}
                 </ul>
             </li>
+            {% endif %}
+
+            <!-- EMPLOYEE MANAGEMENT -->
+            {% if logindetails[0].employee == '1'
+            or logindetails[0].user == '1'
+            or logindetails[0].ticket == '1' %}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-user"></i>
@@ -197,23 +237,36 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    {% if logindetails[0].employee == '1' %}
                     <li>
                         <a href="index.php?controller=employee&action=list">
                             <i class="fa fa-angle-double-right"></i> Employee</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].user == '1' %}
                     <li>
                         <a href="index.php?controller=user&action=list">
                             <i class="fa fa-angle-double-right"></i> User</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].ticket == '1' %}
                     <li>
                         <a href="index.php?controller=ticket&action=list">
                             <i class="fa fa-angle-double-right"></i> Ticket</a>
                     </li>
-
-
+                    {% endif %}
                 </ul>
             </li>
+            {% endif %}
 
+            <!-- FINANCE MANAGEMENT -->
+            {% if logindetails[0].chart_accounts == '1'
+            or logindetails[0].salary_compensation == '1'
+            or logindetails[0].allowance_disbursement == '1'
+            or logindetails[0].financial_liquidation == '1'
+            or logindetails[0].loan == '1'
+            or logindetails[0].remittance == '1'
+            or logindetails[0].expenses == '1' %}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-money"></i>
@@ -223,37 +276,55 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    {% if logindetails[0].chart_accounts == '1' %}
                     <li>
                         <a href="index.php?controller=chartaccounts&action=list">
                             <i class="fa fa-angle-double-right"></i> Chart Accounts</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].salary_compensation == '1' %}
                     <li>
                         <a href="index.php?controller=salary_compensation&action=list">
                             <i class="fa fa-angle-double-right"></i> Salary Compensation</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].allowance_disbursement == '1' %}
                     <li>
                         <a href="index.php?controller=allowancedisbursement&action=list">
 
                             <i class="fa fa-angle-double-right"></i> Allowance Disbursement</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].financial_liquidation == '1' %}
                     <li>
                         <a href="index.php?controller=financialliquidation&action=list">
                             <i class="fa fa-angle-double-right"></i> Financial Liquidation</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].loan == '1' %}
                     <li>
                         <a href="index.php?controller=loan&action=list">
                             <i class="fa fa-angle-double-right"></i> Loan</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].remittance == '1' %}
                     <li>
                         <a href="index.php?controller=remittance&action=list">
                             <i class="fa fa-angle-double-right"></i> Remittance</a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].expenses == '1' %}
                     <li>
                         <a href="index.php?controller=expense&action=list">
                             <i class="fa fa-angle-double-right"></i> Expenses</a>
                     </li>
+                    {% endif %}
                 </ul>
             </li>
+            {% endif %}
+
+            <!-- PARTNER PORTAL -->
+            {% if logindetails[0].role_id == '1' or logindetails[0].position|lower == 'admin' %}
             <li class="treeview">
                     <a href="#">
                         <i class="fa fa-code-fork"></i>
@@ -265,14 +336,10 @@
                     <ul class="treeview-menu">
                         <li>
                             <a href="index.php?controller=partnerportal&action=partnerdashboard">
-                                <i class="fa fa-angle-double-right"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=partnerportal&action=list&module=tickets">
-                                <i class="fa fa-angle-double-right"></i> Incidents / Tickets</a>
+                                <i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                         <li class="treeview">
-                            <a href="#"><i class="fa fa-angle-double-right"></i> Cargo Management</a>
+                            <a href="#"><i class="fa fa-archive"></i> Cargo Management</a>
                             <ul class="treeview-menu">
                                 <li>
                                     <a href="index.php?controller=partnerportal&action=list&module=intransit">
@@ -311,6 +378,17 @@
                         </li>
                     </ul>
             </li>
+            {% endif %}
+
+            <!-- REPORT -->
+            {% if logindetails[0].report_cargo == '1'
+            or logindetails[0].report_sales == '1'
+            or logindetails[0].report_box_purchase == '1'
+            or logindetails[0].report_box_disposed == '1'
+            or logindetails[0].report_branch_incentives == '1'
+            or logindetails[0].report_exceptions == '1'
+            or logindetails[0].report_box_aging == '1' 
+            or logindetails[0].report_incident == '1' %}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-bar-chart"></i>
@@ -320,6 +398,13 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    {% if logindetails[0].report_incident == '1' %}
+                    <li>
+                        <a href="index.php?controller=incidentreport&action=list">
+                            <i class="fa fa-angle-double-right"></i> Incident Report</a>
+                    </li>
+                    {% endif %}
+                    {% if logindetails[0].report_cargo == '1' %}
                     <li class="treeview">
                         <a href="#"><i class="fa fa-angle-double-right"></i> Cargo Managerment Report</a>
                         <ul class="treeview-menu">
@@ -333,6 +418,8 @@
                                 <i class="fa fa-angle-double-right"></i> Barcode Series</a></li>
                         </ul>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].report_sales == '1' %}
                     <li class="treeview">
                         <a href="#"><i class="fa fa-angle-double-right"></i> Sales Report</a>
                         <ul class="treeview-menu">
@@ -341,74 +428,91 @@
                             <li><a href="index.php?controller=report&action=list&module=saledate&filter=default"><i class="fa fa-angle-double-right"></i> By Date</a></li>
                         </ul>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].report_box_purchase == '1' %}
                     <li><a href="index.php?controller=report&action=list&module=boxpurchase&filter=default">
                         <i class="fa fa-angle-double-right"></i>
                         Box Purchase Report</a></li>
+                    {% endif %}
+                    {% if logindetails[0].report_box_disposed == '1' %}
                     <li><a href="index.php?controller=report&action=list&module=boxdisposed&filter=default"><i class="fa fa-angle-double-right"></i>
                         Box Disposed Report</a></li>
+                    {% endif %}
+                    {% if logindetails[0].report_branch_incentives == '1' %}
                     <li><a href="index.php?controller=report&action=list&module=branchincentives&filter=default"><i class="fa fa-angle-double-right"></i>
                         Branch Incentives Report</a></li>
+                    {% endif %}
+                    {% if logindetails[0].report_exceptions == '1' %}
                     <li>
                         <a href="index.php?controller=report&action=list&module=loadunlexcept&filter=default">
                             <i class="fa fa-angle-double-right"></i> Load / Unload Exceptions
                         </a>
                     </li>
+                    {% endif %}
+                    {% if logindetails[0].report_box_aging == '1' %}
                     <li>
                         <a href="index.php?controller=report&action=list&module=boxaging&filter=default">
                             <i class="fa fa-angle-double-right"></i> Box Aging
                         </a>
-                    </li> 
+                    </li>
+                    {% endif %} 
                 </ul>
             </li>
-                {% if logindetails[0].position|lower == 'admin' %}
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-cogs"></i>
-                        <span>Settings</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href="index.php?controller=boxtype&action=list">
-                                <i class="fa fa-angle-double-right"></i> Box Type</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=boxcontent&action=list">
-                                <i class="fa fa-angle-double-right"></i> Box Contents</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=maintenance&action=list&module=accounttype">
-                                <i class="fa fa-angle-double-right"></i> Account Type</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=boxrate&action=list">
-                                <i class="fa fa-angle-double-right"></i> Box Rate/Pricing</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=branch&action=list">
-                                <i class="fa fa-angle-double-right"></i> Branch</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=role&action=list">
-                                <i class="fa fa-angle-double-right"></i> Roles</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=maintenance&action=list&module=ticket">
-                                <i class="fa fa-angle-double-right"></i> Ticket Type</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=maintenance&action=list&module=undelivered">
-                                <i class="fa fa-angle-double-right"></i> Reasons Not Delivered</a>
-                        </li>
-                        <li>
-                            <a href="index.php?controller=maintenance&action=list&module=expensetype">
-                                <i class="fa fa-angle-double-right"></i> Type of Expenses</a>
-                        </li>
-                    </ul>
-                </li>
-                {% endif %}
+            {% endif %}
+            <!-- MAINTENANCE -->
+            {% if logindetails[0].position|lower == 'admin' %}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-cogs"></i>
+                    <span>Settings</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="index.php?controller=boxtype&action=list">
+                            <i class="fa fa-angle-double-right"></i> Box Type</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=boxcontent&action=list">
+                            <i class="fa fa-angle-double-right"></i> Box Contents</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=maintenance&action=list&module=accounttype">
+                            <i class="fa fa-angle-double-right"></i> Account Type</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=boxrate&action=list">
+                            <i class="fa fa-angle-double-right"></i> Box Rate/Pricing</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=branch&action=list">
+                            <i class="fa fa-angle-double-right"></i> Branch</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=maintenance&action=list&module=forwarder">
+                            <i class="fa fa-angle-double-right"></i> Forwarders</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=role&action=list">
+                            <i class="fa fa-angle-double-right"></i> Roles</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=maintenance&action=list&module=ticket">
+                            <i class="fa fa-angle-double-right"></i> Ticket Type</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=maintenance&action=list&module=undelivered">
+                            <i class="fa fa-angle-double-right"></i> Reasons Not Delivered</a>
+                    </li>
+                    <li>
+                        <a href="index.php?controller=maintenance&action=list&module=expensetype">
+                            <i class="fa fa-angle-double-right"></i> Type of Expenses</a>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
             {% endif %}
         </ul>
     </section>

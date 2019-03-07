@@ -68,6 +68,9 @@
                 {% elseif breadcrumb.controller == "Undelivered" %}
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}">{{
                     value[name] }}</a>
+                {% elseif breadcrumb.controller == "Forwarder" %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}">{{
+                    value[name] }}</a>
                 {% elseif breadcrumb.controller == "partnerportal" %}
                     {{ value[name] }}
                 {% else %}
@@ -146,6 +149,10 @@
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"
                     title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
                 {% elseif breadcrumb.controller == "Expense Type" %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"
+                    title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
+                
+                {% elseif breadcrumb.controller == "Forwarder" %}
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}&id={{ value['id'] }}"
                     title="Edit" class="btn btn-xs btn-primary"><span class="fa fa-pencil"></span></a>
     

@@ -37,7 +37,6 @@ if (isset($_SESSION['login'])) {
     }
 }
 
-
 function loadController($controllername)
 {
     $controller = ucwords($controllername) . 'Controller';

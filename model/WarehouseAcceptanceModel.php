@@ -18,6 +18,8 @@ class WarehouseAcceptanceModel extends GenericModel
         CONCAT(gea.firstname , ' ' , gea.lastname) as accepted_by ,
         gwa.createddate as accepted_date,
         COUNT(gwab.box_number) as qty,
+        (SELECT GROUP_CONCAT(bt.boxtype) FROM gpx_booking_consignee_box bt
+        LEFT JOIN gpx_warehouse_acceptance_box_number wa ON bt.box_number = wa.box_number) as box_type,
         (SELECT GROUP_CONCAT(a.box_number) FROM gpx_warehouse_acceptance_box_number a
         WHERE a.warehouse_acceptance_id = gwa.id) as box_number
         FROM gpx_warehouse_acceptance gwa

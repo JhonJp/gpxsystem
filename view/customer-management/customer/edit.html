@@ -111,16 +111,30 @@
                                                             {% if breadcrumb.controller == 'receiver' %}
                                                             <select class="form-control select2" name="destination_id" style="width: 100%;">
                                                                 {% if result[0].destination_id != '' %}
-                                                                <option selected="selected" value="{{ result[0].destination_id }}">{{ result[0].destination_id }}</option>
+                                                                <option selected="selected" value="{{ result[0].destination_id }}">
+                                                                    {% if result[0].destination_id == '14' %}
+                                                                    Luzon 1
+                                                                    {% elseif result[0].destination_id == '15' %}
+                                                                    Luzon 2
+                                                                    {% elseif result[0].destination_id == '16' %}
+                                                                    Luzon 3
+                                                                    {% elseif result[0].destination_id == '17' %}
+                                                                    Visayas
+                                                                    {% elseif result[0].destination_id == '18' %}
+                                                                    Metro Manila
+                                                                    {% elseif result[0].destination_id == '19' %}
+                                                                    Mindanao
+                                                                    {% endif %}
+                                                                </option>
                                                                 {% else %}
-                                                                <option selected="selected">Select Destination</option>
+                                                                <option selected="selected">Select destination group</option>
                                                                 {% endif %}
-                                                                <option value="Luzon 1">Luzon 1</option>
-                                                                <option value="Luzon 2">Luzon 2</option>
-                                                                <option value="Luzon 3">Luzon 3</option>
-                                                                <option value="Metro Manila">Metro Manila</option>
-                                                                <option value="Visayas">Visayas</option>
-                                                                <option value="Mindanao">Mindanao</option>
+                                                                <option value="14">Luzon 1</option>
+                                                                <option value="15">Luzon 2</option>
+                                                                <option value="16">Luzon 3</option>
+                                                                <option value="18">Metro Manila</option>
+                                                                <option value="17">Visayas</option>
+                                                                <option value="19">Mindanao</option>
                                                             </select>    
                                                         
                                                             {% include '_generic_component/select.html'

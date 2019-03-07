@@ -34,6 +34,11 @@ class MaintenanceController extends GenericController
                 $list = $model->getmaintenancelist("gpx_expense_type");
                 $controller = "Expense Type"; 
                 break;
+            CASE "forwarder" :
+                $model = new GenericModel($this->connection);
+                $list = $model->getmaintenancelist("gpx_partners");
+                $controller = "Forwarder"; 
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -81,6 +86,11 @@ class MaintenanceController extends GenericController
                 $result = $model->getmaintenancelistbyid("gpx_expense_type",$id);
                 $controller = "Expense Type";
                 break;
+            CASE "forwarder" :
+                $model = new GenericModel($this->connection);
+                $result = $model->getmaintenancelistbyid("gpx_partners",$id);
+                $controller = "Forwarder";
+                break;
             default : 
                 $list = null;
                 $controller = "";
@@ -118,6 +128,9 @@ class MaintenanceController extends GenericController
                 break;
             CASE "expensetype" :
                 $table = "gpx_expense_type";                
+                break;
+            CASE "forwarder" :
+                $table = "gpx_partners";                
                 break;
             default : 
                 $table = "";

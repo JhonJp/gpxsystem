@@ -12,8 +12,11 @@ class GenericModel{
     //LOGIN FUNCTION
     public function login($username, $password)
     {       
-        $query = $this->connection->prepare("SELECT gu.*,ge.*,ge.image as image FROM gpx_users gu JOIN gpx_employee ge ON gu.employee_id = ge.id 
-                                            WHERE username = :username AND password = :password");
+        $query = $this->connection->prepare("SELECT gu.*,ge.*,ge.image as image, gra.* 
+        FROM gpx_users gu 
+        JOIN gpx_employee ge ON gu.employee_id = ge.id
+        LEFT JOIN gpx_role_access gra ON gu.role_id = gra.role_id
+        WHERE username = :username AND password = :password");
         $query->execute(array(
             "username" => $username,            
             "password" => $password            
@@ -309,6 +312,15 @@ class GenericModel{
     public function getallexpensetypes()
     {
         $query = $this->connection->prepare("SELECT * FROM gpx_expense_type");
+        $query->execute();
+        $result = $query->fetchAll();
+        return $result;
+    }
+
+    //ALL PARTNERS DEFINED
+    public function getallpartners()
+    {
+        $query = $this->connection->prepare("SELECT * FROM gpx_partners");
         $query->execute();
         $result = $query->fetchAll();
         return $result;

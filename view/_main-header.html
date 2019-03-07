@@ -14,7 +14,20 @@
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Navigation</span>
         </a>
-
+        <div class="col-md-4" style="max-height:52px;margin:-3px 5px 0px -20px;">
+            <!-- search form -->
+            <form action="index.php?controller=trackntrace&action=search" method="POST" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" id="boxnumber" name="boxnumber" class="form-control" placeholder="Track box...." style="background-color: #ffffff;">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat" style="background-color: #ffffff;">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+        </div>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->

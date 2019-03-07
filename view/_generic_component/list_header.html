@@ -37,6 +37,11 @@
                 <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
                     <span class="fa fa-fw fa-plus"></span> NEW EXPENSE TYPE</a>
             {% elseif 
+                breadcrumb.controller == "Forwarder" 
+                %}
+                <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">
+                    <span class="fa fa-fw fa-plus"></span> NEW {{ breadcrumb.controller|upper }}</a>
+            {% elseif 
             breadcrumb.controller == "Account Type" 
             %}
             <a href="index.php?controller=maintenance&action=edit&module={{breadcrumb.module}}" class="btn btn-block btn-primary">

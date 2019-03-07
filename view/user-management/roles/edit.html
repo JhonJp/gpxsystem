@@ -3,8 +3,13 @@
 <div class="content-wrapper">
     {{ include("_generic_component/list_breadcrumb.html") }}
     <section class="content">
-        <form action="index.php?controller=user&action=save" method="POST" class="row">
-            <input type="hidden" name="id" id="id" value="{{result[0].id}}">
+            <input type="hidden" name="id" id="id" value="{{ id }}">
+            <input type="hidden" name="createdby" id="createdby" value="{{ logindetails[0].id }}">
+            {% if rolemax == '' or rolemax == '0' %}
+            <input type="hidden" name="rolemax" id="rolemax" value="0">
+            {% else %}
+            <input type="hidden" name="rolemax" id="rolemax" value="{{ rolemax }}">
+            {% endif %}
             <div class="box box-danger">
                 {{ include("_generic_component/list_header.html") }}
                 <div class="box-body">
@@ -12,10 +17,7 @@
                         {{ include("_generic_component/notification.html") }}
                         <div class="col-md-12">
                             <div class="box box-default">
-                                <div class="box-header with-border">
-                                    <div class="box-title">
-                                        <h5>Login Details</h5>
-                                    </div>
+                                <div class="box-header no-border">
                                     <div class="pull-right box-tools">
                                         <a href="#" class="text-muted" data-widget="collapse" data-original-title="Collapse"><i
                                                 class="fa fa-minus"></i></a>
@@ -27,7 +29,8 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">*Role</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" placeholder="Role">
+                                                    <input type="text" name="name" id="name"
+                                                    class="form-control" value="{{ result[0].name }}" placeholder="Role">
                                                 </div>
                                             </div>
                                         </div>
@@ -35,113 +38,536 @@
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">Description</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" rows="3" placeholder="Description"></textarea>
+                                                    <textarea class="form-control" id="description" name="description" rows="3" 
+                                                    value="{{ result[0].description }}" placeholder="Description" style="resize:none;">{{ result[0].description }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        {#
                                         <div class="col-md-12">
-                                            <h5>Edit privileges for this role</h5>
+                                            {% if id == '' %}
+                                            <h5>Add privileges for this role</h5>
+                                            {% else %}
+                                            <h5>Recheck privileges for this role</h5>
+                                            {% endif  %}
                                             <hr class="cm-hr">
+                                            
+                                            <!-- CARGO MANAGEMENT CHECKBOX -->
                                             <div class="col-md-4">
                                                 <div class="box box-success">
                                                     <div class="box-header with-border">
-                                                        <h5 class="box-title"><input type="checkbox" /> Cargo
-                                                            Management</h5>
+                                                        <h5 class="box-title">
+                                                          Cargo Management
+                                                        </h5>
                                                     </div>
                                                     <div class="box-body">
                                                         <ul class="list-unstyled">
-                                                            <li><input type="checkbox" /> Reservation</li>
-                                                            <li><input type="checkbox" /> Booking</li>
-                                                            <li><input type="checkbox" /> Loading</li>
-                                                            <li><input type="checkbox" /> Unloading</li>
-                                                            <li><input type="checkbox" /> Warehouse Acceptance</li>
-                                                            <li><input type="checkbox" /> Distribution</li>
-                                                            <li><input type="checkbox" /> Delivery</li>
-                                                            <li><input type="checkbox" /> Warehouse Inventory</li>
-                                                            <li><input type="checkbox" /> Track N Trace</li>
-                                                            <li><input type="checkbox" /> Box Barcode</li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="barcode_series" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"/>
+                                                                            </span>
+                                                                            <p id="barcode_series" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Barcode Series" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="reservation" value="1" 
+                                                                                    name="checkedAllCargo" class="checkSingleCargo"
+                                                                                    />
+                                                                            </span>
+                                                                            <p id="reservation" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Reservation" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="booking" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"/>
+                                                                            </span>
+                                                                            <p id="booking" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Booking" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="warehouse_acceptance" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"/>
+                                                                            </span>
+                                                                            <p id="warehouse_acceptance" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Warehouse Acceptance" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="loading" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo" />
+                                                                            </span>
+                                                                            <p id="loading" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Loading" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="in_transit" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"
+                                                                                     />
+                                                                            </span>
+                                                                            <p id="in_transit" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="In-Transit" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="unloading" value="1" 
+                                                                                    name="checkedAllCargo" class="checkSingleCargo" />
+                                                                            </span>
+                                                                            <p id="unloading" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Unloading" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="delivery" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"/>
+                                                                            </span>
+                                                                            <p id="delivery" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Delivery" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="warehouse_inventory" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo" />
+                                                                            </span>
+                                                                            <p id="warehouse_inventory" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Warehouse Inventory" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="box_releasing" value="1" 
+                                                                                    name="checkedAllCargo" class="checkSingleCargo" />
+                                                                            </span>
+                                                                            <p id="box_releasing" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Box Releasing" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="barcode_releasing" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo" />
+                                                                            </span>
+                                                                            <p id="barcode_releasing" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Barcode Releasing" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="trackntrace" value="1"
+                                                                                     name="checkedAllCargo" class="checkSingleCargo"/>
+                                                                            </span>
+                                                                            <p id="trackntrace" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Track N Trace" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <!-- /.box-body -->
                                                 </div>
                                             </div>
+
                                             <div class="col-md-4">
-                                                    <div class="box box-success">
+                                                <!-- CUSTOMER MANAGEMENT -->
+                                                <div class="box box-success">
                                                         <div class="box-header with-border">
-                                                            <h5 class="box-title"><input type="checkbox" /> Finance
-                                                                Management</h5>
+                                                            <h5 class="box-title">
+                                                                Customer Management
+                                                            </h5>
                                                         </div>
                                                         <div class="box-body">
                                                             <ul class="list-unstyled">
-                                                                <li><input type="checkbox" /> Chart Accounts</li>
-                                                                <li><input type="checkbox" /> Salary Compensation</li>
-                                                                <li><input type="checkbox" /> Allowance Disbursement</li>
-                                                                <li><input type="checkbox" /> Financial Liquidation</li>
-                                                                <li><input type="checkbox" /> Loan</li>
-                                                                <li><input type="checkbox" /> Remittance</li>
-                                                                <li><input type="checkbox" /> Expenses</li>
+                                                                <li>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="input-group">
+                                                                                <span class="input-group-addon">
+                                                                                        <input type="checkbox" id="customer" value="1"
+                                                                                         name="checkedAllCustomer" class="checkSingleCustomer" />
+                                                                                </span>
+                                                                                <p id="customer" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                            <input type="text" class="form-control" value="Customers" disabled>
+                                                                        </div>
+                                                                        <!-- /input-group -->
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="input-group">
+                                                                                <span class="input-group-addon">
+                                                                                        <input type="checkbox" id="receiver" value="1"
+                                                                                         name="checkedAllCustomer" class="checkSingleCustomer" />
+                                                                                </span>
+                                                                                <p id="receiver" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                            <input type="text" class="form-control" value="Receivers" disabled>
+                                                                        </div>
+                                                                        <!-- /input-group -->
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="col-lg-12">
+                                                                        <div class="input-group">
+                                                                                <span class="input-group-addon">
+                                                                                        <input type="checkbox" id="consignment" value="1"
+                                                                                         name="checkedAllCustomer" class="checkSingleCustomer"/>
+                                                                                </span>
+                                                                                <p id="consignment" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                            <input type="text" class="form-control" value="Consignments" disabled>
+                                                                        </div>
+                                                                        <!-- /input-group -->
+                                                                    </div>
+                                                                </li>
                                                             </ul>
                                                         </div>
-                                                        <!-- /.box-body -->
-                                                    </div>
                                                 </div>
-                                            <div class="col-md-4">
+                                                <!-- FINANCE MANAGEMENT CHECKBOX -->
                                                 <div class="box box-success">
                                                     <div class="box-header with-border">
-                                                        <h5 class="box-title"><input type="checkbox" /> Customer
-                                                            Management</h5>
+                                                        <h5 class="box-title">
+                                                            Finance Management
+                                                        </h5>
                                                     </div>
                                                     <div class="box-body">
                                                         <ul class="list-unstyled">
-                                                            <li><input type="checkbox" /> Customer</li>
-                                                            <li><input type="checkbox" /> Receiver</li>
-                                                            <li><input type="checkbox" /> Ticket</li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="chart_accounts" value="1"
+                                                                                     name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                        <p id="chart_accounts" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Chart Accounts" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="salary_compensation"
+                                                                                     value="1" name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                        <p id="salary_compensation" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Salary Compensation" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="allowance_disbursement"
+                                                                                     value="1" name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                            <p id="allowance_disbursement" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Allowance Disbursement" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="financial_liquidation" value="1"
+                                                                                     name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                            <p id="financial_liquidation" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Financial Liquidation" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="loan" value="1"
+                                                                                     name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                            <p id="loan" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Loans" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="remittance" value="1" 
+                                                                                    name="checkedAllFinance" class="checkSingleFinance" />
+                                                                            </span>
+                                                                            <p id="remittance" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Remittance" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="expenses" value="1"
+                                                                                     name="checkedAllFinance" class="checkSingleFinance"/>
+                                                                            </span>
+                                                                            <p id="expenses" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Expenses" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <!-- /.box-body -->
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="box box-success">
-                                                    <div class="box-header with-border">
-                                                        <h5 class="box-title"><input type="checkbox" /> User
-                                                            Management</h5>
-                                                    </div>
-                                                    <div class="box-body">
-                                                        <ul class="list-unstyled">
-                                                            <li><input type="checkbox" /> Employee</li>
-                                                            <li><input type="checkbox" /> User</li>
-                                                            <li><input type="checkbox" /> Roles</li>
-                                                        </ul>
-                                                    </div>
-                                                    <!-- /.box-body -->
                                                 </div>
                                             </div>
                                             
+                                            <div class="col-md-4">
+                                                <!-- EMPLOYEE CHECKBOX -->
+                                                <div class="box box-success">
+                                                    <div class="box-header with-border">
+                                                        <h5 class="box-title">
+                                                            Employee Management
+                                                        </h5>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <ul class="list-unstyled">
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="employee" value="1"
+                                                                                     name="checkedAllEmployee" class="checkSingleEmployee"/>
+                                                                            </span>
+                                                                            <p id="employee" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Employee" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="user" value="1" 
+                                                                                    name="checkedAllEmployee" class="checkSingleEmployee"/>
+                                                                            </span>
+                                                                            <p id="user" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Users" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="tickets" value="1"
+                                                                                     name="checkedAllEmployee" class="checkSingleEmployee"/>
+                                                                            </span>
+                                                                            <p id="tickets" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Tickets" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- REPORTS CHECKBOX -->
+                                                <div class="box box-success">
+                                                    <div class="box-header with-border">
+                                                        <h5 class="box-title">
+                                                            Reports 
+                                                        </h5>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <ul class="list-unstyled">
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_incident" value="1" 
+                                                                                    name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_incident" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Incident Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_cargo" value="1" 
+                                                                                    name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_cargo" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Cargo Management Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_sales" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_sales" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Sales Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_box_purchase" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_box_purchase" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Box Purchase Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_box_disposed" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport" />
+                                                                            </span>
+                                                                            <p id="report_box_disposed" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Box Disposed Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_branch_incentives" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_branch_incentives" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Branch Incentives Report" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_exceptions" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_exceptions" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Load / Unload Exceptions" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="col-lg-12">
+                                                                    <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                    <input type="checkbox" id="report_box_aging" value="1"
+                                                                                     name="checkedAllReport" class="checkSingleReport"/>
+                                                                            </span>
+                                                                            <p id="report_box_aging" style="visibility:hidden;height:0px;margin-bottom:0px;">0</p>
+                                                                        <input type="text" class="form-control" value="Box Aging" disabled>
+                                                                    </div>
+                                                                    <!-- /input-group -->
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        #}
                                     </div>
-
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
                 <div class="box-footer">
                     <div class="pull-right">
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-block btn-primary">
+                            <button type="submit" id="btnSaveRole" class="btn btn-block btn-primary">
                                 <span class="fa fa-fw fa-save"></span>Save</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
         <!-- /.row -->
 
     </section>
